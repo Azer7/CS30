@@ -1,2 +1,2 @@
 # CS30
-# Projects
+Projects
