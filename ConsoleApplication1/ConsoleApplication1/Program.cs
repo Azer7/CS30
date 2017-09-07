@@ -21,25 +21,49 @@ namespace ConsoleApplication1
         }
     }
 
+    public class Expression
+    {
+        public string operation { get; set; }
+
+        public int[] expressionSet { get; set; }
+
+        public Expression(string operation) //constructor
+        {
+            operation = type;
+        }
+
+        public void AddVal(int number, string )
+        {
+
+        }
+    }
+
     public class Parser
     {
         public static void ParseExpression(string expression)
         {
-            Console.WriteLine("Input: " + expression);            
+            expression = expression.Replace(" ", String.Empty);
 
-            Regex
+            Console.WriteLine("Input: " + expression);
 
             if (expression.Except("1234567890+-*/^").Any())
                 Console.WriteLine("error");
             else
-            { //parser program
-                List<int> valueArray = new List<int>();
-    
+            {
+
+
+                List<Expression> expressions = new List<Expression>();
+
+                //parse expression
+                expressions.Add(new Expression("add"));    
                 
-                
+                expressions[expressions.Count - 1].AddVal("negative")
+
 
 
             }
         }
     }
 }
+
+
