@@ -21,18 +21,18 @@ namespace ConsoleApplication1
         }
     }
 
-    public class Expression
+    public class Summand
     {
-        public string operation { get; set; }
+        public List<int> factorList = new List<int>();
+        public string type { get; set; } // add mult expo
 
-        public int[] expressionSet { get; set; }
 
-        public Expression(string operation) //constructor
+        public Summand(int factor) //constructor
         {
-            operation = type;
+            factorList.Add(factor);
         }
 
-        public void AddVal(int number, string )
+        public void AddVal(int number, string sign)
         {
 
         }
@@ -42,6 +42,7 @@ namespace ConsoleApplication1
     {
         public static void ParseExpression(string expression)
         {
+
             expression = expression.Replace(" ", String.Empty);
 
             Console.WriteLine("Input: " + expression);
@@ -49,16 +50,14 @@ namespace ConsoleApplication1
             if (expression.Except("1234567890+-*/^").Any())
                 Console.WriteLine("error");
             else
-            {
+            { //expression is valid, process
+                int currentSummand = 0;
+                string currentSign = "none";
+     
 
+                List<Summand> summands = new List<Summand>();
 
-                List<Expression> expressions = new List<Expression>();
-
-                //parse expression
-                expressions.Add(new Expression("add"));    
-                
-                expressions[expressions.Count - 1].AddVal("negative")
-
+                //parse, on sign change
 
 
             }
