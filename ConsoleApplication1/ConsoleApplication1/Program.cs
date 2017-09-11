@@ -24,7 +24,7 @@ namespace ConsoleApplication1
     public class Summand
     {
         public List<int> factorList = new List<int>();
-        public string type { get; set; } // add mult expo
+        public string type = "addition"; // add mult expo
 
 
         public Summand(int factor) //constructor
@@ -51,14 +51,25 @@ namespace ConsoleApplication1
                 Console.WriteLine("error");
             else
             { //expression is valid, process
-                int currentSummand = 0;
-                string currentSign = "none";
-     
 
                 List<Summand> summands = new List<Summand>();
 
-                //parse, on sign change
+                //parse
 
+                ///use a parser for each summand has a number of factors
+                ///if it runs into a bracket, it adds a pointer to a new summand as a factor
+                ///
+                ///every time it moves to a new 'level' it adds the pointer to the summand
+                ///onto a stack, so when has found the end it can backtrack to the correct
+                ///array and index
+                /// - this may also be done with a pointer / reference to the correct index
+                ///of the proper array as the first item in the array
+                /// 
+                ///when it finishes going to the lowest bracket level it can parse that expression
+                ///and pop the summand off from the summand stack and then go to the previous summand
+                ///in the stack, setting/replacing the current index to the value just gotten from solving
+                ///the lowest layer.
+                ///                
 
             }
         }
