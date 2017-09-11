@@ -47,7 +47,7 @@ namespace ConsoleApplication1
 
             Console.WriteLine("Input: " + expression);
 
-            if (expression.Except("1234567890+-*/^").Any())
+            if (expression.Except("1234567890+-").Any())
                 Console.WriteLine("error");
             else
             { //expression is valid, process
@@ -70,6 +70,32 @@ namespace ConsoleApplication1
                 ///in the stack, setting/replacing the current index to the value just gotten from solving
                 ///the lowest layer.
                 ///                
+                string parsingNumber = "";
+
+
+                bool wasNum = false;
+
+
+                for (int i = 0; i < expression.Length; i++)
+                {
+                    char currentChar = expression[i]; //no spaces, 1-9, +-
+
+
+                    if (wasNum == true)
+                    {
+                        if (currentChar >= 48 && currentChar <= 57) //number
+                        {
+                            parsingNumber += currentChar;
+                        }
+                        else
+                        {
+                            wasNum = false;
+                        }
+                    }
+
+
+
+                }
 
             }
         }
