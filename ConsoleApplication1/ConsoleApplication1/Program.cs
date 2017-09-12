@@ -15,7 +15,6 @@ namespace ConsoleApplication1
             while (input == "")
                 input = Console.ReadLine();
 
-
             Parser.ParseExpression(input);
             Console.ReadLine();
         }
@@ -40,10 +39,14 @@ namespace ConsoleApplication1
 
     public class Parser
     {
-        public static void ParseExpression(string expression)
+        private static string expression = "";
+        private static string parsingNumber = "";
+        private static bool wasNum = false;
+
+        public static void ParseExpression(string expr)
         {
 
-            expression = expression.Replace(" ", String.Empty);
+            expression = expr.Replace(" ", String.Empty);
 
             Console.WriteLine("Input: " + expression);
 
@@ -70,34 +73,54 @@ namespace ConsoleApplication1
                 ///in the stack, setting/replacing the current index to the value just gotten from solving
                 ///the lowest layer.
                 ///                
-                string parsingNumber = "";
 
-
-                bool wasNum = false;
-
+                bool twoSigns = false;
 
                 for (int i = 0; i < expression.Length; i++)
                 {
-                    char currentChar = expression[i]; //no spaces, 1-9, +-
-
-
-                    if (wasNum == true)
+                    if (i > 0)
                     {
-                        if (currentChar >= 48 && currentChar <= 57) //number
+                        if (expression[i] == (char)40 && expression[i - 1] >= 48 && expression[i - 1] <= 57)
                         {
-                            parsingNumber += currentChar;
+                            expression.Insert(i, "*"); //works?
                         }
-                        else
-                        {
-                            wasNum = false;
-                        }
+
                     }
-
-
-
                 }
 
+                parsingNumber = "";
+                wasNum = false;
+
+                for (int i = 0; i < expression.Length; i++)
+                {
+                    ParseChar(expression[i]);
+                }
+                ParseChar((char)0);
             }
+        }
+
+        private static void ParseChar(char currentChar)
+        {
+            //currentChar has no spaces, 1-9, +-
+
+
+            if (currentChar >= 48 && currentChar <= 57) //number
+            {
+                parsingNumber += currentChar;
+
+                wasNum = true;
+            }
+            else if (wasNum == true)
+            {
+                wasNum = false;
+                //was a number but now a sign, bracket etc
+                Console.WriteLine(parsingNumber);
+
+
+                Console.ReadLine();
+                parsingNumber = "";
+            }
+
         }
     }
 }
