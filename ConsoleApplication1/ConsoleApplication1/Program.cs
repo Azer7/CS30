@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace ConsoleApplication1
 {
     class Program
@@ -40,8 +39,7 @@ namespace ConsoleApplication1
     public class Parser
     {
         private static string expression = "";
-        private static string parsingNumber = "";
-        private static bool wasNum = false;
+
 
         public static void ParseExpression(string expr)
         {
@@ -50,7 +48,7 @@ namespace ConsoleApplication1
 
             Console.WriteLine("Input: " + expression);
 
-            if (expression.Except("1234567890+-").Any())
+            if (expression.Except("1234567890+-*/()").Any())
                 Console.WriteLine("error");
             else
             { //expression is valid, process
@@ -74,7 +72,26 @@ namespace ConsoleApplication1
                 ///the lowest layer.
                 ///                
 
-                bool twoSigns = false;
+                bool wasSign = false;
+
+                for(int i = 0; i < expression.Length; i++)
+                {
+                    if(expression[i] <= 47 || expression[i] >= 58)
+                    {
+                        if(wasSign == true)
+                        {
+                            Console.WriteLine("error");
+                            break;
+                        } 
+                        else
+                        {
+                            wasSign = true;
+                        }
+                    }
+                }
+
+
+
 
                 for (int i = 0; i < expression.Length; i++)
                 {
@@ -82,40 +99,48 @@ namespace ConsoleApplication1
                     {
                         if (expression[i] == (char)40 && expression[i - 1] >= 48 && expression[i - 1] <= 57)
                         {
-                            expression.Insert(i, "*"); //works?
+                            expression = expression.Insert(i, "*"); //works?
                         }
-
                     }
                 }
 
-                parsingNumber = "";
-                wasNum = false;
+                string parsingNumber = "";
+                bool wasNum = false;                
+
+                Console.WriteLine("Final Input" + expression);
 
                 for (int i = 0; i < expression.Length; i++)
                 {
-                    ParseChar(expression[i]);
+                    ParseChar(expression[i], ref parsingNumber, ref wasNum);
                 }
-                ParseChar((char)0);
+                ParseChar(expression[expression.Length], ref parsingNumber, ref wasNum);
             }
         }
 
-        private static void ParseChar(char currentChar)
+        private static void ParseChar(char currentChar, ref string parsingNumber, ref bool wasNum)
         {
-            //currentChar has no spaces, 1-9, +-
+            //currentChar has no spaces, 1-9, +-*/, ()
 
 
-            if (currentChar >= 48 && currentChar <= 57) //number
+            if (currentChar >= 48 && currentChar <= 57) //NUMBER
             {
                 parsingNumber += currentChar;
 
                 wasNum = true;
             }
-            else if (wasNum == true)
+            else if (wasNum == true) //WAS A NUMBER BUT NOW ISN't
             {
                 wasNum = false;
-                //was a number but now a sign, bracket etc
                 Console.WriteLine(parsingNumber);
+                
+                if(currentChar == 40) //BRACKET
+                {
 
+                }
+                else //MATH SIGN
+                {
+
+                }
 
                 Console.ReadLine();
                 parsingNumber = "";
@@ -124,5 +149,3 @@ namespace ConsoleApplication1
         }
     }
 }
-
-
