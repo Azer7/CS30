@@ -1,6 +1,0 @@
-\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
-\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
-\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
-\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
-\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
-\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\ConsoleApplication1\ConsoleApplication1\obj\Debug\Math Parser.csprojResolveAssemblyReference.cache
