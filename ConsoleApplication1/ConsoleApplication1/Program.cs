@@ -21,18 +21,18 @@ namespace ConsoleApplication1
 
     public class Summand
     {
-        public List<int> factorList = new List<int>();
-        public string type = "addition"; // add mult expo
+        private List<double> factorList = new List<double>();
+        private string type = "addition"; // add mult expo
 
 
-        public Summand(int factor) //constructor
+        public Summand(string OperatorType) //constructor
         {
-            factorList.Add(factor);
+            type = OperatorType;                       
         }
 
-        public void AddVal(int number, string sign)
+        public void AddVal(int factor)
         {
-
+            factorList.Add(factor);
         }
     }
 
@@ -74,24 +74,22 @@ namespace ConsoleApplication1
 
                 bool wasSign = false;
 
-                for(int i = 0; i < expression.Length; i++)
+                for (int i = 0; i < expression.Length; i++)
                 {
-                    if(expression[i] <= 47 || expression[i] >= 58)
+                    if (expression[i] <= 47 || expression[i] >= 58)
                     {
-                        if(wasSign == true)
+                        if (wasSign == true || i == expression.Length - 1)
                         {
                             Console.WriteLine("error");
                             break;
                         } 
                         else
-                        {
                             wasSign = true;
-                        }
                     }
+                    else
+                        wasSign = false;
+
                 }
-
-
-
 
                 for (int i = 0; i < expression.Length; i++)
                 {
@@ -105,15 +103,16 @@ namespace ConsoleApplication1
                 }
 
                 string parsingNumber = "";
-                bool wasNum = false;                
+                bool wasNum = false;
+                                
 
-                Console.WriteLine("Final Input" + expression);
+                Console.WriteLine("Final Input: " + expression);
 
                 for (int i = 0; i < expression.Length; i++)
                 {
                     ParseChar(expression[i], ref parsingNumber, ref wasNum);
                 }
-                ParseChar(expression[expression.Length], ref parsingNumber, ref wasNum);
+                ParseChar(expression[expression.Length - 1], ref parsingNumber, ref wasNum);
             }
         }
 
@@ -140,7 +139,7 @@ namespace ConsoleApplication1
                 else //MATH SIGN
                 {
 
-                }
+                }            
 
                 Console.ReadLine();
                 parsingNumber = "";
