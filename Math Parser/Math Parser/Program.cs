@@ -25,7 +25,7 @@ namespace Math_Parser
         private string type = "addition"; // add mult expo
 
 
-        public Summand(string OperatorType) //constructor
+        public Summand(string OperatorType) //constructor    addition 
         {
             type = OperatorType;                       
         }
@@ -128,8 +128,7 @@ namespace Math_Parser
                 wasNum = true;
             }
             else if (wasNum == true) //WAS A NUMBER BUT NOW ISN't
-            {
-                wasNum = false;
+            {                
                 Console.WriteLine(parsingNumber);
                 
                 if(currentChar == 40) //BRACKET
@@ -142,6 +141,7 @@ namespace Math_Parser
                 }            
 
                 Console.ReadLine();
+                wasNum = false;
                 parsingNumber = "";
             }
 
