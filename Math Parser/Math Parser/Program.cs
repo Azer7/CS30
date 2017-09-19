@@ -14,18 +14,20 @@ namespace Math_Parser
             while (input == "")
                 input = Console.ReadLine();
 
-            Parser.ParseExpression(input);
+            MathParse.ParseExpression(input);
             Console.ReadLine();
         }
     }
 
-    public class Parser
+    public class MathParse
     {
         private enum Operators
         {
             add = 1,
-            subtract = 1,
-            multiply = 2
+            sub = 1,
+            mul = 2,
+            div = 2,
+            exp = 3
         };
 
         private static string expression = "";
@@ -41,7 +43,7 @@ namespace Math_Parser
                 Console.WriteLine("error");
             else
             { //expression is valid, process
-                Console.WriteLine("result: " + ParseRecurse(0));                           
+                Console.WriteLine("result: " + ParseRecurse(0));
             }
         }
         /// <summary>
@@ -52,16 +54,41 @@ namespace Math_Parser
         /// <returns>value of given expression portion</returns>
 
 
-        private static int ParseRecurse(int position)
+        private static long ParseRecurse(int position)
         {
-            int result = 0;
-            for(int i = position; i <= expression.Length; i++)
+            bool wasNum = false;
+
+            string currentNum = "";
+            int lastSignVal = 0;
+            int currentSignVal = 0;
+            string sign = "";
+            long result = 0;
+
+            for (int i = position; i <= expression.Length; i++)
             {
+                char currentChar = expression[i];
 
+                if (currentChar >= 48 && currentChar <= 57)
+                { //number
+                    wasNum = true;
+                    currentNum += currentChar;
+                }
+                else if(wasNum == true)
+                { //end of number
+                    if (currentChar == 43) {
+                        sign = "add";
+                    } else if (currentChar == 45) {
+                        sign = "sub";
+                    } else if (currentChar == 42) {
+                        sign = "mul";
+                    } else if (currentChar == 47) {
+                        sign = "div";
+                    }
 
-
-
-
+                    lastSignVal = Operators.valueOf();??
+                    wasNum = false;
+                    currentNum = "";
+                }
             }
             return result;
         }
