@@ -19,16 +19,17 @@ namespace Math_Parser
         }
     }
 
+    public enum Operators
+    {
+        add = 1,
+        sub = 1,
+        mul = 2,
+        div = 2,
+        exp = 3
+    };
+
     public class MathParse
     {
-        private enum Operators
-        {
-            add = 1,
-            sub = 1,
-            mul = 2,
-            div = 2,
-            exp = 3
-        };
 
         private static string expression = "";
 
@@ -61,7 +62,7 @@ namespace Math_Parser
             string currentNum = "";
             int lastSignVal = 0;
             int currentSignVal = 0;
-            string sign = "";
+            Operators sign;
             long result = 0;
 
             for (int i = position; i <= expression.Length; i++)
@@ -75,17 +76,26 @@ namespace Math_Parser
                 }
                 else if(wasNum == true)
                 { //end of number
-                    if (currentChar == 43) {
-                        sign = "add";
-                    } else if (currentChar == 45) {
-                        sign = "sub";
-                    } else if (currentChar == 42) {
-                        sign = "mul";
-                    } else if (currentChar == 47) {
-                        sign = "div";
+                    sign = Operators.add;
+
+                    if (currentChar == 43)
+                    {
+                        sign = Operators.add;
+                    }
+                    else if (currentChar == 45)
+                    {
+                        sign = Operators.sub;
+                    }
+                    else if (currentChar == 42)
+                    {
+                        sign = Operators.mul;
+                    }
+                    else if (currentChar == 47)
+                    {
+                        sign = Operators.div;
                     }
 
-                    lastSignVal = Operators.valueOf();??
+                    currentSignVal = (int)sign;
                     wasNum = false;
                     currentNum = "";
                 }

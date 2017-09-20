@@ -38,8 +38,15 @@ namespace Math_Parser
 
     public class Parser
     {
-        private static string expression = "";
+        public static string expression = "";
+       
+        private static bool wasNum = false;
 
+        private static string currentNum = "";
+        private static int lastSignVal = 0;
+        private static int currentSignVal = 0;
+        private static string sign = "";
+        private static long result = 0;
 
         public static void ParseExpression(string expr)
         {
@@ -101,35 +108,31 @@ namespace Math_Parser
                         }
                     }
                 }
-
-                string parsingNumber = "";
-                bool wasNum = false;
-                                
+       
 
                 Console.WriteLine("Final Input: " + expression);
 
                 for (int i = 0; i < expression.Length; i++)
                 {
-                    ParseChar(expression[i], ref parsingNumber, ref wasNum);
+                    ParseChar(expression[i]);
                 }
-                ParseChar(expression[expression.Length - 1], ref parsingNumber, ref wasNum);
+                ParseChar(expression[expression.Length - 1]);
             }
         }
 
-        private static void ParseChar(char currentChar, ref string parsingNumber, ref bool wasNum)
+        private static void ParseChar(char currentChar)
         {
             //currentChar has no spaces, 1-9, +-*/, ()
 
 
             if (currentChar >= 48 && currentChar <= 57) //NUMBER
             {
-                parsingNumber += currentChar;
-
+                currentNum += currentChar.ToString();
                 wasNum = true;
             }
             else if (wasNum == true) //WAS A NUMBER BUT NOW ISN't
             {                
-                Console.WriteLine(parsingNumber);
+                Console.WriteLine(currentNum);
                 
                 if(currentChar == 40) //BRACKET
                 {
@@ -142,7 +145,7 @@ namespace Math_Parser
 
                 Console.ReadLine();
                 wasNum = false;
-                parsingNumber = "";
+                currentNum = "";
             }
 
         }
