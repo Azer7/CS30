@@ -21,13 +21,13 @@ namespace Math_Parser
 
     public enum Operators
     {
-        NUL = -99,
-        add = 1,//add
-        sub = 1,//subtract
-        mul = 5,//multiply
-        div = 2,//divide
-        exp = 3,//exponent
-        sqt = 3//square root
+        NUL,
+        add,//add
+        sub,//subtract
+        mul,//multiply
+        div,//divide
+        exp,//exponent
+        sqt//square root
     };
 
     public class MathParse
@@ -35,7 +35,7 @@ namespace Math_Parser
         private static string expression = "";
 
         private static Stack<double> ValueStack = new Stack<double>();
-        private static Stack<Operators> OperatorStack = new Stack<Operators>();        
+        private static Stack<Operators> OperatorStack = new Stack<Operators>();
 
         public static void ParseExpression(string expr)
         {
@@ -52,7 +52,7 @@ namespace Math_Parser
                 Console.WriteLine("result: " + StackParse());
             }
         }
-        
+
         /// <summary>
         /// parses expression and generates a stack;
         /// when it hits a operator of lower value it processes back
@@ -61,8 +61,8 @@ namespace Math_Parser
         /// <returns>value of given expression portion</returns>
 
         private static double StackParse()
-        {            
-            bool wasNum = false;            
+        {
+            bool wasNum = false;
             string currentNumStr = "";
             int lastSignVal = 0;
             int currentSignVal = -99; //no sign yet
@@ -82,24 +82,17 @@ namespace Math_Parser
                 { //end of number
                     ValueStack.Push(double.Parse(currentNumStr, System.Globalization.CultureInfo.InvariantCulture));
 
-                    sign = Operators.NUL;
-                    if (currentChar == 43)
-                        sign = Operators.add;
-                    else if (currentChar == 45)
-                        sign = Operators.sub;
-                    else if (currentChar == 42)
-                        sign = Operators.mul;
-                    else if (currentChar == 47)
-                        sign = Operators.div;
-                    else if (currentChar == 94)
-                        sign = Operators.exp;
+                    sign = CharToOperator(currentChar); //operator add,sub,mul,div ...
 
-                    currentSignVal = (int)sign;
+                    currentSignVal = OperatorValue(sign); //add = 1, mul = 2, exp = 3 ...
                     //add to stack
 
-                    if(currentSignVal < lastSignVal)
+                    if (currentSignVal < lastSignVal)
                     {
                         //process stack
+                        while()
+
+
 
                     }
                     else
@@ -109,15 +102,42 @@ namespace Math_Parser
 
 
                     }
-                    
+
 
 
                     wasNum = false;
-                    currentNumStr = "";                    
+                    currentNumStr = "";
                     lastSignVal = currentSignVal;
                 }
             }
             return result;
+        }
+
+        private static Operators CharToOperator(char charVal)
+        {
+            switch ((int)charVal)
+            {
+                case 43: return Operators.add;
+                case 45: return Operators.sub;
+                case 42: return Operators.mul;
+                case 47: return Operators.div;
+                case 94: return Operators.exp;
+                default: return Operators.NUL;
+            }
+        }
+
+        private static int OperatorValue(Operators oper)
+        {
+            switch (oper)
+            {
+                case Operators.add: return 1;
+                case Operators.sub: return 1;
+                case Operators.mul: return 2;
+                case Operators.div: return 2;
+                case Operators.exp: return 3;
+                case Operators.sqt: return 3;
+                default: return -99;
+            }
         }
     }
 }
