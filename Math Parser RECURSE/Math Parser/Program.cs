@@ -21,11 +21,13 @@ namespace Math_Parser
 
     public enum Operators
     {
-        add = 1,
-        sub = 1,
-        mul = 2,
-        div = 2,
-        exp = 3
+        NUL = -99,
+        add = 1,//add
+        sub = 1,//subtract
+        mul = 2,//multiply
+        div = 2,//divide
+        exp = 3,//exponent
+        sqt = 3//square root
     };
 
     public class MathParse
@@ -43,7 +45,7 @@ namespace Math_Parser
             if (expression.Except("1234567890+-*/()").Any())
                 Console.WriteLine("error");
             else
-            { //expression is valid, process
+            { //expression is valid, proceed
                 Console.WriteLine("result: " + ParseRecurse(0));
             }
         }
@@ -55,15 +57,17 @@ namespace Math_Parser
         /// <returns>value of given expression portion</returns>
 
 
-        private static long ParseRecurse(int position)
+        private static double ParseRecurse(int position)
         {
-            bool wasNum = false;
+            bool parsing = true; //as soon as you call ParseRecurse again, do 'parsing = false;'
 
+            bool wasNum = false;
+            bool hasOperated = false;
             string currentNum = "";
             int lastSignVal = 0;
-            int currentSignVal = 0;
-            Operators sign;
-            long result = 0;
+            int currentSignVal = -1; //no sign yet
+            Operators sign = Operators.NUL;
+            double result = 0;
 
             for (int i = position; i <= expression.Length; i++)
             {
@@ -74,30 +78,41 @@ namespace Math_Parser
                     wasNum = true;
                     currentNum += currentChar;
                 }
-                else if(wasNum == true)
+                else if (wasNum == true)
                 { //end of number
-                    sign = Operators.add;
 
                     if (currentChar == 43)
-                    {
                         sign = Operators.add;
-                    }
                     else if (currentChar == 45)
-                    {
                         sign = Operators.sub;
-                    }
                     else if (currentChar == 42)
-                    {
                         sign = Operators.mul;
-                    }
                     else if (currentChar == 47)
-                    {
                         sign = Operators.div;
-                    }
+                    else if (currentChar == 94)
+                        sign = Operators.exp;
 
                     currentSignVal = (int)sign;
+
+                    if (hasOperated == false)
+                    {
+                        hasOperated = true;
+                        if (sign == Operators.add || sign == Operators.sub)
+                        {
+                            result = 0;
+                        }
+                        else if (sign == Operators.mul || sign == Operators.div)
+                        {
+                            result = 1;
+                        }
+                    }
+
+
+
                     wasNum = false;
                     currentNum = "";
+                    position = i + 1; //start of number for recursion
+                    lastSignVal = currentSignVal;
                 }
             }
             return result;
