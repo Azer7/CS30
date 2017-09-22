@@ -90,7 +90,11 @@ namespace Math_Parser
                     if (currentSignVal < lastSignVal)
                     {
                         //process stack
-                        while()
+                        for(long j = 0; currentSignVal > OperatorValue(OperatorStack.Peek()))
+                        {
+
+
+                        }
 
 
 
@@ -136,7 +140,7 @@ namespace Math_Parser
                 case Operators.div: return 2;
                 case Operators.exp: return 3;
                 case Operators.sqt: return 3;
-                default: return -99;
+                default: return 0;
             }
         }
     }
