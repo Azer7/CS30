@@ -45,7 +45,7 @@ namespace Math_Parser
 
             Console.WriteLine("Input: " + expression);
 
-            if (expression.Except("1234567890+-*/()\0").Any())
+            if (expression.Except("1234567890+-*/^()\0").Any())
                 Console.WriteLine("error");
             else
             { //expression is valid, proceed
@@ -67,7 +67,6 @@ namespace Math_Parser
             int lastSignVal = 0;
             int currentSignVal = -99; //no sign yet
             Operators sign = Operators.NUL;
-            double result = 0;
 
             for (int i = 0; i < expression.Length; i++)
             {
@@ -84,37 +83,29 @@ namespace Math_Parser
 
                     sign = CharToOperator(currentChar); //operator add,sub,mul,div ...
 
-                    currentSignVal = OperatorValue(sign); //add = 1, mul = 2, exp = 3 ...
-                    //add to stack
+                    currentSignVal = OperatorValue(sign);
 
-                    if (currentSignVal < lastSignVal)
+                    if (currentSignVal < lastSignVal) //process stack before you add the new operator
                     {
-                        //process stack
-                        for(long j = 0; currentSignVal > OperatorValue(OperatorStack.Peek()))
+                        //process stack 
+                        for (long j = 0; OperatorStack.Count > 0; j++)
                         {
-
-
+                            if (currentSignVal < OperatorValue(OperatorStack.Peek()))
+                                ValueStack.Push(Calculate(ValueStack.Pop(), OperatorStack.Pop(), ValueStack.Pop()));
+                            else
+                                break;
                         }
-
-
-
-                    }
-                    else
-                    {
-                        // add to stack
-                        OperatorStack.Push(sign);
-
-
                     }
 
-
+                    //add to stack
+                    OperatorStack.Push(sign);
 
                     wasNum = false;
                     currentNumStr = "";
                     lastSignVal = currentSignVal;
                 }
             }
-            return result;
+            return ValueStack.Pop();
         }
 
         private static Operators CharToOperator(char charVal)
@@ -142,6 +133,21 @@ namespace Math_Parser
                 case Operators.sqt: return 3;
                 default: return 0;
             }
+        }
+
+        private static double Calculate(double val2, Operators oper, double val1)
+        {
+            double result = 0;
+            switch (oper)
+            {
+                case Operators.add: return val1 + val2;
+                case Operators.sub: return val1 - val2;
+                case Operators.mul: return val1 * val2;
+                case Operators.div: return val1 / val2;
+                case Operators.exp: return Math.Pow(val1, val2);
+            }
+
+            return result;
         }
     }
 }
