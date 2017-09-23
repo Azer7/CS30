@@ -10,18 +10,27 @@ namespace Math_Parser
     {
         static void Main(string[] args)
         {
-            string input = "";
-            while (input == "")
-                input = Console.ReadLine();
+            while (true)
+            {
+                string input = "";
+                while (input == "")
+                    input = Console.ReadLine();
 
-            MathParse.ParseExpression(input);
-            Console.ReadLine();
+                Tuple<double, bool> answer = MathParse.ParseExpression(input);
+
+                if (answer.Item2)
+                    Console.WriteLine(answer.Item1 + "\n");
+                else
+                    Console.WriteLine("try again" + "\n");
+            }
         }
     }
 
     public enum Operators
     {
         NUL,
+        brL,
+        brR,
         add,//add
         sub,//subtract
         mul,//multiply
@@ -33,24 +42,75 @@ namespace Math_Parser
     public class MathParse
     {
         private static string expression = "";
-
-        private static Stack<double> ValueStack = new Stack<double>();
-        private static Stack<Operators> OperatorStack = new Stack<Operators>();
-
-        public static void ParseExpression(string expr)
+       
+        public static Tuple<double, bool> ParseExpression(string expr)
         {
 
             expression = expr.Replace(" ", String.Empty);
             expression += (char)0;
 
+            for (int i = 1; i < expression.Length - 1; i++)
+            {
+                if (expression[i] == 40 && expression[i - 1] >= 48 && expression[i - 1] <= 57)
+                    expression = expression.Insert(i, "*");
+            }
+
             Console.WriteLine("Input: " + expression);
 
+            bool error = false;
             if (expression.Except("1234567890+-*/^()\0").Any())
-                Console.WriteLine("error");
-            else
-            { //expression is valid, proceed
-                Console.WriteLine("result: " + StackParse());
+            {
+                Console.WriteLine("error: invalid character");
+                error = true;
             }
+
+            if (!(expression[0] >= 48 && expression[0] <= 57) && expression[0] != 46 && expression[0] != 40)
+            {
+                Console.WriteLine("error: starts with invalid operator");
+                error = true;
+            }
+
+            int nLeft = 0;
+            bool bracketsCorrect = true;
+
+            for (int i = 0; i < expression.Length; i++)
+            {
+                if (i > 0)
+                {
+                    if (((expression[i] >= 48 && expression[i] <= 57) || expression[i] == 46) && expression[i - 1] == 41)
+                    {
+                        Console.WriteLine("error: number -> right bracket invalid");
+                        error = true;
+                    }
+                    if (expression[i] == 41 && expression[i - 1] == 40)
+                    {
+                        Console.WriteLine("error: empty bracket");
+                        error = true;
+                    }
+                }
+
+                if (expression[i] == 40)
+                    nLeft++;
+                else if (expression[i] == 41)
+                {
+                    if (nLeft > 0)
+                        nLeft--;
+                    else
+                        bracketsCorrect = false;
+                }
+            }
+
+            if (!bracketsCorrect)
+            {
+                Console.WriteLine("error: bracket mismatch");
+                error = true;
+            }
+
+            if (!error)
+                //expression is valid, proceed
+                return new Tuple<double, bool>(StackParse(), true);
+            else
+                return new Tuple<double, bool>(-1, false);
         }
 
         /// <summary>
@@ -62,6 +122,9 @@ namespace Math_Parser
 
         private static double StackParse()
         {
+            Stack<double> ValueStack = new Stack<double>();
+            Stack<Operators> OperatorStack = new Stack<Operators>();
+
             bool wasNum = false;
             string currentNumStr = "";
             int lastSignVal = 0;
@@ -73,22 +136,25 @@ namespace Math_Parser
                 char currentChar = expression[i];
 
                 if ((currentChar >= 48 && currentChar <= 57) || currentChar == 46)
-                { //number
-                    wasNum = true;
+                { //number 
                     currentNumStr += currentChar;
+                    wasNum = true;
                 }
-                else if (wasNum == true)
-                { //end of number
-                    ValueStack.Push(double.Parse(currentNumStr, System.Globalization.CultureInfo.InvariantCulture));
+                else//number end, operator
+                {
+                    if (wasNum)
+                        ValueStack.Push(double.Parse(currentNumStr, System.Globalization.CultureInfo.InvariantCulture));
 
                     sign = CharToOperator(currentChar); //operator add,sub,mul,div ...
 
                     currentSignVal = OperatorValue(sign);
+                    if (sign == Operators.brL)
+                        lastSignVal = 0;
 
                     if (currentSignVal < lastSignVal) //process stack before you add the new operator
                     {
                         //process stack 
-                        for (long j = 0; OperatorStack.Count > 0; j++)
+                        while (OperatorStack.Count > 0)
                         {
                             if (currentSignVal < OperatorValue(OperatorStack.Peek()))
                                 ValueStack.Push(Calculate(ValueStack.Pop(), OperatorStack.Pop(), ValueStack.Pop()));
@@ -97,12 +163,28 @@ namespace Math_Parser
                         }
                     }
 
-                    //add to stack
-                    OperatorStack.Push(sign);
-
-                    wasNum = false;
+                    if (sign == Operators.brR)
+                    {
+                        while (OperatorStack.Count > 0)
+                        {
+                            if (OperatorStack.Peek() != Operators.brL)
+                                ValueStack.Push(Calculate(ValueStack.Pop(), OperatorStack.Pop(), ValueStack.Pop()));
+                            else
+                            {
+                                OperatorStack.Pop();
+                                lastSignVal = OperatorValue(OperatorStack.Peek());
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //add to stack
+                        OperatorStack.Push(sign);
+                        lastSignVal = currentSignVal;
+                    }
                     currentNumStr = "";
-                    lastSignVal = currentSignVal;
+                    wasNum = false;
                 }
             }
             return ValueStack.Pop();
@@ -112,6 +194,8 @@ namespace Math_Parser
         {
             switch ((int)charVal)
             {
+                case 40: return Operators.brL;
+                case 41: return Operators.brR;
                 case 43: return Operators.add;
                 case 45: return Operators.sub;
                 case 42: return Operators.mul;
@@ -125,6 +209,8 @@ namespace Math_Parser
         {
             switch (oper)
             {
+                case Operators.brL: return 0;
+                case Operators.brR: return 99;
                 case Operators.add: return 1;
                 case Operators.sub: return 1;
                 case Operators.mul: return 2;
