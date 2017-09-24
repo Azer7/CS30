@@ -6,234 +6,274 @@ using System.Threading.Tasks;
 
 namespace Math_Parser
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            while (true)
-            {
-                string input = "";
-                while (input == "")
-                    input = Console.ReadLine();
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			while (true)
+			{
+				string input = "";
+				while (input == "")
+					input = Console.ReadLine();
 
-                Tuple<double, bool> answer = MathParse.ParseExpression(input);
+				Tuple<double, bool> answer = MathParse.ParseExpression(input);
 
-                if (answer.Item2)
-                    Console.WriteLine(answer.Item1 + "\n");
-                else
-                    Console.WriteLine("try again" + "\n");
-            }
-        }
-    }
+				if (answer.Item2)
+					Console.WriteLine(answer.Item1 + "\n");
+				else
+					Console.WriteLine("try again" + "\n");
+			}
+		}
+	}
 
-    public enum Operators
-    {
-        NUL,
-        brL,
-        brR,
-        add,//add
-        sub,//subtract
-        mul,//multiply
-        div,//divide
-        exp,//exponent
-        sqt//square root
-    };
+	public enum Operators
+	{
+		NUL,
+		brL,
+		brR,
+		add,//add
+		sub,//subtract
+		mul,//multiply
+		div,//divide
+		exp,//exponent
+		sqt//square root
+	};
 
-    public class MathParse
-    {
-        private static string expression = "";
-       
-        public static Tuple<double, bool> ParseExpression(string expr)
-        {
+	public class MathParse
+	{
+		private static string expression = "";
 
-            expression = expr.Replace(" ", String.Empty);
-            expression += (char)0;
+		public static Tuple<double, bool> ParseExpression(string expr)
+		{
 
-            for (int i = 1; i < expression.Length - 1; i++)
-            {
-                if (expression[i] == 40 && expression[i - 1] >= 48 && expression[i - 1] <= 57)
-                    expression = expression.Insert(i, "*");
-            }
+			expression = expr.Replace(" ", String.Empty);
 
-            Console.WriteLine("Input: " + expression);
+			bool error = false;
+			if (expression.Except(".1234567890+-*/^()").Any())
+			{
+				Console.WriteLine("error: invalid character(s)");
+				error = true;
+			}
 
-            bool error = false;
-            if (expression.Except("1234567890+-*/^()\0").Any())
-            {
-                Console.WriteLine("error: invalid character");
-                error = true;
-            }
+			if ((expression[0] <= 47 || expression[0] >= 58) && expression[0] != 46 && expression[0] != 40 && expression[0] != 45)
+			{
+				Console.WriteLine("error: starts with invalid operator");
+				error = true;
+			}
 
-            if (!(expression[0] >= 48 && expression[0] <= 57) && expression[0] != 46 && expression[0] != 40)
-            {
-                Console.WriteLine("error: starts with invalid operator");
-                error = true;
-            }
+			int nLeft = 0;
+			bool bracketsCorrect = true;
 
-            int nLeft = 0;
-            bool bracketsCorrect = true;
+			bool a = false;
+			bool b = false;
+			bool c = false;
+			bool d = false;
+			for (int i = 0; i < expression.Length; i++)
+			{
 
-            for (int i = 0; i < expression.Length; i++)
-            {
-                if (i > 0)
-                {
-                    if (((expression[i] >= 48 && expression[i] <= 57) || expression[i] == 46) && expression[i - 1] == 41)
-                    {
-                        Console.WriteLine("error: number -> right bracket invalid");
-                        error = true;
-                    }
-                    if (expression[i] == 41 && expression[i - 1] == 40)
-                    {
-                        Console.WriteLine("error: empty bracket");
-                        error = true;
-                    }
-                }
+				//if(expression[i] == a non (-) operator && expression[i - 1] == an operator )
 
-                if (expression[i] == 40)
-                    nLeft++;
-                else if (expression[i] == 41)
-                {
-                    if (nLeft > 0)
-                        nLeft--;
-                    else
-                        bracketsCorrect = false;
-                }
-            }
+				if (i > 0)
+				{
+					if ((expression[i] <= 44 || expression[i] == 47) && (expression[i - 1] <= 45 || expression[i - 1] == 47))
+					{
+						if (!a)
+							Console.WriteLine("error: double operator");
+					//	error = true;
+						a = true;
+					}
 
-            if (!bracketsCorrect)
-            {
-                Console.WriteLine("error: bracket mismatch");
-                error = true;
-            }
+					if (((expression[i] >= 48 && expression[i] <= 57) || expression[i] == 46) && expression[i - 1] == 41)
+					{
+						if (!b)
+							Console.WriteLine("error: right bracket -> number is invalid");
+						error = true;
+						b = true;
+					}
 
-            if (!error)
-                //expression is valid, proceed
-                return new Tuple<double, bool>(StackParse(), true);
-            else
-                return new Tuple<double, bool>(-1, false);
-        }
+					if (expression[i] == 41 && expression[i - 1] == 40)
+					{
+						if (!c)
+							Console.WriteLine("error: empty bracket");
+						error = true;
+						c = true;
+					}
+				}
 
-        /// <summary>
-        /// parses expression and generates a stack;
-        /// when it hits a operator of lower value it processes back
-        /// </summary>
-        /// <param name="position"></param>
-        /// <returns>value of given expression portion</returns>
+				if (i > 1)
+				{
+					if (expression[i] == 45 && expression[i - 1] == 45 && expression[i - 2] == 45)
+					{
+						if (!d)
+							Console.WriteLine("error: triple (-)");
+						error = true;
+						d = true;
+					}
+				}
 
-        private static double StackParse()
-        {
-            Stack<double> ValueStack = new Stack<double>();
-            Stack<Operators> OperatorStack = new Stack<Operators>();
+				if (expression[i] == 40)
+					nLeft++;
+				else if (expression[i] == 41)
+				{
+					if (nLeft > 0)
+						nLeft--;
+					else
+						bracketsCorrect = false;
+				}
+			}
 
-            bool wasNum = false;
-            string currentNumStr = "";
-            int lastSignVal = 0;
-            int currentSignVal = -99; //no sign yet
-            Operators sign = Operators.NUL;
+			if (!bracketsCorrect)
+			{
+				Console.WriteLine("error: bracket mismatch");
+				error = true;
+			}
 
-            for (int i = 0; i < expression.Length; i++)
-            {
-                char currentChar = expression[i];
+			if (!error)
+				//expression is valid, proceed
+				return new Tuple<double, bool>(StackParse(), true);
+			else
+				return new Tuple<double, bool>(-1, false);
+		}
 
-                if ((currentChar >= 48 && currentChar <= 57) || currentChar == 46)
-                { //number 
-                    currentNumStr += currentChar;
-                    wasNum = true;
-                }
-                else//number end, operator
-                {
-                    if (wasNum)
-                        ValueStack.Push(double.Parse(currentNumStr, System.Globalization.CultureInfo.InvariantCulture));
+		/// <summary>
+		/// parses expression and generates a stack;
+		/// when it hits a operator of lower value it processes back
+		/// </summary>
+		/// <param name="position"></param>
+		/// <returns>value of given expression portion</returns>
 
-                    sign = CharToOperator(currentChar); //operator add,sub,mul,div ...
+		private static double StackParse()
+		{
+			Stack<double> ValueStack = new Stack<double>();
+			Stack<Operators> OperatorStack = new Stack<Operators>();
 
-                    currentSignVal = OperatorValue(sign);
-                    if (sign == Operators.brL)
-                        lastSignVal = 0;
+			bool wasNum = false;
+			string currentNumStr = "";
+			int lastSignVal = 0;
+			int currentSignVal = -99; //no sign yet
+			Operators sign = Operators.NUL;
 
-                    if (currentSignVal < lastSignVal) //process stack before you add the new operator
-                    {
-                        //process stack 
-                        while (OperatorStack.Count > 0)
-                        {
-                            if (currentSignVal < OperatorValue(OperatorStack.Peek()))
-                                ValueStack.Push(Calculate(ValueStack.Pop(), OperatorStack.Pop(), ValueStack.Pop()));
-                            else
-                                break;
-                        }
-                    }
+			for (int i = 0; i <= expression.Length; i++)
+			{
+				char currentChar = '\0';
+				if (i < expression.Length)
+					currentChar = expression[i];
 
-                    if (sign == Operators.brR)
-                    {
-                        while (OperatorStack.Count > 0)
-                        {
-                            if (OperatorStack.Peek() != Operators.brL)
-                                ValueStack.Push(Calculate(ValueStack.Pop(), OperatorStack.Pop(), ValueStack.Pop()));
-                            else
-                            {
-                                OperatorStack.Pop();
-                                lastSignVal = OperatorValue(OperatorStack.Peek());
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //add to stack
-                        OperatorStack.Push(sign);
-                        lastSignVal = currentSignVal;
-                    }
-                    currentNumStr = "";
-                    wasNum = false;
-                }
-            }
-            return ValueStack.Pop();
-        }
+				if ((currentChar >= 48 && currentChar <= 57) || currentChar == 46)
+				{ //number 
+					currentNumStr += currentChar;
+					wasNum = true;
+				}
+				else//number end, operator
+				{
+					if (wasNum)
+						ValueStack.Push(double.Parse(currentNumStr, System.Globalization.CultureInfo.InvariantCulture));
 
-        private static Operators CharToOperator(char charVal)
-        {
-            switch ((int)charVal)
-            {
-                case 40: return Operators.brL;
-                case 41: return Operators.brR;
-                case 43: return Operators.add;
-                case 45: return Operators.sub;
-                case 42: return Operators.mul;
-                case 47: return Operators.div;
-                case 94: return Operators.exp;
-                default: return Operators.NUL;
-            }
-        }
+					currentNumStr = "";
 
-        private static int OperatorValue(Operators oper)
-        {
-            switch (oper)
-            {
-                case Operators.brL: return 0;
-                case Operators.brR: return 99;
-                case Operators.add: return 1;
-                case Operators.sub: return 1;
-                case Operators.mul: return 2;
-                case Operators.div: return 2;
-                case Operators.exp: return 3;
-                case Operators.sqt: return 3;
-                default: return 0;
-            }
-        }
+					sign = CharToOperator(currentChar); //operator add,sub,mul,div ...
 
-        private static double Calculate(double val2, Operators oper, double val1)
-        {
-            double result = 0;
-            switch (oper)
-            {
-                case Operators.add: return val1 + val2;
-                case Operators.sub: return val1 - val2;
-                case Operators.mul: return val1 * val2;
-                case Operators.div: return val1 / val2;
-                case Operators.exp: return Math.Pow(val1, val2);
-            }
+					if (sign == Operators.brL)
+					{
+						if (wasNum)
+						{
+							sign = Operators.mul;
+							i--;
+						}
+						else
+							lastSignVal = -1;
+					}
+					else if (sign == Operators.sub && !wasNum)
+					{
 
-            return result;
-        }
-    }
+						currentNumStr = "-";
+						continue;
+					}
+
+					currentSignVal = OperatorValue(sign);
+					if (currentSignVal <= lastSignVal) //process stack before you add the new operator
+					{
+						//process stack 
+						while (OperatorStack.Count > 0)
+						{
+							if (currentSignVal <= OperatorValue(OperatorStack.Peek()))
+								ValueStack.Push(Calculate(ValueStack.Pop(), OperatorStack.Pop(), ValueStack.Pop()));
+							else
+								break;
+						}
+					}
+
+					if (sign == Operators.brR)
+					{
+						while (OperatorStack.Count > 0)
+						{
+							if (OperatorStack.Peek() != Operators.brL)
+								ValueStack.Push(Calculate(ValueStack.Pop(), OperatorStack.Pop(), ValueStack.Pop()));
+							else
+							{
+								OperatorStack.Pop();
+								if (OperatorStack.Count > 0)
+									lastSignVal = OperatorValue(OperatorStack.Peek());
+								break;
+							}
+						}
+					}
+					else
+					{
+						//add to stack
+						OperatorStack.Push(sign);
+						lastSignVal = currentSignVal;
+					}
+					wasNum = false;
+				}
+			}
+			return ValueStack.Peek();
+		}
+
+		private static Operators CharToOperator(char charVal)
+		{
+			switch ((int)charVal)
+			{
+				case 40: return Operators.brL;
+				case 41: return Operators.brR;
+				case 43: return Operators.add;
+				case 45: return Operators.sub;
+				case 42: return Operators.mul;
+				case 47: return Operators.div;
+				case 94: return Operators.exp;
+				default: return Operators.NUL;
+			}
+		}
+
+		private static int OperatorValue(Operators oper)
+		{
+			switch (oper)
+			{
+				case Operators.brL: return 0;
+				case Operators.brR: return 99;
+				case Operators.add: return 1;
+				case Operators.sub: return 1;
+				case Operators.mul: return 2;
+				case Operators.div: return 2;
+				case Operators.exp: return 3;
+				case Operators.sqt: return 3;
+				default: return 0;
+			}
+		}
+
+		private static double Calculate(double val2, Operators oper, double val1)
+		{
+			double result = 0;
+			switch (oper)
+			{
+				case Operators.add: return val1 + val2;
+				case Operators.sub: return val1 - val2;
+				case Operators.mul: return val1 * val2;
+				case Operators.div: return val1 / val2;
+				case Operators.exp: return Math.Pow(val1, val2);
+			}
+
+			return result;
+		}
+	}
 }
