@@ -79,7 +79,7 @@ namespace Math_Parser
 					{
 						if (!a)
 							Console.WriteLine("error: double operator");
-					//	error = true;
+						//	error = true;
 						a = true;
 					}
 
@@ -180,6 +180,14 @@ namespace Math_Parser
 							sign = Operators.mul;
 							i--;
 						}
+						/*else if (i > 0) //breaks stuff
+						{
+							if (expression[i - 1] == 41)
+							{
+								sign = Operators.mul;
+								i--;
+							}
+						}*/
 						else
 							lastSignVal = -1;
 					}
