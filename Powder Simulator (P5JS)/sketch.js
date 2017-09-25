@@ -58,7 +58,7 @@ function processClick() {
             //square
             for (let i = (tileY > 0 ? -1 : 0) ; i < (tileY < yHeight - 1 ? 2 : 1) ; i++) {
                 for (let j = (tileX > 0 ? -1 : 0) ; j < (tileX < xWidth - 1 ? 2 : 1) ; j++) {
-                    if (particleArr.length < xWidth * yHeight * 0.3 && mapArr[tileY + i][tileX + j].type != selected) {
+                    if (particleArr.length < xWidth * yHeight * 0.3 && mapArr[tileY + i][tileX + j].type != selected && mapArr[tileY + i][tileX + j].type == "null") {
                         mapArr[tileY + i][tileX + j].changeType(selected); //changes from empty to sand
                     }
                 }

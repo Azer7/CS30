@@ -1,4 +1,4 @@
-﻿class Particle {
+class Particle {
     constructor(y, x, type) {
         this.y = y;
         this.x = x;
@@ -24,7 +24,10 @@
         if (this.type != "null") {
             if (this.type == "sand")
                 returnCol = [232, 222, 150];
+            else if(this.type == "stone")
+                returnCol = [150, 150, 150];
             //strokeWeight(.08);
+            //rect(this.x * width / xWidth, this.y * height / yHeight, tileSize, tileSize);
             //rect(this.x * width / xWidth, this.y * height / yHeight, tileSize, tileSize);
         }
         return returnCol;

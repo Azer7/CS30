@@ -82,12 +82,9 @@ namespace Math_Parser
             bool d = false;
             for (int i = 0; i < expression.Length; i++)
             {
-
-                //if(expression[i] == a non (-) operator && expression[i - 1] == an operator )
-
                 if (i > 0)
                 {
-                    if (((expression[i] <= 44 || expression[i] == 47 || expression[i] == 94) && expression[i] != 40) && ((expression[i - 1] <= 45 || expression[i - 1] == 47 || expression[i - 1] == 94) && expression[i] != 41))
+                    if (((expression[i] <= 44 || expression[i] == 47 || expression[i] == 94) && expression[i] != 40) && ((expression[i - 1] <= 45 || expression[i - 1] == 47 || expression[i - 1] == 94) && expression[i - 1] != 41))
                     {
                         if (!a)
                             Console.WriteLine("error: incorrectly placed operators");
