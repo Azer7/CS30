@@ -8,6 +8,8 @@ class Particle {
     }
 
     step() {
+        let swapPos;
+        
         if (this.type == "sand") {
             if (this.y < yHeight - 1 && mapArr[this.y + 1][this.x].type == "null") {//if nothing below move
                 let swap = mapArr[this.y + 1][this.x]; //tile needs to be moved "up" / y--
@@ -24,11 +26,10 @@ class Particle {
         if (this.type != "null") {
             if (this.type == "sand")
                 returnCol = [232, 222, 150];
+            else if(this.type == "water")
+                returnCol = [10, 30, 255];
             else if(this.type == "stone")
                 returnCol = [150, 150, 150];
-            //strokeWeight(.08);
-            //rect(this.x * width / xWidth, this.y * height / yHeight, tileSize, tileSize);
-            //rect(this.x * width / xWidth, this.y * height / yHeight, tileSize, tileSize);
         }
         return returnCol;
     }
