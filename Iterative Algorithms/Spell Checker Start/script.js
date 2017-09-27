@@ -6,37 +6,32 @@ $.get("data files/dictionary.txt", function (data) {
     console.log(dictionary);
 });
 
-// Document Ready Code
-$(document).ready(function () {
-    // Add a click event listener to my checkWord button
-    $("#check-word-lin").on("click", checkWordLin());
-    $("#check-word-bin").click(checkWordBin());
-
+$("#check-word-lin").click(function () {
+    checkWord("linear");
 });
 
-// Helper Functions
-function checkWordLin() {
+$("#check-word-bin").click(function () {
+    checkWord("binary");
+});
+
+function checkWord(search) {
     // Get the word the user typed into the input element
     var word = $("#word").val();
-    linearWordSearch(dictionary, word);
+    let time = Date.now();
+    if (search == "linear")
+        linearWordSearch(dictionary, word);
+    else
+        binaryWordSearch(dictionary, word);
+    time = Date.now() - time;
 
     // Check and report if the word is in the dictionary
-    $("#result").html(word + " is in the dictionary.");
-}
+    $("#result").html(word + " is in the dictionary. " + time);
 
-function checkWordBin() {
-    // Get the word the user typed into the input element
-    var word = $("#word").val();
-    binaryWordSearch(dictionary, word);
-    
-    // Check and report if the word is in the dictionary
-    $("#result").html(word + " is in the dictionary.");
 }
 
 // Search
 function linearWordSearch(arr, word) {
     for (let i = 0; i < arr.length; i++) {
-        console.log(i);
         if (arr[i] == word)
             return i;
     }
@@ -46,7 +41,13 @@ function linearWordSearch(arr, word) {
 function binaryWordSearch(arr, word) {
     let lowerIndex = 0;
     let upperIndex = arr.length - 1;
+    let middleIndex = Math.floor((arr.length - 1) / 2);
+    while (lowerIndex <= upperIndex) { //review can I go <?
+        if (arr[middleIndex] == word)
+            return middleIndex;
+        else if (true) {
 
-
+        }
+    }
     return -1;
 }
