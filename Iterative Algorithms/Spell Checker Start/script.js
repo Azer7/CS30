@@ -1,17 +1,34 @@
 // Load dictionary from file
 var dictionary;
+var book;
+var errorNum;
+var errors = [];
+
 $.get("data files/dictionary.txt", function (data) {
     data = data.trim();
     dictionary = data.split("\r\n");
     console.log(dictionary);
 });
 
+
+$.get("data files/AliceInWonderLand.txt", function (data) {
+    book = data;
+});
+
 $("#check-word-lin").click(function () {
     checkWord("linear");
+
 });
 
 $("#check-word-bin").click(function () {
     checkWord("binary");
+});
+
+$("#check-document-lin").click(function () {
+    checkDocument("linear");
+});
+$("#check-document-bin").click(function () {
+    checkDocument("binary");
 });
 
 function checkWord(search) {
@@ -31,6 +48,30 @@ function checkWord(search) {
         $("#result").html(time + "ms: <br/>" + word + " is in the dictionary at index: " + result);
     else
         $("#result").html("not in dictionary");
+}
+
+function checkDocument(search) {
+    var regExp = /[a-zA-Z]{2,}/g,
+        match;
+    errorNum = 0;
+    let time = Date.now();
+    while (match = regExp.exec(book)) {
+        if (match[0] != "ll" && match[0] != "ve") {
+            if (search == "linear") {
+                if (linearWordSearch(dictionary, match[0].toLowerCase()) == -1) {
+                    errorNum++;
+                    errors.push(match[0].toLowerCase());
+                }
+            } else {
+                if (binaryWordSearch(dictionary, match[0].toLowerCase()) == -1) {
+                    errorNum++;
+                    errors.push(match[0].toLowerCase());
+                }
+            }
+        }
+    }
+    time = Date.now() - time;
+    $("#errors").html("found " + errorNum + " errors in " + time + "ms");
 }
 
 // Search
