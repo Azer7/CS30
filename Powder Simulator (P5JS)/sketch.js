@@ -9,7 +9,7 @@ let selected = "sand";
 let xWidth = 400;
 let yHeight = 300;
 let tileSize = 2;
-let gameSpeed = 1; // % of particles to process per frame (5%)
+let gameSpeed = 2; // % of particles to process per frame (5%)
 
 function setup() {
     createCanvas(xWidth * tileSize, yHeight * tileSize);
