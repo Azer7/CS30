@@ -9,7 +9,7 @@ let selected = "sand";
 let xWidth = 400;
 let yHeight = 300;
 let tileSize = 2;
-let gameSpeed = 2; // % of particles to process per frame (5%)
+let gameSpeed = 1; // % of particles to process per frame (5%)
 
 function setup() {
     createCanvas(xWidth * tileSize, yHeight * tileSize);
@@ -55,6 +55,20 @@ function processClick() {
         let tileY = floor(map(mouseY, 0, height, 0, yHeight));
 
         if (mouseButtonL) {
+            let limitY;
+            let limitX;
+            
+            if(tileX < 2)
+                limitY = 2 - tileX;
+            
+            if(tileX > xWidth - 3)
+                
+            
+            if(tileX < 2)
+                
+                else if(tileX < xWidth - 2)
+            
+                    
             //square
             for (let i = (tileY > 0 ? -1 : 0) ; i < (tileY < yHeight - 1 ? 2 : 1) ; i++) {
                 for (let j = (tileX > 0 ? -1 : 0) ; j < (tileX < xWidth - 1 ? 2 : 1) ; j++) {

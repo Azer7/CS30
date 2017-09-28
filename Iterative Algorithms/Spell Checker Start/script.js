@@ -17,7 +17,6 @@ $.get("data files/AliceInWonderLand.txt", function (data) {
 
 $("#check-word-lin").click(function () {
     checkWord("linear");
-
 });
 
 $("#check-word-bin").click(function () {
@@ -71,7 +70,10 @@ function checkDocument(search) {
         }
     }
     time = Date.now() - time;
-    $("#errors").html("found " + errorNum + " errors in " + time + "ms");
+    let $errorP = $("#errors");
+    $errorP.html("found " + errorNum + " errors in " + time + "ms <br/>");
+    for(let i = 0; i < errors.length; i++) 
+    $errorP.append(errors[i] + "<br/>");
 }
 
 // Search
