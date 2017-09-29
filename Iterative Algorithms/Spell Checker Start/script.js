@@ -72,8 +72,8 @@ function checkDocument(search) {
     time = Date.now() - time;
     let $errorP = $("#errors");
     $errorP.html("found " + errorNum + " errors in " + time + "ms <br/>");
-    for(let i = 0; i < errors.length; i++) 
-    $errorP.append(errors[i] + "<br/>");
+    for (let i = 0; i < errors.length; i++)
+        $errorP.append(errors[i] + "<br/>");
 }
 
 // Search
