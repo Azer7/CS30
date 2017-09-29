@@ -10,6 +10,7 @@ let xWidth = 400;
 let yHeight = 300;
 let tileSize = 2;
 let gameSpeed = 1; // % of particles to process per frame (5%)
+let brushSize = 3; //tiles from center so 2 would be 2*2 + 1 = 5
 
 function setup() {
     createCanvas(xWidth * tileSize, yHeight * tileSize);
@@ -41,7 +42,7 @@ function draw() {
 
     for (let i = 0; i < yHeight; i++) {
         for (let j = 0; j < xWidth; j++) {
-            if (mapArr[i][j].type == "null")
+            if (mapArr[i][j].type == "empty")
                 debugArr[i][j] = 0;
             else
                 debugArr[i][j] = 1;
@@ -57,22 +58,23 @@ function processClick() {
         if (mouseButtonL) {
             let limitY;
             let limitX;
-            
-            if(tileX < 2)
-                limitY = 2 - tileX;
-            
-            if(tileX > xWidth - 3)
-                
-            
-            if(tileX < 2)
-                
-                else if(tileX < xWidth - 2)
-            
-                    
+
+            if (tileX < brushSize)
+                limitX = 0 - tileX;
+
+            if (tileX > xWidth - brushSize - 1)
+                limitX = xWidth - tileX;
+
+            if (tileY < brushSize)
+                limitY = 0 - tileY;
+
+            if (tileY > yHeight - brushSize - 1)
+                limitY = yHeight - tileY;
+
             //square
-            for (let i = (tileY > 0 ? -1 : 0) ; i < (tileY < yHeight - 1 ? 2 : 1) ; i++) {
-                for (let j = (tileX > 0 ? -1 : 0) ; j < (tileX < xWidth - 1 ? 2 : 1) ; j++) {
-                    if (particleArr.length < xWidth * yHeight * 0.3 && mapArr[tileY + i][tileX + j].type != selected && mapArr[tileY + i][tileX + j].type == "null") {
+            for (let i = (tileY < brushSize ? limitY : -brushSize); i < (tileY > yHeight - brushSize ? limitY : brushSize); i++) {
+                for (let j = (tileX < brushSize ? limitX : -brushSize); j < (tileX > xWidth - brushSize ? limitX : brushSize); j++) {
+                    if (particleArr.length < xWidth * yHeight * 0.3 && mapArr[tileY + i][tileX + j].type != selected && mapArr[tileY + i][tileX + j].type == "empty") {
                         mapArr[tileY + i][tileX + j].changeType(selected); //changes from empty to sand
                     }
                 }
