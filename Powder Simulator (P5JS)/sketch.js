@@ -2,15 +2,15 @@ let mapArr = [];
 let particleArr = []; //to improve finding efficiency
 let debugArr = [];
 
-let types = ["sand", "stone", "water", "erase"];
+let types = ["sand", "stone", "mud", "erase"];
 let selectedNum = 0;
 let selected = "sand";
 
 let xWidth = 400;
 let yHeight = 300;
 let tileSize = 2;
-let gameSpeed = 5; // % of particles to process per frame (5%)
-let brushSize = 2; //tiles from center so 2 would be 2*2 + 1 = 5
+let gameSpeed = 2; // % of particles to process per frame (5%)
+let brushSize = 5; //tiles from center so 2 would be 2*2 + 1 = 5
 
 function setup() {
     createCanvas(xWidth * tileSize, yHeight * tileSize);
