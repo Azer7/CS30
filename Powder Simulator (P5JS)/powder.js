@@ -3,7 +3,7 @@ class Particle {
         this.y = y;
         this.x = x;
         this.type = "empty";
-        this.speed = .5; //is water faster than powder?  0 -> 1
+        this.speed = .5; //is mud faster than powder?  0 -> 1
         this.particleIndex = 0; //to keep track of where to delete
     }
 
@@ -12,19 +12,25 @@ class Particle {
             let rand = Math.random();
             switch (this.type) {
                 case "sand":
-                    this.swapDown("empty", "water");
+                    this.swapDown("empty", "mud");
                     break;
 
                 case "stone":
                     break;
 
-                case "water":
+                case "mud":
                     if (rand < 0.25)
+<<<<<<< HEAD
                         this.swapLeft("empty", "water");
                     else if (rand < 0.5)
                         this.swapRight("empty", "water");
+=======
+                        this.swapLeft("empty", "mud");
+                    else if (rand < 0.5)
+                        this.swapRight("empty", "mud");
+>>>>>>> 77f4e5d1560d13e8bf4cfe02abaffc3363c2ced7
                     else
-                        this.swapDown("empty", "water");
+                        this.swapDown("empty", "mud");
                     break;
             }
         }
@@ -44,15 +50,30 @@ class Particle {
         }
 
         if (valid) { //if nothing below move
+<<<<<<< HEAD
             switch (typeToSwap) {
                 case "water": //below is water
                     if (this.type == "sand") {
+=======
+            switch (this.type) {
+                case "mud": //below is mud
+                    if (this.typeToSwap == "mud") {
+>>>>>>> 77f4e5d1560d13e8bf4cfe02abaffc3363c2ced7
                         if (Math.random < 0.5)
                             this.swapLeft("empty");
                         else
                             this.swapRight("empty");
+<<<<<<< HEAD
                     }
                     break;
+=======
+                        break; // only break if custom behaviour
+                    }
+                case "sand":
+                    if (typeToSwap == "mud" && Math.random() > 0.2) {
+                        break;
+                    }
+>>>>>>> 77f4e5d1560d13e8bf4cfe02abaffc3363c2ced7
 
                 default: //what normally do
                     let swap = mapArr[this.y + 1][this.x];
@@ -95,10 +116,19 @@ class Particle {
         }
 
         if (valid) { //if nothing below right
+<<<<<<< HEAD
             switch (typeToSwap) {
                 case "water":
                     this.swapLeft("empty");
                     break;
+=======
+            switch (this.type) {
+                case "mud":
+                    if (typeToSwap == "mud") {
+                        this.swapLeft("empty");
+                        break;
+                    }
+>>>>>>> 77f4e5d1560d13e8bf4cfe02abaffc3363c2ced7
 
                 default: //what normally do
                     let swap = mapArr[this.y][this.x + 1];
@@ -123,10 +153,19 @@ class Particle {
         }
 
         if (valid) { //if nothing to left move left
+<<<<<<< HEAD
             switch (typeToSwap) {
                 case "water":
                     this.swapRight("empty")
                     break;
+=======
+            switch (this.type) {
+                case "mud":
+                    if (typeToSwap == "mud") {
+                        this.swapRight("empty")
+                        break;
+                    }
+>>>>>>> 77f4e5d1560d13e8bf4cfe02abaffc3363c2ced7
 
                 default: //what normally do
                     let swap = mapArr[this.y][this.x - 1];
@@ -145,8 +184,8 @@ class Particle {
                 returnCol = [232, 222, 150];
             else if (this.type == "stone")
                 returnCol = [150, 150, 150];
-            else if (this.type == "water")
-                returnCol = [40, 40, 255];
+            else if (this.type == "mud")
+                returnCol = [100, 55, 25];
 
         }
         return returnCol;
@@ -165,8 +204,8 @@ class Particle {
             case "sand":
                 this.speed = .3;
                 break;
-            case "water":
-                this.speed = .7;
+            case "mud":
+                this.speed = .45;
                 break;
 
         }
