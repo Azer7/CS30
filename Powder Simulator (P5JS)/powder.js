@@ -19,16 +19,10 @@ class Particle {
                     break;
 
                 case "mud":
-                    if (rand < 0.25)
-<<<<<<< HEAD
-                        this.swapLeft("empty", "water");
-                    else if (rand < 0.5)
-                        this.swapRight("empty", "water");
-=======
+                    if (rand < 0.3)
                         this.swapLeft("empty", "mud");
-                    else if (rand < 0.5)
+                    else if (rand < 0.6)
                         this.swapRight("empty", "mud");
->>>>>>> 77f4e5d1560d13e8bf4cfe02abaffc3363c2ced7
                     else
                         this.swapDown("empty", "mud");
                     break;
@@ -50,30 +44,20 @@ class Particle {
         }
 
         if (valid) { //if nothing below move
-<<<<<<< HEAD
-            switch (typeToSwap) {
-                case "water": //below is water
-                    if (this.type == "sand") {
-=======
             switch (this.type) {
                 case "mud": //below is mud
-                    if (this.typeToSwap == "mud") {
->>>>>>> 77f4e5d1560d13e8bf4cfe02abaffc3363c2ced7
+                    if (typeToSwap == "mud") {
+
                         if (Math.random < 0.5)
                             this.swapLeft("empty");
                         else
                             this.swapRight("empty");
-<<<<<<< HEAD
-                    }
-                    break;
-=======
                         break; // only break if custom behaviour
                     }
                 case "sand":
                     if (typeToSwap == "mud" && Math.random() > 0.2) {
                         break;
                     }
->>>>>>> 77f4e5d1560d13e8bf4cfe02abaffc3363c2ced7
 
                 default: //what normally do
                     let swap = mapArr[this.y + 1][this.x];
@@ -116,19 +100,12 @@ class Particle {
         }
 
         if (valid) { //if nothing below right
-<<<<<<< HEAD
-            switch (typeToSwap) {
-                case "water":
-                    this.swapLeft("empty");
-                    break;
-=======
             switch (this.type) {
                 case "mud":
                     if (typeToSwap == "mud") {
                         this.swapLeft("empty");
                         break;
                     }
->>>>>>> 77f4e5d1560d13e8bf4cfe02abaffc3363c2ced7
 
                 default: //what normally do
                     let swap = mapArr[this.y][this.x + 1];
@@ -153,19 +130,12 @@ class Particle {
         }
 
         if (valid) { //if nothing to left move left
-<<<<<<< HEAD
-            switch (typeToSwap) {
-                case "water":
-                    this.swapRight("empty")
-                    break;
-=======
             switch (this.type) {
                 case "mud":
                     if (typeToSwap == "mud") {
                         this.swapRight("empty")
                         break;
                     }
->>>>>>> 77f4e5d1560d13e8bf4cfe02abaffc3363c2ced7
 
                 default: //what normally do
                     let swap = mapArr[this.y][this.x - 1];
@@ -205,7 +175,7 @@ class Particle {
                 this.speed = .3;
                 break;
             case "mud":
-                this.speed = .45;
+                this.speed = .8;
                 break;
 
         }

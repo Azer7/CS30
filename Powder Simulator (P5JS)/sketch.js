@@ -9,7 +9,7 @@ let selected = "sand";
 let xWidth = 400;
 let yHeight = 300;
 let tileSize = 2;
-let gameSpeed = 2; // % of particles to process per frame (5%)
+let gameSpeed = 3; // % of particles to process per frame (5%)
 let brushSize = 5; //tiles from center so 2 would be 2*2 + 1 = 5
 
 function setup() {
