@@ -20,9 +20,9 @@ class Particle {
 
                 case "water":
                     if (rand < 0.25)
-                        this.swapLeft("empty");
+                        this.swapLeft("empty", "water");
                     else if (rand < 0.5)
-                        this.swapRight("empty");
+                        this.swapRight("empty", "water");
                     else
                         this.swapDown("empty", "water");
                     break;
@@ -37,17 +37,21 @@ class Particle {
             if (this.y < yHeight - 1 && mapArr[this.y + 1][this.x].type == arguments[i]) {
                 valid = true;
                 typeToSwap = mapArr[this.y + 1][this.x].type;
+                if (typeToSwap == "water" && this.type == "sand")
+                    console.log();
                 break;
             }
         }
-        
+
         if (valid) { //if nothing below move
             switch (typeToSwap) {
-                case "water":
-                    if (Math.random < 0.5)
-                        this.swapLeft("empty");
-                    else
-                        this.swapRight("empty");
+                case "water": //below is water
+                    if (this.type == "sand") {
+                        if (Math.random < 0.5)
+                            this.swapLeft("empty");
+                        else
+                            this.swapRight("empty");
+                    }
                     break;
 
                 default: //what normally do
@@ -92,8 +96,8 @@ class Particle {
 
         if (valid) { //if nothing below right
             switch (typeToSwap) {
-                case "water":                    
-                        this.swapLeft("empty");
+                case "water":
+                    this.swapLeft("empty");
                     break;
 
                 default: //what normally do
@@ -121,7 +125,7 @@ class Particle {
         if (valid) { //if nothing to left move left
             switch (typeToSwap) {
                 case "water":
-                        this.swapRight("empty")
+                    this.swapRight("empty")
                     break;
 
                 default: //what normally do
