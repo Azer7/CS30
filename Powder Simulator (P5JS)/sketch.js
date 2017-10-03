@@ -12,6 +12,16 @@ let tileSize = 2;
 let gameSpeed = 3; // % of particles to process per frame (5%)
 let brushSize = 5; //tiles from center so 2 would be 2*2 + 1 = 5
 
+let loadedMap;
+
+function preload() {
+    loadJSON("../maps/map.json", mapLoaded);
+}
+
+function mapLoaded(data) {
+    loadedMap = data;
+}
+
 function setup() {
     createCanvas(xWidth * tileSize, yHeight * tileSize);
     pixelDensity(1);
@@ -24,32 +34,20 @@ function setup() {
         for (let j = 0; j < xWidth; j++)
             mapArr[i].push(new Particle(i, j));
     }
-    //debug for console
-    for (let i = 0; i < yHeight; i++) {
-        debugArr.push([]);
-        for (let j = 0; j < xWidth; j++)
-            debugArr[i].push(0);
-    }
 }
 
 function draw() {
     background(255);
     processClick();
 
+    //logic behind powder
     stepPowder();
 
+    //changes pixels
     drawPowder();
-
-    for (let i = 0; i < yHeight; i++) {
-        for (let j = 0; j < xWidth; j++) {
-            if (mapArr[i][j].type == "empty")
-                debugArr[i][j] = 0;
-            else
-                debugArr[i][j] = 1;
-        }
-    }
 }
 
+//processes left & right click
 function processClick() {
     if (mouseIsPressed && mouseX >= 0 && mouseX < xWidth * tileSize && mouseY >= 0 && mouseY < yHeight * tileSize) {
         let tileX = floor(map(mouseX, 0, width, 0, xWidth));
@@ -127,5 +125,23 @@ function keyPressed() {
     } else if (keyCode === RIGHT_ARROW) {
         selectedNum < types.length - 1 ? selectedNum++ : selectedNum = 0;
         selected = types[selectedNum];
+    } else if (keyCode === 83) {
+        saveJSON(mapArr, "map.json");
+    } else if (keyCode === 76) {
+        mapArr = [];
+        particleArr = [];
+        
+        for (let i = 0; i < yHeight; i++) {
+            mapArr.push([]);
+            for (let j = 0; j < xWidth; j++) {
+                mapArr[i].push(new Particle(i, j));                
+                mapArr[i][j].type = loadedMap[i][j].type;
+                mapArr[i][j].speed = loadedMap[i][j].speed;
+                if(mapArr[i][j].type != "empty")
+                    particleArr.push(mapArr[i][j]);
+            }
+        }
+        
+        
     }
 }
