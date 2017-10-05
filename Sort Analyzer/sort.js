@@ -24,26 +24,24 @@ Array.prototype.selectionSort = function () {
     let counter = 0;
     let hasSwapped;
 
-
     for (let i = 0; i < this.length; i++) {
         hasSwapped = false;
-        let maxVal = this[counter];
-        let maxIndex = 0;
+        let lowIndex = i;
 
-        for (let i = counter; i < Array.length; i++) {
-            if (this[i] > maxVal) {
-                maxVal = this[i];
-                maxIndex = i;
+        for (let j = i; j < this.length; j++) {
+            if (this[j] < this[lowIndex]) {
+                lowIndex = j;
             }
         }
+        if(lowIndex != i) {
+            let greater = this[i];
+            this[i] = this[lowIndex];
+            this[lowIndex] = greater;
+        }
     }
-    
-    counter++;
-}
-while (hasSwapped == true);
-time = Date.now() - time;
+    time = Date.now() - time;
 
-return time;
+    return time;
 }
 
 Array.prototype.insertionSort = function () {
@@ -51,4 +49,22 @@ Array.prototype.insertionSort = function () {
 
 
     return time;
+}
+
+
+
+
+
+
+
+
+
+function countMine(x, y) {
+    for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j < 1; j++) {
+            if (i + y > 0 && i + y < height && j + x > 0 && j + x < width) {
+                count++;
+            }
+        }
+    }
 }
