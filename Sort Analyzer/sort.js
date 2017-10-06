@@ -33,7 +33,7 @@ Array.prototype.selectionSort = function () {
                 lowIndex = j;
             }
         }
-        if(lowIndex != i) {
+        if (lowIndex != i) {
             let greater = this[i];
             this[i] = this[lowIndex];
             this[lowIndex] = greater;
@@ -45,26 +45,20 @@ Array.prototype.selectionSort = function () {
 }
 
 Array.prototype.insertionSort = function () {
-    let time = 0;
+    let time = Date.now();
 
+    for (let i = 1; i < this.length; i++) { //loop through array upwards
+        let currentVal = this[i];
+        let j;
+        for (j = i - 1; j >= 0; j--) {
+            if (currentVal < this[j]) {
+                this[j + 1] = this[j];
+            } else
+                break;
+        }
+        this[j + 1] = currentVal;
+    }
+    time = Date.now() - time;
 
     return time;
-}
-
-
-
-
-
-
-
-
-
-function countMine(x, y) {
-    for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j < 1; j++) {
-            if (i + y > 0 && i + y < height && j + x > 0 && j + x < width) {
-                count++;
-            }
-        }
-    }
 }
