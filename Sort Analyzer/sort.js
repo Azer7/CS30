@@ -1,5 +1,5 @@
 Array.prototype.bubbleSort = function () {
-    let time = Date.now();
+    let startTime = performance.now();
     let counter = 1;
     let hasSwapped;
 
@@ -15,12 +15,12 @@ Array.prototype.bubbleSort = function () {
         }
         counter++;
     } while (hasSwapped == true);
-    time = Date.now() - time;
-    return time;
+    startTime = performance.now() - startTime;
+    return Math.round(startTime * 100) / 100;
 }
 
 Array.prototype.selectionSort = function () {
-    let time = Date.now();
+    let startTime = performance.now();
     let counter = 0;
     let hasSwapped;
 
@@ -39,13 +39,13 @@ Array.prototype.selectionSort = function () {
             this[lowIndex] = greater;
         }
     }
-    time = Date.now() - time;
+    startTime = performance.now() - startTime;
 
-    return time;
+    return Math.round(startTime * 100) / 100;
 }
 
 Array.prototype.insertionSort = function () {
-    let time = Date.now();
+    let startTime = performance.now();
 
     for (let i = 1; i < this.length; i++) { //loop through array upwards
         let currentVal = this[i];
@@ -58,7 +58,7 @@ Array.prototype.insertionSort = function () {
         }
         this[j + 1] = currentVal;
     }
-    time = Date.now() - time;
+    startTime = performance.now() - startTime;
 
-    return time;
+    return Math.round(startTime * 100) / 100;
 }
