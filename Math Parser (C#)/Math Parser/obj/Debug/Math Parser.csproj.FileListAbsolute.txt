@@ -1,0 +1,6 @@
+\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\Math Parser (C#)\Math Parser\bin\Debug\Math Parser.exe.config
+\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\Math Parser (C#)\Math Parser\bin\Debug\Math Parser.exe
+\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\Math Parser (C#)\Math Parser\bin\Debug\Math Parser.pdb
+\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\Math Parser (C#)\Math Parser\obj\Debug\Math Parser.csprojResolveAssemblyReference.cache
+\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\Math Parser (C#)\Math Parser\obj\Debug\Math Parser.exe
+\\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\Math Parser (C#)\Math Parser\obj\Debug\Math Parser.pdb
