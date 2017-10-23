@@ -1,6 +1,5 @@
 let blocks = [];
 
-
 function setup() {
     createCanvas(600, 800);
 }
@@ -8,4 +7,6 @@ function setup() {
 function draw() {
     if(frameCount % 30 == 0)
         blocks.push(new Block());
+    
+    ray
 }
