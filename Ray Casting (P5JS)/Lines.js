@@ -16,15 +16,20 @@ class Shape {
         //setting up the lines of the shape
         this.setupLines();
     }
-}   
+}
 
 //custom shapes and arrangements
 class Border extends Shape {
-    constructor(x, y, length) {
+    constructor(x, y, xEnd, yEnd) {
         super(x, y);
-        this.length = length;
+        this.xEnd = xEnd;
+        this.yEnd = yEnd;
+        
+        //angle *= Math.PI / 180;
+        //this.rise = Math.sin(angle) * length;
+        //this.run = Math.cos(angle) * length;
     }
-    
+
     setupLines() {
         this.lines.push(new Line(0, this.y));
     }
@@ -32,7 +37,8 @@ class Border extends Shape {
     draw() {
         stroke("black");
         strokeWeight(2);
-        line(this.x, this.y, this.x + this.length, this.y + this.length);
+
+        line(this.x, this.y, this.xEnd, this.yEnd);
     }
 }
 
@@ -42,10 +48,10 @@ class Rectangle extends Shape {
         this.width = width;
         this.height = height | width; //if it's a square
     }
-    
+
     setupLines() {
-        
-        
+
+
     }
 }
 
@@ -53,9 +59,9 @@ class Triangle extends Shape {
     constructor(x, y) {
         super(x, y);
     }
-    
+
     setupLines() {
-        
-        
+
+
     }
 }
