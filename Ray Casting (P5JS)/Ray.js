@@ -74,12 +74,16 @@ class Ray {
         let collision;
         let hasCollided = false;
 
-        if (this.slope - line.slope == 0)
-            if (this.yIntercept - line.yIntercept == 0)
+        if (line.slope - this.slope == 0)
+            if (line.yIntercept - this.yIntercept == 0)
                 collision = createVector(this.x, this.y); //exact same line~
             else
                 return;
         else { //not blatantly undefined
+            collision = createVector(0, 0);
+            collision.x = (line.yIntercept - this.yIntercept) / (line.slope - this.slope);
+            //y = mx + b
+            collision.y = this.slope * collision.x + this.yIntercept;
             
         }
         return collision;
