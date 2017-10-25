@@ -1,10 +1,13 @@
 let objects = [];
 
+let upRay;
+
 function setup() {
     createCanvas(800, 600);
     
-    objects.push(new Border(0, 20, width, 40)); //line across screen
-    //blocks.push(new Rectangle(random(width), 0, 15));
+    objects.push(new Border(20, 10, width - 20, 70)); //line across screen
+    
+    upRay = new Ray(width / 2, height / 2, 30); //x, y, angle
 }
 
 function draw() {
@@ -15,9 +18,6 @@ function draw() {
         objects[i].draw();
     }
 
-    //check for collision
-    for(let i = 0; i < objects.length; i++) {
-        
-    }
-
+    //check for intersections
+    upRay.checkCollisions(objects);
 }
