@@ -3,7 +3,7 @@ class Ray {
         this.pos = createVector(0, 0);
         this.posEnd = createVector(0, 0);
         this._angle;
-        this.maxLength = 500;
+        this.maxLength = 50;
         this._length = this.maxLength; //will be changed if collision is found
         //ray slope intercept form
         this.slope;
@@ -52,6 +52,11 @@ class Ray {
         this.posEnd.y = this._length * (Math.sin(this._angle) + this.pos.y / this._length);
     }
 
+    findEndpoint(len) {
+
+
+    }
+
     checkCollisions(objects) {
         this.evaluateSlopePoint();
         let shortest = this.maxLength;
@@ -61,8 +66,14 @@ class Ray {
 
                 if (collisionP) { //checks if it actually collided
                     let lineLength = lineMag(this.pos.x, this.pos.y, collisionP.x, collisionP.y);
-                    if (lineLength < shortest)
-                        shortest = lineLength;
+                    if (lineLength < shortest) {
+                        this.length = lineLength
+                        this.evaluateEndpoint();
+                        if (Math.abs(this.posEnd.x - collisionP.x) < precision && Math.abs(this.posEnd.y - collisionP.y < precision)) {
+                            if (this.posEnd.x >= objects[i].lines[j].pos.x && this.posEnd.x <= objects[i].lines[j].posEnd.x && this.posEnd.y >= objects[i].lines[j].pos.y && this.posEnd.y <= objects[i].lines[j].posEnd.y)
+                                shortest = lineLength;
+                        }
+                    }
                 }
             }
         }
@@ -105,7 +116,7 @@ class Ray {
         fill(0, 0)
         strokeWeight(1);
 
-        ellipse(this.posEnd.x, this.posEnd.y, 12);
+        //ellipse(this.posEnd.x, this.posEnd.y, 12);
     }
 }
 
