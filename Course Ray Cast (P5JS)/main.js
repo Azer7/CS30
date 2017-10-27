@@ -6,16 +6,22 @@ let rays = [];
 
 let ray;
 
-let arr1 = [], arr2 = [];
+let arr1 = [],
+    arr2 = [];
+
+let velInc = .2;
+let accY = 0;
 
 function setup() {
     createCanvas(800, 600);
 
-    objects.push(new Border(20, height - 10, width - 100, height - 9)); //line across screen
+    objects.push(new Border(20, height - 30, width - 100, height - 29)); //line
+    //    objects.push(new Border(20, height - 10, width - 100, height - 9)); //line across screen
+
 
     ray = new Ray(width / 2, height / 2, 270); //x, y, angle
-    for (let i = 0; i < 200; i++)
-        rays.push(new Ray(width / 2, height / 2, i * (360 / 180)));
+    for (let i = 0; i < 250; i++)
+        rays.push(new Ray(width / 2, 250, i * (360 / 250)));
 }
 
 function draw() {
@@ -26,13 +32,14 @@ function draw() {
         objects[i].draw();
     }
 
+    let compression = 0;
     for (let i = 0; i < rays.length; i++) {
-        if (keyIsDown(RIGHT_ARROW)) {
-            rays[i].angle -= 1;
-        }
-        if (keyIsDown(LEFT_ARROW)) {
-            rays[i].angle += 1;
-        }
+        //        if (keyIsDown(RIGHT_ARROW)) {
+        //            rays[i].angle -= 1;
+        //        }
+        //        if (keyIsDown(LEFT_ARROW)) {
+        //            rays[i].angle += 1;
+        //        }
         if (keyIsDown(65)) {
             rays[i].pos.x -= 5;
         }
@@ -47,8 +54,14 @@ function draw() {
         }
         //check for intersections
         rays[i].checkCollisions(objects);
+        compression += rays[i].maxLength - rays[i].length;
         rays[i].draw();
     }
+
+    let accel = velInc - compression / 700;
+    accY += accel;
+    for (let i = 0; i < rays.length; i++)
+        rays[i].pos.y += accY;
 
     //    if (keyIsDown(RIGHT_ARROW)) {
     //        ray.angle -= 1;

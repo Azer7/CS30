@@ -23,7 +23,7 @@ class Ray {
 
     get angle() {
         let inDegrees = 360 - this._angle * 180 / Math.PI;
-        return Math.round(inDegrees * 100000) / 100000; //5 decimals of precision
+        return Math.round(inDegrees * precision) / precision; //5 decimals of precision
     }
     set angle(degrees) {
         //change to radians
