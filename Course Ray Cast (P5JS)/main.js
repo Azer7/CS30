@@ -23,8 +23,8 @@ function setup() {
 
 
     ray = new Ray(width / 2, height / 2, 270); //x, y, angle
-    for (let i = 0; i < 1000; i++)
-        rays.push(new Ray(width / 2, 250, i * (360 / 1000)));
+    for (let i = 0; i < 20; i++)
+        rays.push(new Ray(width / 2, 250, i * (360 / 20)));
 }
 
 function draw() {
