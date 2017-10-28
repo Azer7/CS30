@@ -1,7 +1,7 @@
 class Ray {
     constructor(x, y, angle) {
-        this.pos = createVector(0, 0);
-        this.posEnd = createVector(0, 0);
+        this.pos = new Two.Vector(0, 0);
+        this.posEnd = new Two.Vector(0, 0);
         this._angle;
         this.maxLength = 1000;
         this.length = this.maxLength; //will be changed if collision is found
@@ -9,6 +9,7 @@ class Ray {
         this.slope;
         this.yIntercept;
         this.setRay(x, y, angle)
+        this.tLine = two.makeLine(this.pos.x, this.pos.y, this.posEnd.x, this.posEnd.y);
     }
 
     setRay(x, y, angle) {
@@ -75,11 +76,11 @@ class Ray {
 
         if (Math.abs(line.slope - this.slope) < precision) { // < 10000 precision
             if (Math.abs(line.yIntercept - this.yIntercept) < precision)
-                collision = createVector(this.x, this.y); //exact same line~
+                collision = new Two.Vector(this.x, this.y); //exact same line~
             else
                 return;
         } else { //not blatantly undefined
-            collision = createVector(0, 0);
+            collision = new Two.Vector(0, 0);
             if (Math.abs(this.slope) > overflow) { //vertical
                 collision.x = this.pos.x;
                 collision.y = line.slope * collision.x + line.yIntercept;

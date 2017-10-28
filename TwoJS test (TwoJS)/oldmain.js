@@ -15,11 +15,6 @@ let accY = 0;
 function setup() {
     createCanvas(800, 600);
 
-    objects.push(new Border(100, height - 10, width - 100, height - 100)); //line
-    objects.push(new Border(100, 100, 130, height - 300)); //line
-    objects.push(new Border(20, height - 10, width - 100, height - 29)); //line
-    objects.push(new Border(200, height - 300, width - 50, 200)); //line
-    objects.push(new Border(500, height - 10, width - 100, 299)); //line
 
 
     ray = new Ray(width / 2, height / 2, 270); //x, y, angle
