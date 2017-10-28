@@ -1,34 +1,27 @@
 class Ray {
     constructor(x, y, angle) {
-        this.pos = createVector(0, 0);
+        this.pos = createVector(x, y);
         this.posEnd = createVector(0, 0);
-        this._angle;
+        this.baseAngle = ((360 - angle) * Math.PI / 180); //for setup angle 
+        this._angle = this.baseAngle;
         this.maxLength = 1000;
         this.length = this.maxLength; //will be changed if collision is found
         //ray slope intercept form
         this.slope;
         this.yIntercept;
-        this.setRay(x, y, angle)
-    }
-
-    setRay(x, y, angle) {
-        this.pos.x = x;
-        this.pos.y = y;
-
-        this.angle = angle;
-
+     
         this.evaluateSlopePoint();
         this.evaluateEndpoint();
     }
-
+    
     get angle() {
-        let inDegrees = 360 - this._angle * 180 / Math.PI;
-        return Math.round(inDegrees * precision) / precision; //5 decimals of precision
+        let inDegrees = (360 - (this._angle - this.baseAngle)) * 180 / Math.PI;
+        return inDegrees; //5 decimals of precision
     }
     set angle(degrees) {
         //change to radians
         //360 - degrees to switch it from clockwise to counter clockwise
-        this._angle = ((360 - degrees) * Math.PI / 180);
+        this._angle = ((degrees) * Math.PI / 180) + this.baseAngle;
     }
 
     evaluateSlopePoint() {

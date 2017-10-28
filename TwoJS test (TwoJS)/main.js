@@ -6,7 +6,7 @@ let height = 900;
 let two = new Two({
     width: width,
     height: height,
-    type: Two.Types.webgl
+    type: Two.Types.SVG
 }).appendTo(body);
 
 //setup
@@ -15,6 +15,8 @@ const precision = 0.0001; // 10 thousandths
 
 let objects = [];
 let rays = [];
+
+let keys = [];
 
 objects.push(new Border(100, height - 10, width - 100, height - 100)); //line
 objects.push(new Border(100, 100, 130, height - 300)); //line
@@ -29,6 +31,22 @@ for (let i = 0; i < 1000; i++)
 two.bind('update', function (frameCount) { //draw function
     // This code is called everytime two.update() is called.
     // Effectively 60 times per second.
+    let netX = 0;
+    let netY = 0;
+    if (keys[65])  //left
+        netX -= 2;
+    if (keys[68]) 
+        netX += 2;
+    if (keys[83]) 
+        netY += 2;
+    if (keys[87]) 
+        netY -= 2;
+
+    for (let i = 0; i < rays.length; i++)
+        rays[i].tLine.translation.x += netX;
+
+    for (let i = 0; i < rays.length; i++)
+        rays[i].tLine.translation.y += netY;
 
     //    if (group.scale > 0.9999) {
     //    group.scale = group.rotation = 0;
@@ -37,3 +55,8 @@ two.bind('update', function (frameCount) { //draw function
     //  group.scale += t;
     //  group.rotation += t * 4 * Math.PI;
 }).play(); // Finally, start the animation loop
+onkeydown = onkeyup = function (e) {
+    e = e || event; // to deal with IE
+    keys[e.keyCode] = e.type == "keydown";
+    /* insert conditional here */
+}

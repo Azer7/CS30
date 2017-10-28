@@ -1,79 +1,49 @@
-const overflow = 1000000; //1 million
-const precision = 0.000001; // millionths
+const overflow = 10000; //10k
+const precision = 0.0001; // 10kths
 
 let objects = [];
-let rays = [];
-
-let ray;
-
-let arr1 = [],
-    arr2 = [];
-
-let velInc = .2;
-let accY = 0;
+let car;
 
 function setup() {
     createCanvas(800, 600);
 
-    objects.push(new Border(100, height - 10, width - 100, height - 100)); //line
-    objects.push(new Border(100, 100, 130, height - 300)); //line
-    objects.push(new Border(20, height - 10, width - 100, height - 29)); //line
-    objects.push(new Border(200, height - 300, width - 50, 200)); //line
-    objects.push(new Border(500, height - 10, width - 100, 299)); //line
-
+    for (let i = 0; i < terrain.length; i++) {
+        objects.push(new Border(terrain[i].x1, terrain[i].y1, terrain[i].x2, terrain[i].y2));
+    }
 
     ray = new Ray(width / 2, height / 2, 270); //x, y, angle
-    for (let i = 0; i < 1000; i++)
-        rays.push(new Ray(width / 2, 250, i * (360 / 1000)));
+    car = new Car(220, 550, 10);
 }
 
 function draw() {
     background("white");
 
-    
     //draw
     for (let i = 0; i < objects.length; i++) {
         objects[i].draw();
     }
 
     let compression = 0;
-    for (let i = 0; i < rays.length; i++) {
-        if (keyIsDown(RIGHT_ARROW)) {
-            rays[i].angle -= 1;
-        }
-        if (keyIsDown(LEFT_ARROW)) {
-            rays[i].angle += 1;
-        }
-        if (keyIsDown(65)) {
-            rays[i].pos.x -= 10;
-        }
-        if (keyIsDown(68)) {
-            rays[i].pos.x += 10;
-        }
-        if (keyIsDown(87)) {
-            rays[i].pos.y -= 10;
-        }
-        if (keyIsDown(83)) {
-            rays[i].pos.y += 10;
-        }
-        //check for intersections
-        rays[i].checkCollisions(objects);
-        compression += rays[i].maxLength - rays[i].length;
-        Ray.preDraw();
-        rays[i].draw();
+    //        if (keyIsDown(RIGHT_ARROW)) {
+    //            rays[i].angle -= 1;
+    //        }
+    //        if (keyIsDown(LEFT_ARROW)) {
+    //            rays[i].angle += 1;
+    //        }
+
+    if (keyIsDown(87)) {
+        car.acc.y -= car.speed;
+    }
+    if (keyIsDown(83)) {
+        car.acc.y += car.speed * 0.3; //reverse
+    }
+    if (keyIsDown(65)) {
+        car.angle += 1 / (1 + car.vel.mag() / 40);
+    }
+    if (keyIsDown(68)) {
+        car.angle -= 1 / (1 + car.vel.mag() / 40);
     }
 
-    //    let accel = velInc - compression / 700;
-    //    accY += accel;
-    //    for (let i = 0; i < rays.length; i++)
-    //        rays[i].pos.y += accY;
-
-    //    if (keyIsDown(RIGHT_ARROW)) {
-    //        ray.angle -= 1;
-    //    } else if (keyIsDown(LEFT_ARROW)) {
-    //        ray.angle += 1;
-    //    }
-    //
-    //    ray.checkCollisions(objects);
-    //    ray.draw();
+    car.process(objects);
+    car.draw();
 }
