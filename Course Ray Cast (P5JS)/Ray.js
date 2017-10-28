@@ -4,7 +4,7 @@ class Ray {
         this.posEnd = createVector(0, 0);
         this._angle;
         this.maxLength = 1000;
-        this._length = this.maxLength; //will be changed if collision is found
+        this.length = this.maxLength; //will be changed if collision is found
         //ray slope intercept form
         this.slope;
         this.yIntercept;
@@ -31,14 +31,6 @@ class Ray {
         this._angle = ((360 - degrees) * Math.PI / 180);
     }
 
-    get length() {
-        return this._length;
-    }
-    set length(newLen) {
-        // get new end point
-        this._length = newLen;
-    }
-
     evaluateSlopePoint() {
         this.slope = Math.tan(this._angle);
         //y = slope*x + yIntercept
@@ -47,9 +39,9 @@ class Ray {
     }
 
     evaluateEndpoint() {
-        this.posEnd.x = this._length * (Math.cos(this._angle) + this.pos.x / this._length);
-        //this.endPos.y = this.pos.y + Math.sin(angle) * this._length;
-        this.posEnd.y = this._length * (Math.sin(this._angle) + this.pos.y / this._length);
+        this.posEnd.x = this.length * (Math.cos(this._angle) + this.pos.x / this.length);
+        //this.endPos.y = this.pos.y + Math.sin(angle) * this.length;
+        this.posEnd.y = this.length * (Math.sin(this._angle) + this.pos.y / this.length);
     }
 
     checkCollisions(objects) {
