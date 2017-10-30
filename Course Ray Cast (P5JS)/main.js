@@ -6,7 +6,8 @@ let car;
 
 function setup() {
     createCanvas(800, 600);
-
+    initBackground();
+    
     for (let i = 0; i < terrain.length; i++) {
         objects.push(new Border(terrain[i].x1, terrain[i].y1, terrain[i].x2, terrain[i].y2));
     }
@@ -17,6 +18,9 @@ function setup() {
 
 function draw() {
     background("white");
+    
+    Background.transform();
+    
     //draw
     for (let i = 0; i < objects.length; i++) {
         objects[i].draw();

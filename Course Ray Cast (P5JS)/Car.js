@@ -4,7 +4,7 @@ class Car {
         this.pos = createVector(x, y);
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
-        this._angle = 0;
+        this._angle = Math.PI;
         this.crashed = false;
 
         this.rayNum = rayAmount;
