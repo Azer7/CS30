@@ -5,6 +5,7 @@ class Car {
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
         this._angle = 0;
+        this.crashed = false;
 
         this.rayNum = rayAmount;
         this.rays = [];
@@ -20,25 +21,31 @@ class Car {
     set angle(degrees) {
         //change to radians
         //360 - degrees to switch it from clockwise to counter clockwise
-        this._angle = ((360 - degrees) * Math.PI / 180);
+        if (!this.crashed)
+            this._angle = ((360 - degrees) * Math.PI / 180);
     }
 
     process(objArr) {
-        //add movement
-        this.acc.rotate(this._angle);
-        this.vel.add(this.acc);
-        this.vel.mult(0.93);
-        this.pos.add(this.vel);
-        this.acc.mult(0); // only do once
+        if (!this.crashed) {
+            //add movement
+            this.acc.rotate(this._angle);
+            this.vel.add(this.acc);
+            this.vel.mult(0.93);
+            this.pos.add(this.vel);
+            this.acc.mult(0); // only do once
 
-        //process rays
-        for (let i = 0; i < this.rays.length; i++) {
-            this.rays[i].pos = this.pos;
-            this.rays[i]._angle = this._angle + this.rays[i].baseAngle;
+            //process rays
+            for (let i = 0; i < this.rays.length; i++) {
+                this.rays[i].pos = this.pos;
+                this.rays[i]._angle = this._angle + this.rays[i].baseAngle;
+            }
+
+            for (let i = 0; i < this.rays.length; i++) {
+                this.rays[i].checkCollisions(objArr);
+                if (this.rays[i].length < 10)
+                    this.crashed = true;
+            }
         }
-
-        for (let i = 0; i < this.rays.length; i++)
-            this.rays[i].checkCollisions(objArr);
     }
 
     draw() {

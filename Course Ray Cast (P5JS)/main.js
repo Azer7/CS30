@@ -17,19 +17,12 @@ function setup() {
 
 function draw() {
     background("white");
-
     //draw
     for (let i = 0; i < objects.length; i++) {
         objects[i].draw();
     }
 
     let compression = 0;
-    //        if (keyIsDown(RIGHT_ARROW)) {
-    //            rays[i].angle -= 1;
-    //        }
-    //        if (keyIsDown(LEFT_ARROW)) {
-    //            rays[i].angle += 1;
-    //        }
 
     if (keyIsDown(87)) {
         car.acc.y -= car.speed;
