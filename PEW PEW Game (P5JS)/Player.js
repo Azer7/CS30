@@ -10,9 +10,9 @@ class Player {
 
         this.laser = new Ray(x, y, 0, 800);
         this.rays = [];
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 8; i++) {
             this.rays.push(new Ray(x, y, 0, 50))
-            this.rays[i].angle = 90 * i;
+            this.rays[i].angle = 45 * i;
         }
         this.shooting = false;
 
@@ -63,12 +63,16 @@ class Player {
                 largestVector.x = 1;
                 largestVector.y *= -1;
             }
-                
+
+            if (this.rays[i].angle <= 0)
+                largestVector.y *= -1;
+
             largestVector.multiplyScalar(this.rays[i].maxLength / largestVector.length());
-            posChange.x -= .5 * (largestVector.x - (this.rays[i].posEnd.x - this.rays[i].pos.x));
-            posChange.y -= .5 * (largestVector.y - (this.rays[i].posEnd.y - this.rays[i].pos.y));
+            posChange.x -= .01 * (largestVector.x - (this.rays[i].posEnd.x - this.rays[i].pos.x));
+            posChange.y -= .01 * (largestVector.y - (this.rays[i].posEnd.y - this.rays[i].pos.y));
             //this.pos.y += 5 / this.rays[3].length;
             //this.pos.y -= 5 / this.rays[1].length;
+            console.log();
         }
         if (posChange.length() > 0.01)
             this.pos.add(posChange);
