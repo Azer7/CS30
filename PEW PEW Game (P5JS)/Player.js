@@ -8,11 +8,12 @@ class Player {
         this._angle = 0;
         this.dead = false;
 
-        this.laser = new Ray(x, y, 0, 800);
+        this.damage = 1;
+        this.laser = new Ray(x, y, 0, 800, true);
         this.rays = [];
-        for (let i = 0; i < 8; i++) {
-            this.rays.push(new Ray(x, y, 0, 50))
-            this.rays[i].angle = 45 * i;
+        for (let i = 0; i < 72; i++) {
+            this.rays.push(new Ray(x, y, 0, 50, false))
+            this.rays[i].angle = 5 * i;
         }
         this.shooting = false;
 
@@ -59,23 +60,23 @@ class Player {
             this.rays[i].pos = this.pos;
             this.rays[i].checkCollisions(objArr);
             let largestVector = new Vector(-1, this.rays[i].slope);
-            if (this.rays[i].angle <= 90 && this.rays[i].angle >= -90) {
+            if (this.rays[i].angle > 270 || this.rays[i].angle < 90) {
                 largestVector.x = 1;
-                largestVector.y *= -1;
             }
 
-            if (this.rays[i].angle <= 0)
+            if (this.rays[i].angle > 90 && this.rays[i].angle <= 270)
                 largestVector.y *= -1;
+            //largestVector.y *= -1;
 
             largestVector.multiplyScalar(this.rays[i].maxLength / largestVector.length());
-            posChange.x -= .01 * (largestVector.x - (this.rays[i].posEnd.x - this.rays[i].pos.x));
-            posChange.y -= .01 * (largestVector.y - (this.rays[i].posEnd.y - this.rays[i].pos.y));
+            this.pos.x -= .08 * (largestVector.x - (this.rays[i].posEnd.x - this.rays[i].pos.x));
+            this.pos.y -= .08 * (largestVector.y - (this.rays[i].posEnd.y - this.rays[i].pos.y));
             //this.pos.y += 5 / this.rays[3].length;
             //this.pos.y -= 5 / this.rays[1].length;
             console.log();
         }
-        if (posChange.length() > 0.01)
-            this.pos.add(posChange);
+        //if (posChange.length() > 0.01)
+            //this.pos.add(posChange);
 
         this._angle = mouse.clone().subtract(this.pos).angle();
         let angleChange = mouse.clone().subtract(this.barrelPos.clone().rotateBy(this._angle).multiplyScalar(0.001)).subtract(this.pos).angle() - this._angle;
@@ -84,7 +85,9 @@ class Player {
         //process gun
         this.laser.pos = this.barrelPos.clone().rotateBy(this._angle).add(this.pos);
         this.laser._angle = this._angle;
-        this.laser.checkCollisions(objArr);
+        let hit = this.laser.checkCollisions(objArr);
+        if (this.shooting && hit >= 0 && objects[hit] instanceof Enemy)
+            objects[hit].health -= this.damage;
     }
 
     constrainVel(xlow, xhigh, ylow, yhigh) {
@@ -104,12 +107,12 @@ class Player {
         }
     }
 
-    draw() {
+   update() {
         //draw rays
         this.laser.active = this.shooting;
-        this.laser.draw();
-        for (let i = 0; i < this.rays.length; i++)
-            this.rays[i].draw();
+        this.laser.update();
+        //for (let i = 0; i < this.rays.length; i++)
+         //   this.rays[i].update();
 
         //draw player
         this.sprite.x = this.pos.x;

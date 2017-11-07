@@ -89,6 +89,8 @@ function init() {
         "frames": {
             width: 288,
             height: 311,
+            regX: 110,
+            regY: 165,
             count: 17,
             spacing: 2,
             margin: 1
@@ -100,8 +102,9 @@ function init() {
     });
 
     //add collision stuff
-    objects.push(new Border(0, 0, width, 200));
-    enemies.push(new Enemy(150, 100, .4));
+    objects.push(new Border(0, 0, width, 200, true));
+    enemies.push(new Enemy(200, 200, .4, 1, 300));
+
     player = new Player(220, 350);
 
     // add a text object to output the current FPS:
@@ -116,9 +119,6 @@ function init() {
 
 function tick() {
     //draw
-    for (let i = 0; i < objects.length; i++) {
-        objects[i].draw();
-    }
 
     if (keys[87]) {
         player.acc.y -= player.speed;
@@ -134,7 +134,12 @@ function tick() {
     }
 
     player.process(objects);
-    player.draw();
+    player.update();
+
+    for (let i = 0; i < enemies.length; i++) {
+        enemies[i].update(i)
+        enemies[i].sprite.updateCache();
+    }
 
     fpsLabel.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " fps";
     // draw the updates to stage

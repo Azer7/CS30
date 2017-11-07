@@ -1,5 +1,5 @@
 class Ray {
-    constructor(x, y, angle ,length) {
+    constructor(x, y, angle, length, display) {
         this.pos = new Vector(x, y);
         this.posEnd = new Vector(0, 0);
         this._angle = angle * Math.PI / 180;
@@ -14,7 +14,7 @@ class Ray {
 
         this.active = false;
         this.defaultRay = {
-            c: createjs.Graphics.getRGB(0, 0, 30, .5),
+            c: createjs.Graphics.getRGB(0, 0, 30, .3),
             s: 1
         };
         this.activeRay = {
@@ -22,12 +22,14 @@ class Ray {
             s: 7
         };
 
-        this.line = new createjs.Shape();
-        this.strokeSize = this.line.graphics.setStrokeStyle(this.defaultRay.s, "round").command;
-        this.strokeColor = this.line.graphics.beginStroke(this.defaultRay.c).command;
-        this.moveTo = this.line.graphics.moveTo(0, 0).command;
-        this.lineTo = this.line.graphics.lineTo(0, 0).command;
-        stage.addChild(this.line);
+        if (display) {
+            this.line = new createjs.Shape();
+            this.strokeSize = this.line.graphics.setStrokeStyle(this.defaultRay.s, "round").command;
+            this.strokeColor = this.line.graphics.beginStroke(this.defaultRay.c).command;
+            this.moveTo = this.line.graphics.moveTo(0, 0).command;
+            this.lineTo = this.line.graphics.lineTo(0, 0).command;
+            stage.addChild(this.line);
+        }
     }
 
     get angle() {
@@ -58,9 +60,11 @@ class Ray {
     checkCollisions(objects) {
         this.evaluateSlopePoint();
         let shortest = this.maxLength;
+        let shortestIndex = -1;
         for (let i = 0; i < objects.length; i++) {
-            for (let j = 0; j < objects[i].lines.length; j++) {
-                let collisionP = this.getCollisionPoint(objects[i].lines[j]);
+            let object = objects[i] instanceof Enemy ? objects[i].collision : objects[i];
+            for (let j = 0; j < object.lines.length; j++) {
+                let collisionP = this.getCollisionPoint(object.lines[j]);
 
                 if (collisionP) { //checks if it actually collided
                     let lineLength = lineMag(this.pos.x, this.pos.y, collisionP.x, collisionP.y);
@@ -68,8 +72,10 @@ class Ray {
                         this.length = lineLength
                         this.evaluateEndpoint();
                         if (Math.abs(this.posEnd.x - collisionP.x) < precision && Math.abs(this.posEnd.y - collisionP.y) < precision) {
-                            if (this.posEnd.x >= objects[i].lines[j].pos.x && this.posEnd.x <= objects[i].lines[j].posEnd.x && ((this.posEnd.y >= objects[i].lines[j].pos.y && this.posEnd.y <= objects[i].lines[j].posEnd.y) || (this.posEnd.y <= objects[i].lines[j].pos.y && this.posEnd.y >= objects[i].lines[j].posEnd.y)))
+                            if (this.posEnd.x >= object.lines[j].pos.x && this.posEnd.x <= object.lines[j].posEnd.x && ((this.posEnd.y >= object.lines[j].pos.y && this.posEnd.y <= object.lines[j].posEnd.y) || (this.posEnd.y <= object.lines[j].pos.y && this.posEnd.y >= object.lines[j].posEnd.y))) {
                                 shortest = lineLength;
+                                shortestIndex = i;
+                            }
                         }
                     }
                 }
@@ -78,6 +84,7 @@ class Ray {
 
         this.length = shortest;
         this.evaluateEndpoint();
+        return shortestIndex;
     }
 
     getCollisionPoint(line) {
@@ -106,7 +113,7 @@ class Ray {
         return collision;
     }
 
-    draw() {
+    update() {
         if (this.active) {
             this.strokeSize.width = this.activeRay.s;
             this.strokeColor.style = this.activeRay.c;
