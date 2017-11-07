@@ -117,9 +117,14 @@ function init() {
     createjs.Ticker.addEventListener("tick", tick);
 }
 
-function tick() {
+function tick(e) {
+    if (time % 100) {
+        let newX = 0;
+        let newY = 0;
+        let newRand = Math.floor(Math.random(0,5));
+        enemies.push(new Enemy(200, 200, .4, 1, 300));
+    }
     //draw
-
     if (keys[87]) {
         player.acc.y -= player.speed;
     }
@@ -136,9 +141,11 @@ function tick() {
     player.process(objects);
     player.update();
 
-    for (let i = 0; i < enemies.length; i++) {
-        enemies[i].update(i)
-        enemies[i].sprite.updateCache();
+    for (let i = 0; i < objects.length; i++) {
+        if (objects[i] instanceof Enemy) {
+            objects[i].update(i)
+            objects[i].sprite.updateCache();
+        }
     }
 
     fpsLabel.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " fps";

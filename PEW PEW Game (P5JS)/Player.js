@@ -53,9 +53,6 @@ class Player {
         this.acc.multiplyScalar(0); // only do once
 
         //detect player angle
-        //.subtract(new Vector(70, 6).rotateBy(this._angle).multiplyScalar(0.1))
-        let posChange = new Vector();
-
         for (let i = 0; i < this.rays.length; i++) {
             this.rays[i].pos = this.pos;
             this.rays[i].checkCollisions(objArr);
@@ -75,9 +72,6 @@ class Player {
             //this.pos.y -= 5 / this.rays[1].length;
             console.log();
         }
-        //if (posChange.length() > 0.01)
-            //this.pos.add(posChange);
-
         this._angle = mouse.clone().subtract(this.pos).angle();
         let angleChange = mouse.clone().subtract(this.barrelPos.clone().rotateBy(this._angle).multiplyScalar(0.001)).subtract(this.pos).angle() - this._angle;
         this._angle += angleChange * 1000;

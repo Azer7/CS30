@@ -39,7 +39,7 @@ class Enemy {
             if (this.collision.visible)
                 stage.removeChild(this.collsion.g);
             stage.removeChild(this.sprite);
-            objects.splice(this);
+            objects.splice(index, 1);
         } else {
             let moveVector = new Vector(player.pos.x - this.pos.x, player.pos.y - this.pos.y);
             if (moveVector.length() > 77) {
