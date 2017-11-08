@@ -36,6 +36,7 @@ class Enemy {
 
     update(index, elapsed) {
         if (this.health <= 0) {
+            enemies--;
             score += 1 + Math.floor(elapsed / 2000);
             if (this.collision.visible)
                 stage.removeChild(this.collsion.g);

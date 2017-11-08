@@ -17,8 +17,8 @@ class Player {
         this.energyRecharge = 4;
         this.maxEnergy = 100;
         this.energy = this.maxEnergy;
-        this.maxboost = 100;
-        this.boost = this.maxboost;
+        this.maxBoost = 100;
+        this.boost = this.maxBoost;
         this.boostDischarge = 6;
         this.boostRecharge = .4;
         this.boostSpeed = 1.1;
@@ -112,9 +112,9 @@ class Player {
             this.boost = 0;
             this.boosting = false;
             this.boostG.visible = false;
-        } else if (this.boost > this.maxboost)
-            this.boost = this.maxboost;
-        this.boostbarTo.x = this.boost / this.maxboost * 115 + 80;
+        } else if (this.boost > this.maxBoost)
+            this.boost = this.maxBoost;
+        this.boostbarTo.x = this.boost / this.maxBoost * 115 + 80;
 
         //add player movement
         //this.acc.rotate(this._angle);
@@ -138,8 +138,8 @@ class Player {
             //largestVector.y *= -1;
 
             largestVector.multiplyScalar(this.rays[i].maxLength / largestVector.length());
-            this.pos.x -= .08 * (largestVector.x - (this.rays[i].posEnd.x - this.rays[i].pos.x));
-            this.pos.y -= .08 * (largestVector.y - (this.rays[i].posEnd.y - this.rays[i].pos.y));
+            this.pos.x -= (this.speed / 10) * (largestVector.x - (this.rays[i].posEnd.x - this.rays[i].pos.x));
+            this.pos.y -= (this.speed / 10) * (largestVector.y - (this.rays[i].posEnd.y - this.rays[i].pos.y));
             console.log();
         }
         this._angle = mouse.clone().subtract(this.pos).angle();

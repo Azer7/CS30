@@ -26,12 +26,13 @@ let fpsLabel;
 const overflow = 10000; //10k
 const precision = 0.0001; // 10kths
 
-let enemies = [];
+let enemies = 0;
 let objects = [];
 let player;
 let playerSpriteSheet;
 let zombieSpriteSheet;
 let hud;
+let background;
 
 let score = 0;
 let scoreLabel;
@@ -79,10 +80,10 @@ function init() {
             }
         }
     });
-    
-    let background = new createjs.Bitmap("Sprites/grass-background.png");
+
+    background = new createjs.Bitmap("Sprites/grass-background.png");
     stage.addChild(background);
-    
+
     zombieSpriteSheet = new createjs.SpriteSheet({
         framerate: 30,
         "images": ["Sprites/zombie-animations.png"],
@@ -107,7 +108,7 @@ function init() {
 
     player = new Player(220, 350);
 
-    let hud = new createjs.Bitmap("Sprites/hud.png");
+    hud = new createjs.Bitmap("Sprites/hud.png");
     hud.scaleX = .7;
     hud.scaleY = .7;
     stage.addChild(hud);
@@ -134,10 +135,10 @@ function tick(e) {
     //enemies[i].speed = 1.6 + e.target.getTicks() / 900;
 
     if (gameState == 1) {
-        if (e.target.getTicks() % 100 == 0 && enemies.length < 15) {
+        if (e.target.getTicks() % 100 == 0 && enemies < 15) {
             let newX = 0;
             let newY = 0;
-            let sideRand = Math.floor(Math.random() * 5);
+            let sideRand = Math.floor(Math.random() * 4);
             let powerRand = 1 + Math.random() / 2
             if (sideRand == 0) { //right
                 objects.push(new Enemy(width + 50, Math.random() * height, .4 * powerRand, 1 + e.target.getTicks() / 900, 300 * powerRand, 5 * powerRand));
@@ -148,6 +149,7 @@ function tick(e) {
             } else if (sideRand == 3) { //down
                 objects.push(new Enemy(Math.random() * width, -50, .4 * powerRand, 1 + e.target.getTicks() / 900, 300 * powerRand, 5 * powerRand));
             }
+            enemies++;
         }
         //draw
         if (keys[87]) {
@@ -168,7 +170,8 @@ function tick(e) {
 
         for (let i = objects.length - 1; i >= 0; i--) {
             if (objects[i] instanceof Enemy) {
-                objects[i].sprite.updateCache();
+                if (e.target.getTicks() % 4 == 0)
+                    objects[i].sprite.updateCache();
                 objects[i].update(i, e.target.getTicks());
             }
         }
