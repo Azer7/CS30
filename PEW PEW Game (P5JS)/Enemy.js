@@ -21,9 +21,8 @@ class Enemy {
             new createjs.ColorFilter(1, 1, 1, 1, 0, 0, 0, 0)
         ]
         this.sprite.cache(-90, -130, 250, 250);
-        stage.addChild(this.sprite);
-
-        objects.push(this);
+        stage.children.splice(2, 0, this.sprite);
+        //stage.setChildIndex( displayObject, 0);
     }
 
     get angle() {
@@ -35,8 +34,9 @@ class Enemy {
         this._angle = degrees * Math.PI / 180;
     }
 
-    update(index) {
+    update(index, elapsed) {
         if (this.health <= 0) {
+            score += 1 + Math.floor(elapsed / 2000);
             if (this.collision.visible)
                 stage.removeChild(this.collsion.g);
             stage.removeChild(this.sprite);
@@ -61,7 +61,11 @@ class Enemy {
             } else {
                 //attack
                 if (this.attackCooldown <= 0) {
-                    player.health -= this.damage;
+                    if (player.health > 0) {
+                        if (!player.boosting)
+                            player.health -= this.damage;
+                    } else
+                        player.health = 0;
                     this.attackCooldown = 20;
                 }
             }
