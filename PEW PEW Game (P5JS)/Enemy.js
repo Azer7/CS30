@@ -1,5 +1,5 @@
 class Enemy {
-    constructor(x, y, size, speed, health) {
+    constructor(x, y, size, speed, health, damage) {
         this.pos = new Vector(x, y);
         this._angle = 0;
         this.size = size;
@@ -9,9 +9,10 @@ class Enemy {
         this.speed = speed;
         this.maxHealth = health;
         this.health = health;
-
+        this.damage = damage;
+        this.attackCooldown = 0;
         this.sprite = new createjs.Sprite(zombieSpriteSheet, "move");
-        this.sprite.spriteSheet._data.move.speed = speed / 3;
+
         this.sprite.x = x;
         this.sprite.y = y;
         this.sprite.scaleX = size;
@@ -41,8 +42,9 @@ class Enemy {
             stage.removeChild(this.sprite);
             objects.splice(index, 1);
         } else {
+            this.attackCooldown--;
             let moveVector = new Vector(player.pos.x - this.pos.x, player.pos.y - this.pos.y);
-            if (moveVector.length() > 77) {
+            if (moveVector.length() > this.size * 200) {
                 moveVector.multiplyScalar(this.speed / moveVector.length());
                 //change position
                 this.pos.add(moveVector);
@@ -58,6 +60,10 @@ class Enemy {
                 }
             } else {
                 //attack
+                if (this.attackCooldown <= 0) {
+                    player.health -= this.damage;
+                    this.attackCooldown = 20;
+                }
             }
             this._angle = moveVector.angle();
             this.sprite.rotation = this.angle;

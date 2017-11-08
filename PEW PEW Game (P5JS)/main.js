@@ -118,11 +118,23 @@ function init() {
 }
 
 function tick(e) {
-    if (time % 100) {
+    zombieSpriteSheet._data.move.speed = .4 + e.target.getTicks() / 3600;
+        enemies[i].speed = 1.6 + e.target.getTicks() / 900;
+
+    if (e.target.getTicks() % 100 == 0 && enemies.length < 20) {
         let newX = 0;
         let newY = 0;
-        let newRand = Math.floor(Math.random(0,5));
-        enemies.push(new Enemy(200, 200, .4, 1, 300));
+        let sideRand = Math.floor(Math.random() * 5);
+        let powerRand = 1 + Math.random() / 2
+        if (sideRand == 0) { //right
+            enemies.push(new Enemy(width + 50, Math.random() * height, .4 * powerRand, 1 + e.target.getTicks() / 900, 300 * powerRand));
+        } else if (sideRand == 1) { //up
+            enemies.push(new Enemy(Math.random() * width, height + 50, .4 * powerRand, 1 + e.target.getTicks() / 900, 300 * powerRand));
+        } else if (sideRand == 2) { //left
+            enemies.push(new Enemy(-50, Math.random() * height, .4 * powerRand, 1 + e.target.getTicks() / 900, 300 * powerRand));
+        } else if (sideRand == 3) { //down
+            enemies.push(new Enemy(Math.random() * width, -50, .4 * powerRand, 1 + e.target.getTicks() / 900, 300 * powerRand));
+        }
     }
     //draw
     if (keys[87]) {
@@ -141,10 +153,10 @@ function tick(e) {
     player.process(objects);
     player.update();
 
-    for (let i = 0; i < objects.length; i++) {
+    for (let i = objects.length - 1; i >= 0; i--) {
         if (objects[i] instanceof Enemy) {
-            objects[i].update(i)
             objects[i].sprite.updateCache();
+            objects[i].update(i)       
         }
     }
 

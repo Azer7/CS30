@@ -8,7 +8,8 @@ class Player {
         this._angle = 0;
         this.dead = false;
 
-        this.damage = 1;
+        this.health = 100;
+        this.damage = 6;
         this.laser = new Ray(x, y, 0, 800, true);
         this.rays = [];
         for (let i = 0; i < 72; i++) {
