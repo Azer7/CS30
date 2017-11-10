@@ -6,20 +6,6 @@ let width = 800,
 let mouse = new Vector(0, 0);
 let mouseDown = false;
 
-let graphics = {
-    ray: new createjs.Graphics(),
-    player: new createjs.Graphics(),
-    reset: function () {
-        //ray
-        //player
-        this.player.setStrokeStyle(1);
-        this.player.beginStroke(createjs.Graphics.getRGB(0, 0, 0));
-        this.player.beginFill(createjs.Graphics.getRGB(255, 0, 0));
-        this.player.drawCircle(0, 0, 16);
-    }
-};
-graphics.reset();
-
 let keys = [];
 
 const overflow = 10000; //10k
@@ -135,51 +121,101 @@ let guns = [
 ]
 
 let upgrades = {
-    speed: {
-        img: new createjs.Bitmap("Sprites/speed.png"),
-        text: new createjs.Text("Speed", "bold 20px Arial", "#FFF"),
+    Damage: {
+        container: new createjs.Container(),
         maxLevel: 0,
-        level: 0
+        level: 0,
+        getValue: function (lvl) {
+            return 1 + 0.02 * lvl;
+        }
     },
-    damage: {
-        img: 0,
+    Health: {
+        container: new createjs.Container(),
         maxLevel: 0,
-        level: 0
+        level: 0,
+        getValue: function (lvl) {
+            return 100 + 10 * lvl;
+        }
     },
-    health: {
-        img: 0,
+    Speed: {
+        container: new createjs.Container(),
         maxLevel: 0,
-        level: 0
+        level: 0,
+        getValue: function (lvl) {
+            return .6 + 0.05 * lvl;
+        }
     },
-    income: {
-        img: 0,
+    Max_Energy: {
+        container: new createjs.Container(),
         maxLevel: 0,
-        level: 0
+        level: 0,
+        getValue: function (lvl) {
+            return 100 + 10 * lvl;
+        }
     },
-    maxEnergy: {
-        img: 0,
+    Max_Boost: {
+        container: new createjs.Container(),
         maxLevel: 0,
-        level: 0
+        level: 0,
+        getValue: function (lvl) {
+            return 100 + 10 * lvl;
+        }
     },
-    energyRecharge: {
-        img: 0,
+    Boost_Recharge: {
+        container: new createjs.Container(),
         maxLevel: 0,
-        level: 0
+        level: 0,
+        getValue: function (lvl) {
+            return Math.round((.4 + 0.02 * lvl) * 1000) / 1000;
+        }
     },
-    maxBoost: {
-        img: 0,
+    Boost_Speed: {
+        container: new createjs.Container(),
         maxLevel: 0,
-        level: 0
+        level: 0,
+        getValue: function (lvl) {
+            return 1 + 0.6 * lvl;
+        }
     },
-    boostRecharge: {
-        img: 0,
+    Energy_Recharge: {
+        container: new createjs.Container(),
         maxLevel: 0,
-        level: 0
+        level: 0,
+        getValue: function (lvl) {
+            return 4 + Math.floor(Math.pow(lvl, 1.3));
+        }
     },
-    boostSpeed: {
-        img: 0,
+    Income: {
+        container: new createjs.Container(),
         maxLevel: 0,
-        level: 0
+        level: 0,
+        getValue: function (lvl) {
+            return 1 + 0.05 * lvl;
+        }
+    },
+    Zombie_Rate: {
+        container: new createjs.Container(),
+        maxLevel: 0,
+        level: 0,
+        getValue: function (lvl) {
+            return 1 + 0.05 * lvl;
+        }
+    },
+    Zombie_Speed: {
+        container: new createjs.Container(),
+        maxLevel: 0,
+        level: 0,
+        getValue: function (lvl) {
+            return 1 - Math.round(Math.sqrt(lvl) * 100) / 2000;
+        }
+    },
+    Zombie_Mult: {
+        container: new createjs.Container(),
+        maxLevel: 0,
+        level: 0,
+        getValue: function (lvl) {
+            return 1 + 0.02 * lvl;
+        }
     }
 };
 
@@ -228,8 +264,8 @@ function init() {
     });
 
     background = new createjs.Bitmap("Sprites/grass-background.png");
-    stage.addChild(background);
-    gameAssets.push(background);
+    //stage.addChild(background);
+    gameAssets.addChild(background);
 
     zombieSpriteSheet = new createjs.SpriteSheet({
         framerate: 30,
@@ -258,56 +294,128 @@ function init() {
     playerHud = new createjs.Bitmap("Sprites/playerHud.png");
     playerHud.scaleX = .7;
     playerHud.scaleY = .7;
-    stage.addChild(playerHud);
-    gameAssets.push(playerHud);
+    //stage.addChild(playerHud);
+    gameAssets.addChild(playerHud);
 
     scoreLabel = new createjs.Text("", "bold 37px Arial", "#FFF");
-    stage.addChild(scoreLabel);
-    scoreLabel.x = 27;
-    scoreLabel.y = 24;
-    gameAssets.push(scoreLabel);
+    scoreLabel.textAlign = "center";
+    scoreLabel.textBaseline = "middle";
+    scoreLabel.x = 42;
+    scoreLabel.y = 44;
+    gameAssets.addChild(scoreLabel);
 
-    //state 2
+    //get ready for shop setup q.q
+    //state 2 
     blurBackground = new createjs.Shape();
     blurBackground.graphics.setStrokeStyle(1);
     blurBackground.graphics.beginFill(createjs.Graphics.getRGB(10, 10, 50, .6));
     blurBackground.graphics.drawRect(0, 0, width, height);
-    stage.addChild(blurBackground);
-    shopAssets.push(blurBackground);
+    //stage.addChild(blurBackground);
+    shopAssets.addChild(blurBackground);
 
-    shopGui = new createjs.Bitmap("Sprites/shopGui.png");
-    shopGui.scaleX = .94;
-    shopGui.scaleY = .94;
+    shopGui = new createjs.Bitmap("Sprites/bShopGui.png");
+    shopGui.scaleX = .952;
+    shopGui.scaleY = .952;
     shopGui.x = 99.2;
-    shopGui.y = 19.2;
-    stage.addChild(shopGui);
-    shopAssets.push(shopGui);
+    shopGui.shadow = new createjs.Shadow("#000000", 4, 4, 8);
+    //stage.addChild(shopGui);
+    shopAssets.addChild(shopGui);
 
     gun = new createjs.Bitmap("Sprites/guns.png");
     gun.scaleX = 1;
     gun.scaleY = 1;
-    stage.addChild(gun);
-    shopAssets.push(gun);
+    //stage.addChild(gun);
+    shopAssets.addChild(gun);
 
-    mouse.x = stage.mouseX;
-    mouse.y = stage.mouseY;
-    
+    //add upgrades
+    let buttonGraphics = new createjs.Graphics();
+    buttonGraphics.setStrokeStyle(1);
+    buttonGraphics.beginStroke(createjs.Graphics.getRGB(10, 50, 255, 1));
+    buttonGraphics.beginFill(createjs.Graphics.getRGB(120, 120, 130, 1));
+    buttonGraphics.drawRoundRect(0, 0, 120, 124, 7, 7, 7, 7);
+
+    //gun change upgrade (top box)
+    let gunBackground = new createjs.Shape();
+    gunBackground.graphics.setStrokeStyle(1);
+    gunBackground.graphics.beginStroke(createjs.Graphics.getRGB(10, 50, 255, 1));
+    gunBackground.graphics.beginFill(createjs.Graphics.getRGB(120, 120, 130, 1));
+    gunBackground.graphics.drawRoundRect(0, 0, 537, 70, 7, 7, 7, 7);
+    gunBackground.x = 130;
+    gunBackground.y = 25;
+
+    shopAssets.addChild(gunBackground);
+
+    //upgrades
+    let counter = 0;
+    for (const upgradeName in upgrades) {
+        let button;
+        let nameText;
+        let levelText;
+        let statText;
+        let costText;
+
+        let upgrade = upgrades[upgradeName];
+
+        //upgrades
+        button = new createjs.Shape(buttonGraphics);
+        button.x = 130 + 140 * (counter % 4);
+        button.y = 125 + 155 * Math.floor(counter / 4);
+        //button.shadow = new createjs.Shadow("#000000", 2, 2, 16);
+
+        nameText = new createjs.Text(upgradeName.replace("_", " "), "bold 10px Arial", "#FFF");
+        nameText.font = "bold " + 11.5 * (Math.sqrt(100 / nameText.getBounds().width)) + "px Arial";
+        nameText.textAlign = "center";
+        nameText.textBaseline = "middle";
+        nameText.x = 189 + 140 * (counter % 4);
+        nameText.y = 145 + 155 * Math.floor(counter / 4);
+
+        levelText = new createjs.Text("Lvl: " + upgrade.level, "bold 10px Arial", "#FFF");
+        levelText.font = "bold " + 11.5 * (Math.sqrt(100 / levelText.getBounds().width)) + "px Arial";
+        levelText.textAlign = "center";
+        levelText.textBaseline = "middle";
+        levelText.x = 189 + 140 * (counter % 4);
+        levelText.y = 170 + 155 * Math.floor(counter / 4);
+
+        statText = new createjs.Text(upgrade.getValue(upgrade.level) + " 🡺 " + upgrade.getValue(upgrade.level + 1), "bold 10px Arial", "#FFF");
+        statText.font = "bold " + 11.5 * (Math.sqrt(100 / statText.getBounds().width)) + "px Arial";
+        statText.textAlign = "center";
+        statText.textBaseline = "middle";
+        statText.x = 189 + 140 * (counter % 4);
+        statText.y = 195 + 155 * Math.floor(counter / 4);
+
+
+        upgrade.container.addChild(button);
+        upgrade.container.addChild(nameText);
+        upgrade.container.addChild(levelText);
+        upgrade.container.addChild(statText);
+        //upgrades.speed.container.addChild(costText);
+
+        shopAssets.addChild(upgrade.container);
+        counter++;
+    }
+
     // add a text object to output the current FPS:
-    fpsLabel = new createjs.Text("------ @ -- fps", "bold 14px Arial", "#FFF");
+    fpsLabel = new createjs.Text("- fps", "bold 14px Arial", "#FFF");
     stage.addChild(fpsLabel);
     fpsLabel.x = width - 70;
     fpsLabel.y = 20;
-    constantAssets.push(fpsLabel);
 
-    setupGame();
-    //setupShop();
+    //game run 
+    mouse.x = stage.mouseX;
+    mouse.y = stage.mouseY;
+
+    stage.addChild(gameAssets);
+    stage.addChild(shopAssets);
+
+    //setupGame();
+    setupShop();
     // start the tick and point it at the window so we can do some work before updating the stage:
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", tick);
 }
 
 function tick(e) {
-    
+
     if (gameState == 1) {
         mainGame(e);
     } else if (gameState == 2) { //show score screen
@@ -330,7 +438,7 @@ function mousePressed(e) {
         player.sprite.gotoAndPlay("shoot");
         player.shooting = true;
     } else if (gameState == 2) {
-        gunIndex ++;
+        gunIndex++;
     }
 }
 

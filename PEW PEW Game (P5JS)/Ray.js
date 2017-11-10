@@ -28,7 +28,7 @@ class Ray {
             this.strokeColor = this.line.graphics.beginStroke(this.defaultRay.c).command;
             this.moveTo = this.line.graphics.moveTo(0, 0).command;
             this.lineTo = this.line.graphics.lineTo(0, 0).command;
-            stage.addChild(this.line);
+            gameAssets.addChild(this.line);
         }
     }
 

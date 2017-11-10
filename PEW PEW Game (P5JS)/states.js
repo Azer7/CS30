@@ -1,6 +1,5 @@
-let constantAssets = [];
-let gameAssets = [];
-let shopAssets = [];
+let gameAssets = new createjs.Container();
+let shopAssets = new createjs.Container();
 
 function setupGame() {
     gameState = 1;
@@ -12,9 +11,7 @@ function setupGame() {
     }
 
     player.reset();
-    for (let i = 0; i < shopAssets.length; i++) {
-        shopAssets[i].visible = false;
-    }
+    shopAssets.visible = false;
 
 }
 
@@ -64,16 +61,13 @@ function mainGame(e) {
     }
 
     scoreLabel.text = score;
-    let b = scoreLabel.getBounds();
-    scoreLabel.x = 42 - b.width / 2;
+    scoreLabel.font = "bold " + 22 * (Math.sqrt(45 / scoreLabel.getBounds().width)) + "px Arial";
     // draw the updates to stage
 }
 
 function setupShop() {
     gameState = 2;
-    for (let i = 0; i < shopAssets.length; i++) {
-        shopAssets[i].visible = true;
-    }
+    shopAssets.visible = true;
 
     gunIndex = player.equippedGun;
     gun.cache(guns[gunIndex].image.x, guns[gunIndex].image.y, guns[gunIndex].image.w, guns[gunIndex].image.h);

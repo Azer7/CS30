@@ -35,7 +35,6 @@ class Shape {
     constructor(x, y) { //terrain
         this.lines = [];
         this.pos = new Vector(x, y); //general positon vector
-        gameAssets.push(this);
     }
 }
 
@@ -59,7 +58,7 @@ class Border extends Shape { //this looks awfully like class Line because it *al
             this.g.graphics.beginStroke("black");
             this.g.graphics.moveTo(this.pos.x, this.pos.y);
             this.g.graphics.lineTo(this.posEnd.x, this.posEnd.y);
-            stage.addChild(this.g);
+            gameAssets.addChild(this.g);
         }
     }
 
@@ -91,7 +90,7 @@ class Rectangle extends Shape {
             this.g.graphics.drawRect(0, 0, this.width, this.height);
             this.g.x = this.pos.x;
             this.g.y = this.pos.y;
-            stage.addChild(t.g);
+            gameAssets.addChild(t.g);
         }
     }
 

@@ -21,8 +21,7 @@ class Enemy {
             new createjs.ColorFilter(1, 1, 1, 1, 0, 0, 0, 0)
         ]
         this.sprite.cache(-90, -130, 250, 250);
-        stage.children.splice(2, 0, this.sprite);
-        //stage.setChildIndex( displayObject, 0);
+        gameAssets.children.splice(2, 0, this.sprite);
     }
 
     get angle() {
@@ -76,8 +75,8 @@ class Enemy {
     }
     remove(index) {
         if (this.collision.visible)
-            stage.removeChild(this.collsion.g);
-        stage.removeChild(this.sprite);
+            gameAssets.removeChild(this.collsion.g);
+        gameAssets.removeChild(this.sprite);
         objects.splice(index, 1);
     }
 }

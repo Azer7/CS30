@@ -1,6 +1,6 @@
 class Player {
     constructor(x, y) {
-        this.baseSpeed = .7;
+        this.baseSpeed = .6;
         this.speed = this.baseSpeed;
         this.friction = .1; // 5% of velocity is lost
         this.pos = new Vector(x, y);
@@ -13,17 +13,17 @@ class Player {
         this._health = this.maxHealth;
 
         this.equippedGun = 0;
-        
-        this.damage = 15; //dictated by gun
+
+        this.damage = 4; //dictated by gun
         this.energyDischarge = 5; //dictated by gun
         this.energyRecharge = 4;
-        this.maxEnergy = 100; 
+        this.maxEnergy = 100;
         this.energy = this.maxEnergy;
         this.maxBoost = 100;
         this.boost = this.maxBoost;
         this.boostDischarge = 6;
         this.boostRecharge = .4;
-        this.boostSpeed = this.baseSpeed * 1.5;
+        this.boostSpeed = 1;
 
         this.laser = new Ray(x, y, 0, 800, true);
         this.rays = [];
@@ -44,7 +44,7 @@ class Player {
         this.sprite.scaleX = .4;
         this.sprite.scaleY = .4;
         stage.addChild(this.sprite);
-        gameAssets.push(this.sprite);
+        gameAssets.addChild(this.sprite);
 
         //health bar
         this.healthbar = new createjs.Shape();
@@ -52,8 +52,7 @@ class Player {
         this.healthbar.graphics.beginStroke(createjs.Graphics.getRGB(180, 0, 30, 1));
         this.healthbar.graphics.moveTo(80, 13);
         this.healthbarTo = this.healthbar.graphics.lineTo(195, 13).command;
-        stage.addChild(this.healthbar);
-        gameAssets.push(this.healthbar);
+        gameAssets.addChild(this.healthbar);
 
         //energy bar
         this.energybar = new createjs.Shape();
@@ -61,8 +60,7 @@ class Player {
         this.energybar.graphics.beginStroke(createjs.Graphics.getRGB(190, 200, 45, 1));
         this.energybar.graphics.moveTo(93, 44);
         this.energybarTo = this.energybar.graphics.lineTo(205, 44).command;
-        stage.addChild(this.energybar);
-        gameAssets.push(this.energybar);
+        gameAssets.addChild(this.energybar);
 
         //boost bar
         this.boostbar = new createjs.Shape();
@@ -70,8 +68,7 @@ class Player {
         this.boostbar.graphics.beginStroke(createjs.Graphics.getRGB(40, 60, 170, 1));
         this.boostbar.graphics.moveTo(80, 75);
         this.boostbarTo = this.boostbar.graphics.lineTo(195, 75).command;
-        stage.addChild(this.boostbar);
-        gameAssets.push(this.boostG);
+        gameAssets.addChild(this.boostG);
 
         this.boostG = new createjs.Shape();
         this.boostG.graphics.setStrokeStyle(1);
@@ -81,16 +78,21 @@ class Player {
         this.boostG.x = this.pos.x;
         this.boostG.y = this.pos.y;
         this.boostG.visible = false;
-        stage.addChild(this.boostG);
-        gameAssets.push(this.boostG);
+        gameAssets.addChild(this.boostG);
     }
 
     reset() {
         //calculate stats
-        
-        
-        
-        
+        this.damage = upgrades.Damage.getValue(upgrades.Damage.level);
+        this.maxHealth = upgrades.Health.getValue(upgrades.Health.level);
+        this.speed = upgrades.Speed.getValue(upgrades.Speed.level);
+        this.maxEnergy = upgrades.Max_Energy.getValue(upgrades.Max_Energy.level);
+        this.maxBoost = upgrades.Max_Boost.getValue(upgrades.Max_Boost.level);
+        this.energyRecharge = upgrades.Energy_Recharge.getValue(upgrades.Energy_Recharge.level);
+        this.boostRecharge = upgrades.Boost_Recharge.getValue(upgrades.Boost_Recharge.level);
+        this.boostSpeed = upgrades.Boost_Speed.getValue(upgrades.Boost_Speed.level);
+        this.energyDischarge = guns[this.equippedGun].energyCost;
+
         //reset variable stats
         this.health = this.maxHealth;
         this.energy = this.maxEnergy;
@@ -140,7 +142,6 @@ class Player {
         this.boostbarTo.x = this.boost / this.maxBoost * 115 + 80;
 
         //add player movement
-        //this.acc.rotate(this._angle);
         this.vel.add(this.acc);
         this.vel.multiplyScalar(1 - this.friction);
         this.pos.add(this.vel);
@@ -151,6 +152,7 @@ class Player {
         for (let i = 0; i < this.rays.length; i++) {
             this.rays[i].pos = this.pos;
             this.rays[i].checkCollisions(objArr);
+            //calculate collision bounce back direction
             let largestVector = new Vector(-1, this.rays[i].slope);
             if (this.rays[i].angle > 270 || this.rays[i].angle < 90) {
                 largestVector.x = 1;
@@ -158,13 +160,15 @@ class Player {
 
             if (this.rays[i].angle > 90 && this.rays[i].angle <= 270)
                 largestVector.y *= -1;
-            //largestVector.y *= -1;
 
+            //same as setMag to get actually distance to move back
             largestVector.multiplyScalar(this.rays[i].maxLength / largestVector.length());
+            //this.speed / 10 to get how much of the bounce back vector to move
             this.pos.x -= (this.speed / 10) * (largestVector.x - (this.rays[i].posEnd.x - this.rays[i].pos.x));
             this.pos.y -= (this.speed / 10) * (largestVector.y - (this.rays[i].posEnd.y - this.rays[i].pos.y));
             console.log();
         }
+        //detect gun angle
         this._angle = mouse.clone().subtract(this.pos).angle();
         let angleChange = mouse.clone().subtract(this.barrelPos.clone().rotateBy(this._angle).multiplyScalar(0.001)).subtract(this.pos).angle() - this._angle;
         this._angle += angleChange * 1000;
