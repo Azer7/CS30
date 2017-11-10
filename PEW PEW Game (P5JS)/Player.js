@@ -9,12 +9,12 @@ class Player {
         this._angle = 0;
         this.dead = false;
 
-        this.maxHealth = 10;
+        this.maxHealth = 100;
         this._health = this.maxHealth;
 
-        this.equippedGun = 3;
+        this.equippedGun = 0;
         
-        this.damage = 5; //dictated by gun
+        this.damage = 15; //dictated by gun
         this.energyDischarge = 5; //dictated by gun
         this.energyRecharge = 4;
         this.maxEnergy = 100; 

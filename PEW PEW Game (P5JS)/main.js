@@ -126,10 +126,10 @@ let guns = [
             s: 7
         },
         image: {
-            x: 60,
+            x: 1,
             y: 60,
-            w: 20,
-            h: 10
+            w: 68,
+            h: 30
         }
     }
 ]
@@ -299,8 +299,8 @@ function init() {
     fpsLabel.y = 20;
     constantAssets.push(fpsLabel);
 
-    //setupGame();
-    setupShop();
+    setupGame();
+    //setupShop();
     // start the tick and point it at the window so we can do some work before updating the stage:
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", tick);
