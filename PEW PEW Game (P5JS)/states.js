@@ -1,4 +1,27 @@
+let constantAssets = [];
+let gameAssets = [];
+let shopAssets = [];
+
+function setupGame() {
+    gameState = 1;
+    score = 0;
+    //add game collision stuff
+    for (let i = objects.length - 1; enemies; i--) {
+        objects[i].remove(i);
+        enemies--;
+    }
+
+    player.reset();
+    for (let i = 0; i < shopAssets.length; i++) {
+        shopAssets[i].visible = false;
+    }
+
+}
+
 function mainGame(e) {
+    zombieSpriteSheet._data.move.speed = .4 + e.target.getTicks() / 3600;
+    //enemies[i].speed = 1.6 + e.target.getTicks() / 900;
+
     if (e.target.getTicks() % 100 == 0 && enemies < 20) {
         let newX = 0;
         let newY = 0;
@@ -46,6 +69,17 @@ function mainGame(e) {
     // draw the updates to stage
 }
 
+function setupShop() {
+    gameState = 2;
+    for (let i = 0; i < shopAssets.length; i++) {
+        shopAssets[i].visible = true;
+    }
+
+    gunIndex = player.equippedGun;
+    gun.cache(guns[gunIndex].image.x, guns[gunIndex].image.y, guns[gunIndex].image.w, guns[gunIndex].image.h);
+    gun.updateCache();
+}
+
 function shop(e) {
-    
+    gun.updateCache();
 }

@@ -9,19 +9,21 @@ class Player {
         this._angle = 0;
         this.dead = false;
 
-        this.maxHealth = 100;
+        this.maxHealth = 10;
         this._health = this.maxHealth;
 
-        this.damage = 5;
-        this.energyDischarge = 5;
+        this.equippedGun = 3;
+        
+        this.damage = 5; //dictated by gun
+        this.energyDischarge = 5; //dictated by gun
         this.energyRecharge = 4;
-        this.maxEnergy = 100;
+        this.maxEnergy = 100; 
         this.energy = this.maxEnergy;
         this.maxBoost = 100;
         this.boost = this.maxBoost;
         this.boostDischarge = 6;
         this.boostRecharge = .4;
-        this.boostSpeed = 1.1;
+        this.boostSpeed = this.baseSpeed * 1.5;
 
         this.laser = new Ray(x, y, 0, 800, true);
         this.rays = [];
@@ -42,6 +44,7 @@ class Player {
         this.sprite.scaleX = .4;
         this.sprite.scaleY = .4;
         stage.addChild(this.sprite);
+        gameAssets.push(this.sprite);
 
         //health bar
         this.healthbar = new createjs.Shape();
@@ -50,6 +53,7 @@ class Player {
         this.healthbar.graphics.moveTo(80, 13);
         this.healthbarTo = this.healthbar.graphics.lineTo(195, 13).command;
         stage.addChild(this.healthbar);
+        gameAssets.push(this.healthbar);
 
         //energy bar
         this.energybar = new createjs.Shape();
@@ -58,6 +62,7 @@ class Player {
         this.energybar.graphics.moveTo(93, 44);
         this.energybarTo = this.energybar.graphics.lineTo(205, 44).command;
         stage.addChild(this.energybar);
+        gameAssets.push(this.energybar);
 
         //boost bar
         this.boostbar = new createjs.Shape();
@@ -66,6 +71,7 @@ class Player {
         this.boostbar.graphics.moveTo(80, 75);
         this.boostbarTo = this.boostbar.graphics.lineTo(195, 75).command;
         stage.addChild(this.boostbar);
+        gameAssets.push(this.boostG);
 
         this.boostG = new createjs.Shape();
         this.boostG.graphics.setStrokeStyle(1);
@@ -76,6 +82,23 @@ class Player {
         this.boostG.y = this.pos.y;
         this.boostG.visible = false;
         stage.addChild(this.boostG);
+        gameAssets.push(this.boostG);
+    }
+
+    reset() {
+        //calculate stats
+        
+        
+        
+        
+        //reset variable stats
+        this.health = this.maxHealth;
+        this.energy = this.maxEnergy;
+        this.boost = this.maxBoost;
+        this.speed = this.baseSpeed;
+        this.shooting = false;
+        this.boosting = false;
+        this.boostG.visible = false;
     }
 
     get angle() {

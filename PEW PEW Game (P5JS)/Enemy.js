@@ -38,10 +38,7 @@ class Enemy {
         if (this.health <= 0) {
             enemies--;
             score += 1 + Math.floor(elapsed / 2000);
-            if (this.collision.visible)
-                stage.removeChild(this.collsion.g);
-            stage.removeChild(this.sprite);
-            objects.splice(index, 1);
+            this.remove(index);
         } else {
             this.attackCooldown--;
             let moveVector = new Vector(player.pos.x - this.pos.x, player.pos.y - this.pos.y);
@@ -65,8 +62,9 @@ class Enemy {
                     if (player.health > 0) {
                         if (!player.boosting)
                             player.health -= this.damage;
-                    } else
-                        player.health = 0;
+                    } else {
+                        setupShop();
+                    }
                     this.attackCooldown = 20;
                 }
             }
@@ -75,5 +73,11 @@ class Enemy {
             this.sprite.filters[0].greenMultiplier = this.health / this.maxHealth;
             this.sprite.filters[0].blueMultiplier = this.health / this.maxHealth;
         }
+    }
+    remove(index) {
+        if (this.collision.visible)
+            stage.removeChild(this.collsion.g);
+        stage.removeChild(this.sprite);
+        objects.splice(index, 1);
     }
 }

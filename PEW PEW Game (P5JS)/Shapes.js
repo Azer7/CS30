@@ -35,6 +35,7 @@ class Shape {
     constructor(x, y) { //terrain
         this.lines = [];
         this.pos = new Vector(x, y); //general positon vector
+        gameAssets.push(this);
     }
 }
 
