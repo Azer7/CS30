@@ -7,9 +7,9 @@ class Enemy {
         this.collision = new Rectangle(x - size * 50, y - size * 50, size * 100, false);
 
         this.speed = speed;
-        this.maxHealth = health;
-        this.health = health;
-        this.damage = damage;
+        this.maxHealth = health * (upgrades[11].getValue() * 2 - 1);
+        this.health = this.maxHealth;
+        this.damage = damage * (upgrades[11].getValue() * 2 - 1);
         this.attackCooldown = 0;
         this.sprite = new createjs.Sprite(zombieSpriteSheet, "move");
 
@@ -33,10 +33,10 @@ class Enemy {
         this._angle = degrees * Math.PI / 180;
     }
 
-    update(index, elapsed) {
+    update(index) {
         if (this.health <= 0) {
             enemies--;
-            score += 1 + Math.floor(elapsed / 2000);
+            score += (1 + elapsedTicks / 2000) * upgrades[8].getValue() * upgrades[11].getValue();
             this.remove(index);
         } else {
             this.attackCooldown--;
@@ -64,7 +64,7 @@ class Enemy {
                     } else {
                         setupShop();
                     }
-                    this.attackCooldown = 20;
+                    this.attackCooldown = 30;
                 }
             }
             this._angle = moveVector.angle();
