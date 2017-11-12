@@ -37,130 +37,95 @@ let rightButton;
 let gunImg;
 let gunContainer = new createjs.Container();
 let gunIndex = 0;
-let guns = [
-    {
-        name: "Terry's Trash Taser",
-        damage: 3.33,
-        energyCost: 4,
-        price: 0,
-        bought: true,
-        speedMultiplier: 1.2,
-        text: "The result of 6 Years of pole-dancing",
-        beam: {
-            c: createjs.Graphics.getRGB(180, 0, 30, .9),
-            s: 5
-        },
-        image: {
-            x: 139,
-            y: 6,
-            w: 42,
-            h: 28
-        }
-    },
-    {
-        name: "Alpha v0.1 Laser",
-        damage: 4,
-        energyCost: 6,
-        price: 24.01,
-        bought: false,
-        speedMultiplier: 1,
-        text: "Always better than the full release",
-        beam: {
-            c: createjs.Graphics.getRGB(140, 50, 30, .9),
-            s: 6
-        },
-        image: {
-            x: 97,
-            y: 5,
-            w: 42,
-            h: 26
-        }
-    },
-    {
-        name: "Grandma's Gun",
-        damage: 7,
-        energyCost: 9,
-        price: 84,
-        bought: false,
-        speedMultiplier: .7,
-        text: "Stops the fiesty rabbits in their tracks",
-        beam: {
-            c: createjs.Graphics.getRGB(91, 107, 6, .9),
-            s: 6
-        },
-        image: {
-            x: 42,
-            y: 34.6,
-            w: 56,
-            h: 19
-        }
-    },
-    {
-        name: "Alien Dispatcher",
-        damage: 24,
-        energyCost: 25,
-        price: 230,
-        bought: false,
-        speedMultiplier: 1.2,
-        text: "911, an alien showed up at my door",
-        beam: {
-            c: createjs.Graphics.getRGB(89, 255, 119, .7),
-            s: 10
-        },
-        image: {
-            x: 72,
-            y: 57.5,
-            w: 40,
-            h: 23
-        }
-    },
-    {
-        name: "Butt Blaster",
-        damage: 40,
-        energyCost: 33,
-        price: 650,
-        bought: false,
-        speedMultiplier: .8,
-        text: "Man that's a stinky one",
-        beam: {
-            c: createjs.Graphics.getRGB(109, 60, 20, .7),
-            s: 10
-        },
-        image: {
-            x: 1,
-            y: 60,
-            w: 70,
-            h: 30
-        }
-    }
-]
+let guns = [];
+
+guns.push(new Gun("Terry's Trash Taser", 3.33, 4, 0, 1.2, "The result of 6 years of pole-dancing", {
+    c: createjs.Graphics.getRGB(180, 0, 30, .9),
+    s: 5
+}, {
+    x: 139,
+    y: 6,
+    w: 42,
+    h: 28
+}));
+guns[0].bought = true;
+
+guns.push(new Gun("Alpha v0.1 Laser", 4, 6, 24.01, 1, "Always better than the full release", {
+    c: createjs.Graphics.getRGB(140, 50, 30, .9),
+    s: 6
+}, {
+    x: 97,
+    y: 5,
+    w: 42,
+    h: 26
+}));
+
+guns.push(new Gun("Grandma's Gun", 7, 9, 84, .7, "Always better than the full release", {
+    c: createjs.Graphics.getRGB(91, 107, 6, .9),
+    s: 6
+}, {
+    x: 42,
+    y: 34.6,
+    w: 56,
+    h: 20
+}));
+
+guns.push(new Gun("Alien Dispatcher", 24, 25, 230, 1.2, "911, an alien showed up at my door", {
+    c: createjs.Graphics.getRGB(89, 255, 119, .7),
+    s: 6
+}, {
+    x: 72,
+    y: 57.5,
+    w: 40,
+    h: 24
+}));
+
+guns.push(new Gun("Butt Blaster", 40, 33, 650, .9, "Man that's a stinky one", {
+    c: createjs.Graphics.getRGB(109, 60, 20, .7),
+    s: 6
+}, {
+    x: 1,
+    y: 60,
+    w: 70,
+    h: 30
+}));
+
+guns.push(new Gun("Fire Extinguisher", 66, 44, 999, .9, "Burn Baby Burn", {
+    c: createjs.Graphics.getRGB(222, 66, 6, .7),
+    s: 12
+}, {
+    x: 1,
+    y: 135,
+    w: 52,
+    h: 16
+}));
 
 let upgrades = [];
 //Damage upgrade
-upgrades.push(new Upgrade("Damage", 10, (lvl) => 1 + 0.06 * lvl, (lvl) => 5 + Math.floor(Math.pow(3 * lvl, 1.3))));
+upgrades.push(new Upgrade("Damage", 10, (lvl) => 1 + 0.06 * lvl));
 //Max Health upgrade
-upgrades.push(new Upgrade("Health", 10, (lvl) => 100 + 10 * lvl, (lvl) => 5 + Math.floor(Math.pow(3 * lvl, 1.3))));
+upgrades.push(new Upgrade("Health", 10, (lvl) => 100 + 10 * lvl));
 //Player speed upgrade
-upgrades.push(new Upgrade("Speed", 10, (lvl) => .5 + 0.03 * lvl, (lvl) => 5 + Math.floor(Math.pow(3 * lvl, 1.3))));
+upgrades.push(new Upgrade("Speed", 10, (lvl) => .5 + 0.03 * lvl));
 //Player Max Energy upgrade
-upgrades.push(new Upgrade("Max Energy", 10, (lvl) => 100 + 40 * lvl, (lvl) => 5 + Math.floor(Math.pow(3 * lvl, 1.3))));
+upgrades.push(new Upgrade("Max Energy", 10, (lvl) => 100 + Math.pow(20 * lvl, 1.2)));
 //Player Max Boost upgrade
-upgrades.push(new Upgrade("Max Boost", 10, (lvl) => 100 + 20 * lvl, (lvl) => 5 + Math.floor(Math.pow(3 * lvl, 1.3))));
+upgrades.push(new Upgrade("Max Boost", 10, (lvl) => 100 + 20 * lvl));
 //Player Boost Recharge upgrade
-upgrades.push(new Upgrade("Boost Recharge", 10, (lvl) => .3 + 0.02 * lvl, (lvl) => 5 + Math.floor(Math.pow(3 * lvl, 1.3))));
+upgrades.push(new Upgrade("Boost Recharge", 10, (lvl) => .3 + 0.02 * lvl));
 //Player Boost Speed upgrade
-upgrades.push(new Upgrade("Boost Speed", 10, (lvl) => .9 + 0.06 * lvl, (lvl) => 5 + Math.floor(Math.pow(3 * lvl, 1.3))));
+upgrades.push(new Upgrade("Boost Speed", 10, (lvl) => .9 + 0.06 * lvl));
 //Player Energy Recharge upgrade
-upgrades.push(new Upgrade("Energy Recharge", 10, (lvl) => 3 + Math.floor(Math.pow(lvl, 1.3)), (lvl) => 5 + Math.floor(Math.pow(3 * lvl, 1.3))));
+upgrades.push(new Upgrade("Energy Recharge", 10, (lvl) => 3 + Math.floor(Math.pow(lvl, 1.3) * 10) / 10));
 //Game Income multiplier upgrade
-upgrades.push(new Upgrade("Income", 10, (lvl) => 1 + 0.2 * lvl, (lvl) => 10 + Math.floor(Math.pow(4 * lvl, 1.4))));
+upgrades.push(new Upgrade("Income", 10, (lvl) => 1 + 0.2 * lvl, (lvl) => 10 + Math.pow(4 * lvl, 1.4)));
 //Game Zombie spawn rate upgrade
-upgrades.push(new Upgrade("Zombie Rate", 10, (lvl) => 1 + 0.05 * lvl, (lvl) => 5 + Math.floor(Math.pow(3 * lvl, 1.3))));
+upgrades.push(new Upgrade("Zombie Rate", 10, (lvl) => 1 + 0.05 * lvl));
 //Zombie Speed (slowdown) upgrade
-upgrades.push(new Upgrade("Zombie Speed", 10, (lvl) => 1 - Math.sqrt(lvl) * 0.08, (lvl) => 5 + Math.floor(Math.pow(3 * lvl, 1.3))));
+upgrades.push(new Upgrade("Zombie Speed", 10, (lvl) => 1 - Math.sqrt(lvl) * 0.08));
 //Zombie Multiplyer, increases health and damage by double this value,
 //while increasing income by it
-upgrades.push(new Upgrade("Zombie Mult.", 10, (lvl) => 1 + Math.pow(0.1 * lvl, 1.5), (lvl) => 5 + Math.floor(Math.pow(3 * lvl, 1.4))));
+upgrades.push(new Upgrade("Zombie Mult.", 10, (lvl) => 1 + Math.pow(0.1 * lvl, 1.5)));
 
 function init() {
     canvas = document.getElementById("game");
@@ -339,7 +304,7 @@ function init() {
     gunStats.textBaseline = "middle";
     gunStats.x = 281;
     gunStats.y = 33;
-    
+
     let gunSpeed = new createjs.Text("Speed Multiplier: 1.2x", "bold 12px Arial", "#FFF");
     gunSpeed.textAlign = "center";
     gunSpeed.textBaseline = "middle";

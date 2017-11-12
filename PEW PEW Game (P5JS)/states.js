@@ -42,8 +42,8 @@ function mainGame(e) {
         }
         objects.push(new Enemy(newX, newY,
             .4 * powerRand,
-            .8 + elapsedTicks / (1300 / upgrades[10].getValue()),
-            300 * powerRand * (1 + elapsedTicks / (1200 / upgrades[10].getValue())),
+            .8 + elapsedTicks / (1600 / upgrades[10].getValue()),
+            300 * powerRand * (1 + elapsedTicks / (900 / upgrades[10].getValue())),
             5 * powerRand * (1 + elapsedTicks / (3000 / upgrades[10].getValue()))));
 
         enemies++;

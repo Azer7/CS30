@@ -53,7 +53,7 @@ class Button {
 }
 
 class Upgrade extends Button {
-    constructor(name, maxlevel, valueFunction, costFunction) {
+    constructor(name, maxlevel, valueFunction) {
         super();
         this.name = name;
         this.level = 0;
@@ -64,7 +64,7 @@ class Upgrade extends Button {
             else
                 return valueFunction(this.level);
         }
-        this.getCost = costFunction;
+        this.getCost = (lvl) => 5 + Math.pow(3 * lvl, 1.4);
     }
 
     update() {
@@ -85,7 +85,7 @@ class Upgrade extends Button {
         }
         statText.font = "bold " + 11.5 * (Math.sqrt(100 / statText.getBounds().width)) + "px Arial";
 
-        costText.text = "฿" + this.getCost(this.level);
+        costText.text = "฿" + Math.round(this.getCost(this.level));
         costText.font = "bold " + 17 * (Math.sqrt(100 / levelText.getBounds().width)) + "px Arial";
     }
 
@@ -99,12 +99,27 @@ class Upgrade extends Button {
                 this.update();
             }
         } else {
-            if (this.getCost(this.level) <= cash) {
-                cash -= this.getCost(this.level);
+            if (Math.round(this.getCost(this.level) <= cash)) {
+                cash -= Math.round(this.getCost(this.level));
                 this.level++;
                 this.update();
             }
         }
 
     }
+}
+
+class Gun {
+    constructor(name, damage, energyCost, price, speedMultiplier, text, beam, image) {
+        this.name = name;
+        this.damage = damage;
+        this.energyCost = energyCost;
+        this.price = price;
+        this.bought = false;
+        this.speedMultiplier = speedMultiplier;
+        this.text = text;
+        this.beam = beam;
+        this.image = image;
+    }
+
 }
