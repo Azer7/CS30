@@ -423,12 +423,6 @@ function init() {
         shopAssets.addChild(upgrades[i].container);
     }
 
-    // add a text object to output the current FPS:
-    fpsLabel = new createjs.Text("- fps", "bold 14px Arial", "#FFF");
-    stage.addChild(fpsLabel);
-    fpsLabel.x = width - 70;
-    fpsLabel.y = 20;
-
     //game run 
     mouse.x = stage.mouseX;
     mouse.y = stage.mouseY;
@@ -436,6 +430,12 @@ function init() {
     stage.addChild(gameAssets);
     stage.addChild(shopAssets);
 
+    // add a text object to output the current FPS:
+    fpsLabel = new createjs.Text("- fps", "bold 14px Arial", "#FFF");
+    stage.addChild(fpsLabel);
+    fpsLabel.x = width - 70;
+    fpsLabel.y = 20;
+    
     //setupGame();
     setupShop();
     // start the tick and point it at the window so we can do some work before updating the stage:
@@ -495,4 +495,10 @@ onkeydown = onkeyup = function (e) {
             }
         }
     }
+}
+
+window.onbeforeunload = closingCode;
+function closingCode(){
+   // do something...
+   return null;
 }
