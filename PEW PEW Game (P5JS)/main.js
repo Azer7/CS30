@@ -60,7 +60,7 @@ guns.push(new Gun("Alpha v0.1 Laser", 4, 6, 24.01, 1, "Always better than the fu
     h: 26
 }));
 
-guns.push(new Gun("Grandma's Gun", 7, 9, 84, .7, "Always better than the full release", {
+guns.push(new Gun("Grandma's Gun", 7, 9, 77, .7, "Always better than the full release", {
     c: createjs.Graphics.getRGB(91, 107, 6, .9),
     s: 6
 }, {
@@ -70,7 +70,7 @@ guns.push(new Gun("Grandma's Gun", 7, 9, 84, .7, "Always better than the full re
     h: 20
 }));
 
-guns.push(new Gun("Alien Dispatcher", 24, 25, 230, 1.2, "911, an alien showed up at my door", {
+guns.push(new Gun("Alien Dispatcher", 24, 25, 161, 1.2, "911, an alien showed up at my door", {
     c: createjs.Graphics.getRGB(89, 255, 119, .7),
     s: 6
 }, {
@@ -80,7 +80,7 @@ guns.push(new Gun("Alien Dispatcher", 24, 25, 230, 1.2, "911, an alien showed up
     h: 24
 }));
 
-guns.push(new Gun("Butt Blaster", 40, 33, 650, .9, "Man that's a stinky one", {
+guns.push(new Gun("Butt Blaster", 40, 33, 543, .9, "Man that's a stinky one", {
     c: createjs.Graphics.getRGB(109, 60, 20, .7),
     s: 6
 }, {
