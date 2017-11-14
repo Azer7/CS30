@@ -39,7 +39,7 @@ let gunContainer = new createjs.Container();
 let gunIndex = 0;
 let guns = [];
 
-guns.push(new Gun("Terry's Trash Taser", 3.33, 4, 0, 1.2, "The result of 6 years of pole-dancing", {
+guns.push(new Gun("Terry's Trash Taser", 3.33, 4, 0, 1.2, "The result of 6 years of pole-dancing", "no-speciallyness", {
     c: createjs.Graphics.getRGB(180, 0, 30, .9),
     s: 5
 }, {
@@ -50,7 +50,7 @@ guns.push(new Gun("Terry's Trash Taser", 3.33, 4, 0, 1.2, "The result of 6 years
 }));
 guns[0].bought = true;
 
-guns.push(new Gun("Alpha v0.1 Laser", 4, 6, 24.01, 1, "Always better than the full release", {
+guns.push(new Gun("Alpha v0.1 Laser", 4, 6, 21.01, 1, "Always better than the full release", "no-speciallyness",{
     c: createjs.Graphics.getRGB(140, 50, 30, .9),
     s: 6
 }, {
@@ -60,7 +60,7 @@ guns.push(new Gun("Alpha v0.1 Laser", 4, 6, 24.01, 1, "Always better than the fu
     h: 26
 }));
 
-guns.push(new Gun("Grandma's Gun", 7, 9, 77, .7, "Always better than the full release", {
+guns.push(new Gun("Grandma's Gun", 7, 9, 55, .7, "Used to protect herself from the wolf", "no-speciallyness",{
     c: createjs.Graphics.getRGB(91, 107, 6, .9),
     s: 6
 }, {
@@ -70,7 +70,7 @@ guns.push(new Gun("Grandma's Gun", 7, 9, 77, .7, "Always better than the full re
     h: 20
 }));
 
-guns.push(new Gun("Alien Dispatcher", 24, 25, 161, 1.2, "911, an alien showed up at my door", {
+guns.push(new Gun("Alien Dispatcher", 24, 25, 121, 1.2, "911, an alien showed up at my door", "no-speciallyness", {
     c: createjs.Graphics.getRGB(89, 255, 119, .7),
     s: 6
 }, {
@@ -80,7 +80,7 @@ guns.push(new Gun("Alien Dispatcher", 24, 25, 161, 1.2, "911, an alien showed up
     h: 24
 }));
 
-guns.push(new Gun("Butt Blaster", 40, 33, 543, .9, "Man that's a stinky one", {
+guns.push(new Gun("Butt Blaster", 40, 33, 432, .9, "Man that's a stinky one", "no-speciallyness", {
     c: createjs.Graphics.getRGB(109, 60, 20, .7),
     s: 6
 }, {
@@ -90,7 +90,7 @@ guns.push(new Gun("Butt Blaster", 40, 33, 543, .9, "Man that's a stinky one", {
     h: 30
 }));
 
-guns.push(new Gun("Fire Extinguisher", 66, 44, 999, .9, "Burn Baby Burn", {
+guns.push(new Gun("Fire Extinguisher", 66, 44, 666, .9, "Burn Baby Burn", "Burnemup dot", {
     c: createjs.Graphics.getRGB(222, 66, 6, .7),
     s: 12
 }, {
@@ -102,23 +102,23 @@ guns.push(new Gun("Fire Extinguisher", 66, 44, 999, .9, "Burn Baby Burn", {
 
 let upgrades = [];
 //Damage upgrade
-upgrades.push(new Upgrade("Damage", 10, (lvl) => 1 + 0.06 * lvl));
+upgrades.push(new Upgrade("Damage", 10, (lvl) => 1 + 0.08 * lvl));
 //Max Health upgrade
-upgrades.push(new Upgrade("Health", 10, (lvl) => 100 + 10 * lvl));
+upgrades.push(new Upgrade("Health", 10, (lvl) => 100 + 30 * lvl));
 //Player speed upgrade
 upgrades.push(new Upgrade("Speed", 10, (lvl) => .5 + 0.03 * lvl));
 //Player Max Energy upgrade
-upgrades.push(new Upgrade("Max Energy", 10, (lvl) => 100 + Math.pow(20 * lvl, 1.2)));
+upgrades.push(new Upgrade("Max Energy", 10, (lvl) => 100 + Math.pow(40 * lvl, 1.2)));
 //Player Max Boost upgrade
-upgrades.push(new Upgrade("Max Boost", 10, (lvl) => 100 + 20 * lvl));
+upgrades.push(new Upgrade("Max Boost", 10, (lvl) => 100 + 30 * lvl));
 //Player Boost Recharge upgrade
-upgrades.push(new Upgrade("Boost Recharge", 10, (lvl) => .3 + 0.02 * lvl));
+upgrades.push(new Upgrade("Boost Recharge", 10, (lvl) => .5 + 0.03 * lvl));
 //Player Boost Speed upgrade
 upgrades.push(new Upgrade("Boost Speed", 10, (lvl) => .9 + 0.06 * lvl));
 //Player Energy Recharge upgrade
 upgrades.push(new Upgrade("Energy Recharge", 10, (lvl) => 3 + Math.floor(Math.pow(lvl, 1.3) * 10) / 10));
 //Game Income multiplier upgrade
-upgrades.push(new Upgrade("Income", 10, (lvl) => 1 + 0.2 * lvl, (lvl) => 10 + Math.pow(4 * lvl, 1.4)));
+upgrades.push(new Upgrade("Income", 10, (lvl) => 1 + 0.25 * lvl));
 //Game Zombie spawn rate upgrade
 upgrades.push(new Upgrade("Zombie Rate", 10, (lvl) => 1 + 0.05 * lvl));
 //Zombie Speed (slowdown) upgrade
@@ -190,7 +190,7 @@ function init() {
     });
 
     //add game collision stuff
-    objects.push(new Border(0, 0, width, 200, true));
+    //objects.push(new Border(0, 0, width, 200, true));
 
     player = new Player(220, 350);
 
@@ -228,7 +228,7 @@ function init() {
     gunBackground.graphics.setStrokeStyle(1);
     gunBackground.graphics.beginStroke(createjs.Graphics.getRGB(10, 50, 255, 1));
     gunBackground.graphics.beginFill(createjs.Graphics.getRGB(120, 120, 130, 1));
-    gunBackground.graphics.drawRoundRect(0, 0, 400, 85, 7);
+    gunBackground.graphics.drawRoundRect(0, 0, 400, 95, 7);
     gunContainer.addChild(gunBackground);
 
     gunImg = new createjs.Bitmap("Sprites/guns.png");
@@ -250,7 +250,7 @@ function init() {
     leftButton.buttonColor = leftArrow.graphics.beginFill(createjs.Graphics.getRGB(0, 0, 0, 1)).command;
     leftButton.hoverColor = createjs.Graphics.getRGB(30, 30, 30, 1);
     leftButton.unhoverColor = createjs.Graphics.getRGB(0, 0, 0, 1);
-    leftArrow.graphics.drawPolyStar(27, 26, 15, 3, 0, 180);
+    leftArrow.graphics.drawPolyStar(27, 31, 15, 3, 0, 180);
 
     leftButton.container.addChild(leftArrow);
 
@@ -260,7 +260,7 @@ function init() {
     rightButton.buttonColor = rightArrow.graphics.beginFill(createjs.Graphics.getRGB(0, 0, 0, 1)).command;
     rightButton.hoverColor = createjs.Graphics.getRGB(30, 30, 30, 1);
     rightButton.unhoverColor = createjs.Graphics.getRGB(0, 0, 0, 1);
-    rightArrow.graphics.drawPolyStar(150, 26, 15, 3);
+    rightArrow.graphics.drawPolyStar(150, 31, 15, 3);
 
     rightButton.container.addChild(rightArrow);
 
@@ -283,7 +283,7 @@ function init() {
     equipContainer.container.addChild(equipButton);
     equipContainer.container.addChild(equipText);
     equipContainer.container.x = 88;
-    equipContainer.container.y = 63;
+    equipContainer.container.y = 72;
     equipContainer.container.regX = 47;
     equipContainer.container.regY = 13
 
@@ -315,13 +315,20 @@ function init() {
     gunText.textAlign = "center";
     gunText.textBaseline = "middle";
     gunText.x = 281;
-    gunText.y = 70;
+    gunText.y = 67;
+    
+    let gunSpecial = new createjs.Text("no-speciallyness", "bold 11px Arial", "#FFF");
+    gunSpecial.textAlign = "center";
+    gunSpecial.textBaseline = "middle";
+    gunSpecial.x = 281;
+    gunSpecial.y = 81;
 
 
     gunContainer.addChild(gunName);
     gunContainer.addChild(gunStats);
     gunContainer.addChild(gunSpeed);
     gunContainer.addChild(gunText);
+    gunContainer.addChild(gunSpecial);
 
     gunContainer.x = 130;
     gunContainer.y = 22;
@@ -333,7 +340,7 @@ function init() {
     cashLabel.textAlign = "center";
     cashLabel.textBaseline = "middle";
     cashLabel.x = 603;
-    cashLabel.y = 62;
+    cashLabel.y = 67;
     shopAssets.addChild(cashLabel);
 
     playButton = new Button(() => {}, () => {
@@ -391,10 +398,10 @@ function init() {
         levelText.y = 45;
 
         if (upgrades[i].name == "Damage" || upgrades[i].name == "Income" || upgrades[i].name == "Zombie Rate" || upgrades[i].name == "Zombie Mult.") {
-            statText = new createjs.Text(Math.floor(upgrades[i].getValue(upgrades[i].level) * 100) / 100 + "x 🡺 " + Math.floor(upgrades[i].getValue(upgrades[i].level + 1) * 100) / 100 + "x", "bold 15.5px Arial", "#FFF");
+            statText = new createjs.Text(Math.floor(upgrades[i].getValue(upgrades[i].level) * 100) / 100 + "x ⇒ " + Math.floor(upgrades[i].getValue(upgrades[i].level + 1) * 100) / 100 + "x", "bold 15.5px Arial", "#FFF");
 
         } else {
-            statText = new createjs.Text(Math.floor(upgrades[i].getValue(upgrades[i].level) * 100) / 100 + " 🡺 " + Math.floor(upgrades[i].getValue(upgrades[i].level + 1) * 100) / 100, "bold 15.5px Arial", "#FFF");
+            statText = new createjs.Text(Math.floor(upgrades[i].getValue(upgrades[i].level) * 100) / 100 + " ⇒ " + Math.floor(upgrades[i].getValue(upgrades[i].level + 1) * 100) / 100, "bold 15.5px Arial", "#FFF");
         }
         statText.font = "bold " + 11.5 * (Math.sqrt(100 / statText.getBounds().width)) + "px Arial";
         statText.textAlign = "center";
@@ -416,7 +423,7 @@ function init() {
         upgrades[i].container.addChild(statText);
         upgrades[i].container.addChild(costText);
         upgrades[i].container.x = 190 + 140 * (i % 4); //130 offset
-        upgrades[i].container.y = 187 + 145 * Math.floor(i / 4); //125 offset
+        upgrades[i].container.y = 197 + 138 * Math.floor(i / 4); //125 offset
         upgrades[i].container.regX = 60;
         upgrades[i].container.regY = 57;
 

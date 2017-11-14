@@ -64,7 +64,7 @@ class Upgrade extends Button {
             else
                 return valueFunction(this.level);
         }
-        this.getCost = (lvl) => 5 + Math.pow(3 * lvl, 1.4);
+        this.getCost = (lvl) => 4 + Math.pow(3 * lvl, 1.25);
     }
 
     update() {
@@ -79,9 +79,9 @@ class Upgrade extends Button {
         levelText.font = "bold " + 11.5 * (Math.sqrt(100 / levelText.getBounds().width)) + "px Arial";
 
         if (this.name == "Damage" || this.name == "Income" || this.name == "Zombie Rate" || this.name == "Zombie Mult.") {
-            statText.text = Math.round(this.getValue(this.level) * 100) / 100 + "x 🡺 " + Math.round(this.getValue(this.level + 1) * 100) / 100 + "x";
+            statText.text = Math.round(this.getValue(this.level) * 100) / 100 + "x ⇒ " + Math.round(this.getValue(this.level + 1) * 100) / 100 + "x";
         } else {
-            statText.text = Math.round(this.getValue(this.level) * 100) / 100 + " 🡺 " + Math.round(this.getValue(this.level + 1) * 100) / 100;
+            statText.text = Math.round(this.getValue(this.level) * 100) / 100 + " ⇒ " + Math.round(this.getValue(this.level + 1) * 100) / 100;
         }
         statText.font = "bold " + 11.5 * (Math.sqrt(100 / statText.getBounds().width)) + "px Arial";
 
@@ -94,7 +94,7 @@ class Upgrade extends Button {
     mouseReleased() {
         if (keys[17]) { //ctrl = sell
             if (this.level > 0) {
-                cash += this.getCost(this.level - 1) * .75;
+                cash += Math.round(this.getCost(this.level - 1) * .75);
                 this.level--;
                 this.update();
             }
@@ -110,7 +110,7 @@ class Upgrade extends Button {
 }
 
 class Gun {
-    constructor(name, damage, energyCost, price, speedMultiplier, text, beam, image) {
+    constructor(name, damage, energyCost, price, speedMultiplier, text, special, beam, image) {
         this.name = name;
         this.damage = damage;
         this.energyCost = energyCost;
@@ -118,6 +118,7 @@ class Gun {
         this.bought = false;
         this.speedMultiplier = speedMultiplier;
         this.text = text;
+        this.special = special;
         this.beam = beam;
         this.image = image;
     }

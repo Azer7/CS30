@@ -100,7 +100,7 @@ function updateGun(newIndex) {
         gunIndex = newIndex;
     }
     gunImg.x = -1 * guns[gunIndex].image.x + 87;
-    gunImg.y = -1 * guns[gunIndex].image.y + 27;
+    gunImg.y = -1 * guns[gunIndex].image.y + 33;
     gunImg.regX = guns[gunIndex].image.w / 2;
     gunImg.regY = guns[gunIndex].image.h / 2;
 
@@ -125,6 +125,8 @@ function updateGun(newIndex) {
     gunContainer.children[7].text = "Speed Multiplyer: " + guns[gunIndex].speedMultiplier + "x";
     //cool text :v)
     gunContainer.children[8].text = "“" + guns[gunIndex].text + "”";
+    //special
+    gunContainer.children[9].text = "Special: " + guns[gunIndex].special;
 }
 
 function equipGun() {
