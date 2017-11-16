@@ -17,9 +17,9 @@ function setup() {
 }
 
 function draw() {
-    background("white");
-    
-    Background.transform();
+    background(210);
+    camera(car.pos.x - width / 2, car.pos.y - width / 2, 0, 0, 0, 0, 1, 0)
+    //Background.transform();
     
     //draw
     for (let i = 0; i < objects.length; i++) {
@@ -43,4 +43,5 @@ function draw() {
 
     car.process(objects);
     car.draw();
+    
 }
