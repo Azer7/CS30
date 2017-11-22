@@ -1,4 +1,3 @@
-
 let terrain = [
     //left wall
     {
@@ -25,8 +24,8 @@ let terrain = [
         x2: 798.125,
         y2: 82
     },
-    
-    
+
+
     //right wall
     {
         x1: 333.125,

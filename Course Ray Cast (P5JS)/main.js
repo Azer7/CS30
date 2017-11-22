@@ -18,8 +18,10 @@ function setup() {
 
 function draw() {
     background(210);
+    
     camera(car.pos.x - width / 2, car.pos.y - width / 2, 0, 0, 0, 0, 1, 0)
-    //Background.transform();
+    translate(-100, 200);
+    scale(0.18);
     
     //draw
     for (let i = 0; i < objects.length; i++) {

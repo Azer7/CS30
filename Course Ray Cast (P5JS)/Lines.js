@@ -5,7 +5,7 @@ class Line {
         this.posEnd = createVector(xEnd, yEnd);
         this.slope;
         this.yIntercept;
-        
+
         this.setLine(x, y, xEnd, yEnd);
     }
 
@@ -29,11 +29,16 @@ class Shape {
     }
 }
 
+let lastLine = {
+    x: 0,
+    y: 0
+};
+
 //custom shapes and arrangements
 class Border extends Shape { //this looks awfully like class Line because it *almost is (kinda)
     constructor(x, y, xEnd, yEnd) {
-        super(x, y);
-        this.posEnd = createVector(xEnd, yEnd);
+        super(xEnd ? x : lastLine.x, yEnd ? y : lastLine.y);
+        this.posEnd = createVector(xEnd ? xEnd : x, yEnd ? yEnd : y);
 
         //setting up the lines of the shape
         this.setupShape();
@@ -59,17 +64,6 @@ class Rectangle extends Shape {
 
         //setting up the lines of the shape
         this.setupShape();
-    }
-
-    setupShape() {
-
-
-    }
-}
-
-class Triangle extends Shape {
-    constructor(x, y) {
-        super(x, y);
     }
 
     setupShape() {
