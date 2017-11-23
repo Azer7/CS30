@@ -9,9 +9,11 @@ function setup() {
     initBackground();
     
     for (let i = 0; i < terrain.length; i++) {
-        objects.push(new Border(terrain[i].x1, terrain[i].y1, terrain[i].x2, terrain[i].y2));
+        terrain.push(new Border(terrain[i].x1, terrain[i].y1, terrain[i].x2, terrain[i].y2));
     }
-
+    
+   // terrain.push(new Border(terrain));
+    
     ray = new Ray(width / 2, height / 2, 270); //x, y, angle
     car = new Car(220, 550, 10);
 }
@@ -26,6 +28,10 @@ function draw() {
     //draw
     for (let i = 0; i < objects.length; i++) {
         objects[i].draw();
+    }
+    
+    for(let i = 0;i < terrain.length; i++) {
+        terrain[i].draw();
     }
 
     let compression = 0;

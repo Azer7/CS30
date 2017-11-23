@@ -40,6 +40,8 @@ class Border extends Shape { //this looks awfully like class Line because it *al
         super(xEnd ? x : lastLine.x, yEnd ? y : lastLine.y);
         this.posEnd = createVector(xEnd ? xEnd : x, yEnd ? yEnd : y);
 
+        lastLine.x = x;
+        lastLine.y = y;
         //setting up the lines of the shape
         this.setupShape();
     }
