@@ -6,7 +6,7 @@ let terrain = [];
 let car;
 
 function setup() {
-    createCanvas(1920, 1065);
+    createCanvas(1600, 1000);
     initBackground();
     
     for (let i = 0; i < terrainPos.length; i++) {
@@ -16,15 +16,25 @@ function setup() {
    // terrain.push(new Border(terrain));
     
     ray = new Ray(width / 2, height / 2, 270); //x, y, angle
-    car = new Car(220, 550, 10);
+    car = new Car(200, 600, 10);
 }
 
 function draw() {
     background(210);
     
     camera(car.pos.x - width / 2, car.pos.y - width / 2, 0, 0, 0, 0, 1, 0)
-    translate(-100, 200);
-    scale(0.18);
+    //translate(100, 100);
+    //scale(.2);
+    //box border
+    line(0,0,4800, 0);
+    line(0,0, 0, 3000);
+    line(4800, 0, 4800, 3000);
+    line(0, 3000, 4800, 3000);
+    
+   line(0, 1000, 4800, 1000);
+    line(0, 2000, 4800, 2000);
+    line(1600, 0, 1600, 3000);
+    line(3200, 0, 3200, 3000);
     
     //draw
     for (let i = 0; i < objects.length; i++) {

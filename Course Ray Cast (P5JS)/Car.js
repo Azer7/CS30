@@ -1,17 +1,17 @@
 class Car {
     constructor(x, y, rayAmount) {
-        this.speed = .7;
+        this.speed = .3;
         this.pos = createVector(x, y);
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
-        this._angle = Math.PI;
+        this._angle = 0;
         this.crashed = false;
 
         this.rayNum = rayAmount;
         this.rays = [];
 
         for (let i = 0; i <= rayAmount; i++)
-            this.rays.push(new Ray(width / 2, 250, i * (360 / rayAmount / 2)));
+            this.rays.push(new Ray(0, 0, i * (360 / rayAmount / 2)));
     }
 
     get angle() {
@@ -30,7 +30,12 @@ class Car {
             //add movement
             this.acc.rotate(this._angle);
             this.vel.add(this.acc);
-            this.vel.mult(0.93);
+            if (this.acc.x == 0 && this.acc.y == 0) {
+                this.vel.mult(0.95);
+            } else {
+                this.vel.mult(1);
+            }
+            console.log(this.acc.x);
             this.pos.add(this.vel);
             this.acc.mult(0); // only do once
 

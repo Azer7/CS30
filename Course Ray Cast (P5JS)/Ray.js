@@ -4,7 +4,7 @@ class Ray {
         this.posEnd = createVector(0, 0);
         this.baseAngle = ((360 - angle) * Math.PI / 180); //for setup angle 
         this._angle = this.baseAngle;
-        this.maxLength = 1000;
+        this.maxLength = 100;
         this.length = this.maxLength; //will be changed if collision is found
         //ray slope intercept form
         this.slope;
