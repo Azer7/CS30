@@ -1,4 +1,4 @@
-let terrain = [
+let terrainPos = [
     //left wall
     {
         x1: 50.125,

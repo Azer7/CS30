@@ -2,14 +2,15 @@ const overflow = 10000; //10k
 const precision = 0.0001; // 10kths
 
 let objects = [];
+let terrain = [];
 let car;
 
 function setup() {
-    createCanvas(800, 600);
+    createCanvas(1920, 1065);
     initBackground();
     
-    for (let i = 0; i < terrain.length; i++) {
-        terrain.push(new Border(terrain[i].x1, terrain[i].y1, terrain[i].x2, terrain[i].y2));
+    for (let i = 0; i < terrainPos.length; i++) {
+        terrain.push(new Border(terrainPos[i].x1, terrainPos[i].y1, terrainPos[i].x2, terrainPos[i].y2));
     }
     
    // terrain.push(new Border(terrain));
@@ -50,6 +51,7 @@ function draw() {
     }
 
     car.process(objects);
+    car.process(terrain);
     car.draw();
     
 }
