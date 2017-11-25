@@ -1,3 +1,5 @@
+let leftIndex = 9;
+
 let terrainPos = [
     //left wall
     {
@@ -22,7 +24,7 @@ let terrainPos = [
         x2: 1000,
         y2: 70
     },
-{
+    {
         x2: 1400,
         y2: 80
     },
@@ -32,7 +34,19 @@ let terrainPos = [
     },
     {
         x2: 2400,
-        y2: 140
+        y2: 150
+    },
+    {
+        x2: 2750,
+        y2: 500
+    },
+    {
+        x2: 3100,
+        y2: 530
+    },
+    {
+        x2: 3400,
+        y2: 460
     },
 
     //right wall
@@ -67,10 +81,23 @@ let terrainPos = [
         y2: 340
     },
     {
-        x2: 2500,
+        x2: 2300,
         y2: 370
     },
+    {
+        x2: 2470,
+        y2: 540
+    },
+    {
+        x2: 2700,
+        y2: 670
+    },
+    {
+        x2: 3100,
+        y2: 720
+    }
 ];
+
 
 //detect new
 let clicks = 0;
@@ -84,7 +111,7 @@ let endPos = {
 };
 
 function mouseClicked() {
-    clicks++;
+    clicks = 2;
     if (clicks == 1) {
         startPos.x = mouseX;
         startPos.y = mouseY;
@@ -92,7 +119,20 @@ function mouseClicked() {
         endPos.x = mouseX;
         endPos.y = mouseY;
 
-        console.log("{x1: " + startPos.x + ", y1: " + startPos.y + ", x2: " + endPos.x + ", y2: " + endPos.y + "}");
+
+        //terrainPos.splice(leftIndex + 1, 0, {x2: mouseX + car.pos.x - width / 2, y2: mouseY + car.pos.y - height / 2});
+        //graphics
+        //terrain.push(new Border(terrainPos[leftIndex + 1].x1, terrainPos[leftIndex + 1].y1, terrainPos[leftIndex + 1].x2, terrainPos[leftIndex + 1].y2))
+        
+        leftIndex++;
+        console.log("x: " + (mouseX - car.pos.x) + "\ny: " + (mouseY - car.pos.y));
         clicks = 0;
+    }
+}
+
+class TerrainObject {
+    constructor(x, y) {
+        this.x2 = x;
+        this.y2 = y;
     }
 }

@@ -2,26 +2,26 @@ class Ray {
     constructor(x, y, angle) {
         this.pos = createVector(x, y);
         this.posEnd = createVector(0, 0);
-        this.baseAngle = ((360 - angle) * Math.PI / 180); //for setup angle 
-        this._angle = this.baseAngle;
-        this.maxLength = 100;
+
+        this._angle = angle * Math.PI / 180;
+        this.maxLength = 20;
         this.length = this.maxLength; //will be changed if collision is found
         //ray slope intercept form
         this.slope;
         this.yIntercept;
-     
+
         this.evaluateSlopePoint();
         this.evaluateEndpoint();
     }
-    
+
     get angle() {
-        let inDegrees = (360 - (this._angle - this.baseAngle)) * 180 / Math.PI;
+        let inDegrees = this._angle * 180 / Math.PI;
         return inDegrees; //5 decimals of precision
     }
     set angle(degrees) {
         //change to radians
         //360 - degrees to switch it from clockwise to counter clockwise
-        this._angle = ((degrees) * Math.PI / 180) + this.baseAngle;
+        this._angle = ((degrees) * Math.PI / 180);
     }
 
     evaluateSlopePoint() {
@@ -50,7 +50,8 @@ class Ray {
                         this.length = lineLength
                         this.evaluateEndpoint();
                         if (Math.abs(this.posEnd.x - collisionP.x) < precision && Math.abs(this.posEnd.y - collisionP.y < precision)) {
-                            if (this.posEnd.x >= objects[i].lines[j].pos.x && this.posEnd.x <= objects[i].lines[j].posEnd.x && ((this.posEnd.y >= objects[i].lines[j].pos.y && this.posEnd.y <= objects[i].lines[j].posEnd.y) || (this.posEnd.y <= objects[i].lines[j].pos.y && this.posEnd.y >= objects[i].lines[j].posEnd.y)))
+                            if (((this.posEnd.x >= objects[i].lines[j].pos.x && this.posEnd.x <= objects[i].lines[j].posEnd.x) || (this.posEnd.x <= objects[i].lines[j].pos.x && this.posEnd.x >= objects[i].lines[j].posEnd.x)) &&
+                                ((this.posEnd.y >= objects[i].lines[j].pos.y && this.posEnd.y <= objects[i].lines[j].posEnd.y) || (this.posEnd.y <= objects[i].lines[j].pos.y && this.posEnd.y >= objects[i].lines[j].posEnd.y)))
                                 shortest = lineLength;
                         }
                     }
