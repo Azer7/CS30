@@ -2,7 +2,7 @@ class Player {
     constructor(x, y) {
         this.baseSpeed;
         this.speed;
-        this.friction = .1; // 5% of velocity is lost
+        this.friction = .1; // 10% of velocity is lost
         this.pos = new Vector(x, y);
         this.vel = new Vector(0, 0);
         this.acc = new Vector(0, 0);
