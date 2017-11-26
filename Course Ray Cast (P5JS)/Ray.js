@@ -1,8 +1,9 @@
 class Ray {
-    constructor(x, y, angle) {
+    constructor(x, y, angle, visible) {
         this.pos = createVector(x, y);
         this.posEnd = createVector(0, 0);
-
+        this.visible = visible;
+        
         this._angle = angle * Math.PI / 180;
         this.maxLength = 20;
         this.length = this.maxLength; //will be changed if collision is found
@@ -95,6 +96,7 @@ class Ray {
     }
 
     draw() {
+        if(this.visible)
         line(this.pos.x, this.pos.y, this.posEnd.x, this.posEnd.y);
     }
 }

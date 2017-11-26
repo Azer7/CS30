@@ -34,7 +34,7 @@ class Car {
             if (this.acc.x == 0 && this.acc.y == 0) {
                 this.vel.mult(.95);
             } else {
-                this.vel.mult(.98);
+                this.vel.mult(.975);
             }            
             this.pos.add(this.vel);
             this.acc.mult(0); // only do once
@@ -65,12 +65,14 @@ class Car {
                 let pushVector = createVector(0, 0);
                 pushVector.x = (this.speed / 1) * (largestVector.x - (this.rays[i].posEnd.x - this.rays[i].pos.x))
                 pushVector.y = (this.speed / 1) * (largestVector.y - (this.rays[i].posEnd.y - this.rays[i].pos.y));
-                this.pos.sub(pushVector);
+                this.vel.sub(pushVector);
                 
                 totalVector.add(pushVector);
                 //if (this.rays[i].length < 10)
                  //   this.crashed = true;
             }
+            if(totalVector.mag() > precision)
+                car.vel.mult(.8);
             car.slowDown = 1 + totalVector.mag();
         }
     }

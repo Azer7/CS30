@@ -1,12 +1,12 @@
 //base line
 class Line {
     constructor(x, y, xEnd, yEnd) {
-        this.pos = createVector(x, y);
+        this.pos = createVector(x + 0.01, y + 0.01);
         this.posEnd = createVector(xEnd, yEnd);
         this.slope;
         this.yIntercept;
 
-        this.setLine(x, y, xEnd, yEnd);
+        this.setLine(x + 0.01, y + 0.01, xEnd, yEnd);
     }
 
     setLine(x, y, xEnd, yEnd) {

@@ -19,7 +19,8 @@ function setup() {
     // terrain.push(new Border(terrain));
 
     ray = new Ray(width / 2, height / 2, 270); //x, y, angle
-    car = new Car(3000, 600, 12);
+    //car = new Car(3700, 1000, 12);
+    car = new Car(parseFloat(localStorage.getItem("x")), parseFloat(localStorage.getItem("y")), 12);
 }
 
 function draw() {
@@ -27,7 +28,7 @@ function draw() {
 
     camera(car.pos.x - width / 2, car.pos.y - height / 2, 0, 0, 0, 0, 1, 0)
     //translate(100, 100);
-    //scale(.2);
+    scale(1);
     //box border
     line(0, 0, 4800, 0);
     line(0, 0, 0, 3000);
@@ -57,15 +58,26 @@ function draw() {
         car.acc.y += car.speed * 0.5; //reverse
     }
     if (keyIsDown(65)) {
-        car.angle -= 1 * (1 + car.vel.mag() / 40);
+        car.angle -= 2 * (1 + car.vel.mag() / 40);
 
     }
     if (keyIsDown(68)) {
-        car.angle += 1 * (1 + car.vel.mag() / 40);
+        car.angle += 2 * (1 + car.vel.mag() / 40);
     }
 
     //car.process(objects);
     car.process(terrain);
     car.draw();
 
+    localStorage.setItem("x", car.pos.x);
+    localStorage.setItem("y", car.pos.y);
+}
+
+function keyPressed() {
+    if(keyCode == 32) {
+        car.vel.mult(0);
+        car.pos.x = 200;
+        car.pos.y = 600;
+        car.angle = 0;
+    }
 }
