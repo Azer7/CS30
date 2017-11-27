@@ -32,9 +32,9 @@ class Car {
             this.acc.rotate(this._angle);
             this.vel.add(this.acc.div(this.slowDown));
             if (this.acc.x == 0 && this.acc.y == 0) {
-                this.vel.mult(.95);
-            } else {
                 this.vel.mult(.975);
+            } else {
+                this.vel.mult(.985);
             }            
             this.pos.add(this.vel);
             this.acc.mult(0); // only do once
@@ -72,7 +72,7 @@ class Car {
                  //   this.crashed = true;
             }
             if(totalVector.mag() > precision)
-                car.vel.mult(.8);
+                car.vel.mult(.6);
             car.slowDown = 1 + totalVector.mag();
         }
     }

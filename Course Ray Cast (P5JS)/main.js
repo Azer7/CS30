@@ -20,7 +20,10 @@ function setup() {
 
     ray = new Ray(width / 2, height / 2, 270); //x, y, angle
     //car = new Car(3700, 1000, 12);
-    car = new Car(parseFloat(localStorage.getItem("x")), parseFloat(localStorage.getItem("y")), 12);
+    if (localStorage.getItem("x") && localStorage.getItem("y"))
+        car = new Car(parseFloat(localStorage.getItem("x")), parseFloat(localStorage.getItem("y")), 12);
+    else
+        car = new Car(260, 600, 12);
 }
 
 function draw() {
@@ -39,6 +42,9 @@ function draw() {
     line(0, 2000, 4800, 2000);
     line(1600, 0, 1600, 3000);
     line(3200, 0, 3200, 3000);
+    
+    stroke("white");
+    line(50, 600, 430, 600);
 
     //draw
     for (let i = 0; i < objects.length; i++) {
@@ -51,7 +57,7 @@ function draw() {
 
     let compression = 0;
 
-    if (keyIsDown(87)) {
+    if (mouseIsPressed) {
         car.acc.y -= car.speed;
     }
     if (keyIsDown(83)) {
@@ -65,7 +71,12 @@ function draw() {
         car.angle += 2 * (1 + car.vel.mag() / 40);
     }
 
-    //car.process(objects);
+    let mouseVec = createVector(mouseX, mouseY);
+
+    mouseVec.x -= width / 2;
+    mouseVec.y -= height / 2;
+    car._angle = mouseVec.heading() + Math.PI / 2;
+
     car.process(terrain);
     car.draw();
 
@@ -74,9 +85,9 @@ function draw() {
 }
 
 function keyPressed() {
-    if(keyCode == 32) {
+    if (keyCode == 32) {
         car.vel.mult(0);
-        car.pos.x = 200;
+        car.pos.x = 260;
         car.pos.y = 600;
         car.angle = 0;
     }
