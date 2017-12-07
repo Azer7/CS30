@@ -64,7 +64,7 @@ private:
 int Family::getTotalAge() { //code of function
 	int total = 0;
 	for (int i = 0; i < members.size(); i++) {
-		total += members[i].age;
+		total += members[i].age; //references the age value of the members at index i
 	}
 	return total;
 }
@@ -80,24 +80,29 @@ int main()
 		inputName = "";
 		inputAge = -1;
 		Person person;
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cout << "What is you name my dude?" << endl;
-		getline(cin, inputName); //gets the entire line	
+		cout << "What is a person's name my dude?" << endl;
+		
+		getline(cin, inputName); //get's the line of the player's name
 		person.setName(inputName); //calls the setName function, with input as (inputName)
 
-		cout << "How about your age?" << endl;
-		cin >> inputAge;
-		person.age = inputAge;
+		if (inputName != "") {
+			cout << "How about your age?" << endl;
+			cin >> inputAge;
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //clears the newline
+			person.age = inputAge;
 
-		cout << "Hi " << person.getName() << endl; // calls the object method to get initials which returns a str
+			cout << "Hi " << person.getName() << endl; // calls the object method to get initials which returns a str
+			cout << endl;
+		}
 
-		if (inputName != "" && inputAge != -1) {
+		if (inputName != "" && inputAge != -1) { //only adds the person if it has valid properties
 			family.members.push_back(person);
 		}
 	} while (inputName != "" || inputAge != -1);  //waits for the user to actually enter something
 	//needs to be declared earlier, so that line 95 is defined
 
 	cout << "Quite the family with a total age of " << family.getTotalAge() << "!";
+
 
 	return 0;
 }
