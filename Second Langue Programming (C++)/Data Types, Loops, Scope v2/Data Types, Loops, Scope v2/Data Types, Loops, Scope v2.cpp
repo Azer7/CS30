@@ -36,7 +36,7 @@ int main()
 	std::string word = ""; //std:: defines the namespace (standard namespace) which groups types, function, etc to prevent name collisions (an example of scope in c++)
 						   //you can specify the namespace by going "using namespace std;" at the top of your program
 	std::cin >> word; //input from the stream (console) >> is an overload, which is taking in input from the console and inputting it into word
-	if (word == "hi")  //if statement same as javascript
+	if (word == "hi" || word == "hello")  //if statement same as javascript
 	{ //for functions, loops etc braces are put on the next line in c++ usually (does not affect anything)
 		int localScope = 0;
 		std::cout << "Hi!" << std::endl; //endl is and end of line character or '\n'
