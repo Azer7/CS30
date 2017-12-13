@@ -35,16 +35,16 @@ function checkWord(search) {
     let word = $("#word").val();
     let indexResult;
 
-    let time = Date.now();
+    let time = performance.now();
     if (search == "linear")
         result = linearWordSearch(dictionary, word);
     else
         result = binaryWordSearch(dictionary, word);
-    time = Date.now() - time;
+    time = performance.now() - time;
 
     // Check and report if the word is in the dictionary
     if (result >= 0)
-        $("#result").html(time + "ms: <br/>" + word + " is in the dictionary at index: " + result);
+        $("#result").html((Math.round(time * 100000) / 100000) + "ms: <br/>" + word + " is in the dictionary at index: " + result);
     else
         $("#result").html("not in dictionary");
 }
@@ -53,7 +53,7 @@ function checkDocument(search) {
     var regExp = /[a-zA-Z]{2,}/g,
         match;
     errorNum = 0;
-    let time = Date.now();
+    let time = performance.now();
     while (match = regExp.exec(book)) {
         if (match[0] != "ll" && match[0] != "ve") {
             if (search == "linear") {
@@ -69,9 +69,9 @@ function checkDocument(search) {
             }
         }
     }
-    time = Date.now() - time;
+    time = performance.now() - time;
     let $errorP = $("#errors");
-    $errorP.html("found " + errorNum + " errors in " + time + "ms <br/>");
+    $errorP.html("found " + errorNum + " errors in " + (Math.round(time*100000)/100000) + "ms <br/>");
     for (let i = 0; i < errors.length; i++)
         $errorP.append(errors[i] + "<br/>");
 }
