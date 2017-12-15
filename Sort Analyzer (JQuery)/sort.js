@@ -33,11 +33,11 @@ Array.prototype.selectionSort = function () {
                 lowIndex = j;
             }
         }
-        if (lowIndex != i) {
+       // if (lowIndex != i) {
             let greater = this[i];
             this[i] = this[lowIndex];
             this[lowIndex] = greater;
-        }
+        //}
     }
     startTime = performance.now() - startTime;
 

@@ -54,3 +54,19 @@ function increasingAnomaly(length) {
     }
     return newArray;
 }
+
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
