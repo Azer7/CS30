@@ -14,18 +14,16 @@ public:
 	Person();
 	vector<string> names;
 	int age;
-	void setName(std::string);
+	void setName(string);
 	string getName();
-
-private:
 };
 
-Person::Person()
+Person::Person() //constructor
 {
 	age = 0;
 }
 
-void Person::setName(string fullName) {
+void Person::setName( string fullName) {
 	int space = 0;
 
 	for (int i = 0; i < fullName.length(); i++) { //loops through the fullName and cuts out the name at every space
@@ -56,9 +54,21 @@ class Family
 public:
 	vector<Person> members;
 	int getTotalAge(); //declares a function
+	void setSfn(long long val) {
+		_socialFamilyNumber = val;
+	}
+
+	bool isSFN(long long val) {
+		if (_socialFamilyNumber == val) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 private:
-
+	long long _socialFamilyNumber;
 };
 
 int Family::getTotalAge() { //code of function
@@ -74,8 +84,10 @@ int main()
 	string inputName; //initialized to "" automatically
 	int inputAge = -1; //initializes to -1, as noone can have a (-) age
 	Family family; //creates a new family class
-	cout << "Create a Family!" << endl;
-
+	cout << "Create a Family!" << endl << "what is your sfn?";
+	long long sfn;
+	cin >> sfn;
+	family.setSfn(sfn);
 	do {
 		inputName = "";
 		inputAge = -1;
@@ -86,7 +98,7 @@ int main()
 		person.setName(inputName); //calls the setName function, with input as (inputName)
 
 		if (inputName != "") {
-			cout << "How about your age?" << endl;
+			cout << "How about their age?" << endl;
 			cin >> inputAge;
 			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //clears the newline
 			person.age = inputAge;
@@ -102,7 +114,6 @@ int main()
 	//needs to be declared earlier, so that line 95 is defined
 
 	cout << "Quite the family with a total age of " << family.getTotalAge() << "!";
-
 
 	return 0;
 }
