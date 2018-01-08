@@ -1,5 +1,6 @@
 ﻿  Classes, Objects.cpp
-\\fs-059\studuser$\gr11\p.sawyer\github\cs30\second langue programming (c++)\classes, objects\classes, objects\classes, objects.cpp(31): warning C4018: '<': signed/unsigned mismatch
-\\fs-059\studuser$\gr11\p.sawyer\github\cs30\second langue programming (c++)\classes, objects\classes, objects\classes, objects.cpp(66): warning C4018: '<': signed/unsigned mismatch
+\\fs-059\studuser$\gr11\p.sawyer\github\cs30\second langue programming (c++)\classes, objects\classes, objects\classes, objects.cpp(30): warning C4018: '<': signed/unsigned mismatch
+\\fs-059\studuser$\gr11\p.sawyer\github\cs30\second langue programming (c++)\classes, objects\classes, objects\classes, objects.cpp(77): warning C4018: '<': signed/unsigned mismatch
+\\fs-059\studuser$\gr11\p.sawyer\github\cs30\second langue programming (c++)\classes, objects\classes, objects\classes, objects.cpp(122): warning C4018: '<': signed/unsigned mismatch
   Classes, Objects.vcxproj -> \\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\Second Langue Programming (C++)\Classes, Objects\Debug\Classes, Objects.exe
   Classes, Objects.vcxproj -> \\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\Second Langue Programming (C++)\Classes, Objects\Debug\Classes, Objects.pdb (Full PDB)

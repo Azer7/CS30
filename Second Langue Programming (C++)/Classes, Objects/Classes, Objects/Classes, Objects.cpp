@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -84,9 +85,10 @@ int main()
 	string inputName; //initialized to "" automatically
 	int inputAge = -1; //initializes to -1, as noone can have a (-) age
 	Family family; //creates a new family class
-	cout << "Create a Family!" << endl << "what is your sfn?";
+	cout << "Create a Family!" << endl << "what is your sfn?" << endl;
 	long long sfn;
 	cin >> sfn;
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //clears the newline
 	family.setSfn(sfn);
 	do {
 		inputName = "";
@@ -115,5 +117,16 @@ int main()
 
 	cout << "Quite the family with a total age of " << family.getTotalAge() << "!";
 
+	ofstream myfile;
+	myfile.open("family.txt");
+	for (int i = 0; i < family.members.size(); i++) {
+		myfile << "mem " << i << endl << "name: " + family.members[i].getName() 
+			<< endl << "age: " << family.members[i].age << endl;
+		cout << endl << family.members[i].age;
+	}
+	myfile.close();
+
+	int wait = 0; 
+	cin >> wait;
 	return 0;
 }

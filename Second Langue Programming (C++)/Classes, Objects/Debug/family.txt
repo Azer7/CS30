@@ -1,0 +1,6 @@
+mem 0
+name: b. adf
+age: 3
+mem 1
+name: m. b
+age: 24
