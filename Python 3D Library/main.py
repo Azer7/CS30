@@ -3,9 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import wave
 import os
-import playsound
-from pylab import*
-from scipy.io import wavfile
+import scipy.io.wavfile
 
 #http://myinspirationinformation.com/uncategorized/audio-signals-in-python/
 
@@ -17,21 +15,27 @@ black = 255, 255, 255
 
 dir = os.path.abspath("ShootingStars.wav")
 print(dir)
-s = pygame.mixer.Sound(r"C:\Users\school\Documents\GitHub\CS30\Python 3D Library\ShootingStars.wav")
+s = pygame.mixer.Sound(r"C:\Users\Null\Documents\GitHub\CS30\Python 3D Library\ShootingStars.wav")
 s.play()
 s.set_volume(0.1);
+rate,audData=scipy.io.wavfile.read(r"C:\Users\Null\Documents\GitHub\CS30\Python 3D Library\ShootingStars.wav")
+#spf = wave.open(r"C:\Users\Null\Documents\GitHub\CS30\Python 3D Library\ShootingStars.wav","r")
+print(rate)
+print(audData)
 
-spf = wave.open(r"C:\Users\school\Documents\GitHub\CS30\Python 3D Library\ShootingStars.wav","r")
+channel1 = audData[0]
 
-signal = spf.readframes(-1)
-signal = np.fromstring(signal, 'Int16')
-fs = spf.getframerate()
 
+#create a time variable in seconds
+time = np.arange(0, float(audData.shape[0]), 1) / rate
+
+#plot amplitude (or loudness) over time
 plt.figure(1)
-plt.title('Signal Wave...')
-plt.plot(signal)
+plt.subplot(211)
+plt.plot(time, channel1, linewidth=0.01, alpha=0.7, color='#ff7f00')
+plt.xlabel('Time (s)')
+plt.ylabel('Amplitude')
 plt.show()
-
 #screen = pygame.display.set_mode(size)
 
 print("got raw data")
