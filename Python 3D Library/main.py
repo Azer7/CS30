@@ -15,10 +15,12 @@ black = 255, 255, 255
 
 dir = os.path.abspath("ShootingStars.wav")
 print(dir)
-s = pygame.mixer.Sound(r"C:\Users\Null\Documents\GitHub\CS30\Python 3D Library\ShootingStars.wav")
+#s = pygame.mixer.Sound(r"C:\Users\Null\Documents\GitHub\CS30\Python 3D Library\ShootingStars.wav")
+s = pygame.mixer.Sound(r"F:\Github\CS30\Python 3D Library\ShootingStars.wav")
 s.play()
 s.set_volume(0.1);
-rate,audData=scipy.io.wavfile.read(r"C:\Users\Null\Documents\GitHub\CS30\Python 3D Library\ShootingStars.wav")
+#rate,audData=scipy.io.wavfile.read(r"C:\Users\Null\Documents\GitHub\CS30\Python 3D Library\ShootingStars.wav")
+rate,audData=scipy.io.wavfile.read(r"F:\Github\CS30\Python 3D Library\ShootingStars.wav")
 #spf = wave.open(r"C:\Users\Null\Documents\GitHub\CS30\Python 3D Library\ShootingStars.wav","r")
 print(rate)
 print(audData)

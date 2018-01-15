@@ -1,0 +1,5 @@
+﻿  stdafx.cpp
+  data types.cpp
+\\fs-059\studuser$\gr11\p.sawyer\github\cs30\second langue programming (c++)\data types\data types\data types.cpp(13): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  data types.vcxproj -> \\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\Second Langue Programming (C++)\data types\Debug\data types.exe
+  data types.vcxproj -> \\fs-059\studuser$\Gr11\p.sawyer\GitHub\CS30\Second Langue Programming (C++)\data types\Debug\data types.pdb (Full PDB)
