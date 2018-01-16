@@ -32,7 +32,6 @@ int main()
 
 	bool b = 1; //a boolean 1 bit representation of either a true or false value: 0 or 1
 
-
 	std::string word = ""; //std:: defines the namespace (standard namespace) which groups types, function, etc to prevent name collisions (an example of scope in c++)
 						   //you can specify the namespace by going "using namespace std;" at the top of your program
 	std::cin >> word; //input from the stream (console) >> is an overload, which is taking in input from the console and inputting it into word
@@ -43,8 +42,10 @@ int main()
 	}
 	else
 	{
-		std::cout << "Bye!" << std::endl;
+		std::cout << "Bye!" << "you entered" + word << std::endl;
 	}
+
+
 
 	//std::cout << localScope;
 	// this would be undefined and out of scope

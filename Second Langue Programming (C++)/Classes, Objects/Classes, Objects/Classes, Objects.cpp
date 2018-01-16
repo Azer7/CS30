@@ -14,7 +14,7 @@ class Person
 public:
 	Person();
 	vector<string> names;
-	int age;
+	int age = 5;
 	void setName(string);
 	string getName();
 };
