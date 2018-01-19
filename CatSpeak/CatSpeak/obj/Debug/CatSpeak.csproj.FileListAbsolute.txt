@@ -1,0 +1,9 @@
+C:\Users\Null\source\repos\CatSpeak\CatSpeak\obj\Debug\CatSpeak.csprojResolveAssemblyReference.cache
+C:\Users\Null\source\repos\CatSpeak\CatSpeak\obj\Debug\CatSpeak.Properties.Resources.resources
+C:\Users\Null\source\repos\CatSpeak\CatSpeak\obj\Debug\CatSpeak.csproj.GenerateResource.Cache
+C:\Users\Null\source\repos\CatSpeak\CatSpeak\obj\Debug\CatSpeak.csproj.CoreCompileInputs.cache
+C:\Users\Null\source\repos\CatSpeak\CatSpeak\bin\Debug\CatSpeak.exe.config
+C:\Users\Null\source\repos\CatSpeak\CatSpeak\bin\Debug\CatSpeak.exe
+C:\Users\Null\source\repos\CatSpeak\CatSpeak\bin\Debug\CatSpeak.pdb
+C:\Users\Null\source\repos\CatSpeak\CatSpeak\obj\Debug\CatSpeak.exe
+C:\Users\Null\source\repos\CatSpeak\CatSpeak\obj\Debug\CatSpeak.pdb
