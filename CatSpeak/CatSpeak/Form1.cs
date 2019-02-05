@@ -257,8 +257,6 @@ namespace CatSpeak
     }
 }
 
-
-
 public sealed class KeyboardHook : IDisposable
 {
     // Registers a hot key with Windows.
